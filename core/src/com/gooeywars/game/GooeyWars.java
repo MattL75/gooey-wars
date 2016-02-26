@@ -1,11 +1,23 @@
 package com.gooeywars.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
+import com.gooeywars.components.Testing;
+import com.gooeywars.entities.Entity;
 
 public class GooeyWars extends Main{
 	private GameBox game;
 	private GameBox menu;
+	
+	private OrthographicCamera camera;
 	
 	@Override
 	public void create() {
@@ -14,11 +26,24 @@ public class GooeyWars extends Main{
 		
 		menu = new GameBox(false, menuUI);
 		game = new GameBox(true, gameUI);
+		
+		game.addComponent(new Testing());
+		
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, 800, 400);
+		
+		batch = new SpriteBatch();
 	}
 
 	@Override
 	public void render() {
+		
+		
+		camera.update();
+		
+		
 		game.update();
+		
 	}
 
 	@Override

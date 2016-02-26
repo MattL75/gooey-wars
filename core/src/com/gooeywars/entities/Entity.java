@@ -1,7 +1,35 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 public class Entity {
+	private Sprite sprite;
+	
+	public float x;
+	public float y;
+	
+	public Entity(){
+		sprite = new Sprite();
+	}
+	
+	public Entity(Sprite sprite){
+		this.sprite = sprite;
+	}
+	
+	public Entity(Sprite sprite, float x, float y){
+		this.sprite = sprite;
+		this.x = x;
+		this.y = y;
+	}
+	
 	public void update(){
-		//this is a test
+	}
+	
+	public void dispose(){
+		
+	}
+	
+	public Sprite getSprite(){
+		return sprite;
 	}
 }

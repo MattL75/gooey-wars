@@ -1,6 +1,6 @@
 package com.gooeywars.game;
 
-public interface Component {
-	public void create();
-	public void update();
+public abstract class Component {
+	public abstract void create();
+	public abstract void update();
 }
