@@ -8,6 +8,7 @@ public class PhysicsBox {
 	
 	public PhysicsBox(){
 		entities = new Array<Entity>();
+		//test
 	}
 	
 	public void update(){
