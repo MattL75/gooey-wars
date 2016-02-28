@@ -12,7 +12,7 @@ public class Friction extends Component{
 	float coefficient;
 	@Override
 	public void create() {
-		entities = Main.gameBoxes.get(1).getEntities();
+		entities = Main.findGameBox("game").getEntities();
 		friction = new Vector2();
 		coefficient = 500f;
 		

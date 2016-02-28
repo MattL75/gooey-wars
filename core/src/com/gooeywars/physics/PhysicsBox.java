@@ -43,8 +43,6 @@ public class PhysicsBox {
 		for(int i = 0; i < entities.size; i++){
 			tempEnt = entities.get(i);
 			
-			
-			
 			float x = tempEnt.getX() + tempEnt.getVelocity().x * deltaTime + 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
 			float y = tempEnt.getY() + tempEnt.getVelocity().y * deltaTime + 1 / 2 * tempEnt.getAcceleration().y * deltaTime * deltaTime;
 			

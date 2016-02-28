@@ -39,7 +39,7 @@ public class Testing extends Component{
 		
 		entities = Main.gameBoxes.get(1).getEntities();
 		
-		game = Main.gameBoxes.get(1);
+		game = Main.findGameBox("game");
 		
 		game.addEntity(ent);
 	}

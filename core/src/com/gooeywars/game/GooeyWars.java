@@ -19,7 +19,9 @@ public class GooeyWars extends Main{
 		GameUI gameUI = new GameUI();
 		
 		menu = new GameBox(false, menuUI);
+		menu.setTag("menu");
 		game = new GameBox(true, gameUI);
+		game.setTag("game");
 		
 		
 		camera = new OrthographicCamera();

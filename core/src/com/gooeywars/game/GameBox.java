@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.exception.TagSameException;
 import com.gooeywars.physics.PhysicsBox;
 
 public class GameBox {
+	private String tag;
+	
 	private Array<Entity> entities;
 	private Array<Component> components;
 	
@@ -22,7 +25,6 @@ public class GameBox {
 	public GameBox(){
 		Main.gameBoxes.add(this);
 		physicsEnabled = false;
-		
 		create();
 	}
 	
@@ -105,6 +107,19 @@ public class GameBox {
 	
 	public void setPhysicsEnabled(boolean pE){
 		physicsEnabled = pE;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag){
+		if(Main.checkTags(tag)){
+			this.tag = tag;
+		}
+		else{
+			throw new TagSameException("Tag already used by another GameBox");
+		}
 	}
 	
 	
