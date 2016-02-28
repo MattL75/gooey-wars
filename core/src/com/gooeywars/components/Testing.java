@@ -63,10 +63,7 @@ public class Testing extends Component{
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.K)){
-			entities.get(0).stopEntity();
+			entities.get(0).setPosition(100, 100);
 		}
-		
-		//System.out.println("Force " + entities.get(0).getForce());
-		//System.out.println("Acceleration" + entities.get(0).getAcceleration());
 	}
 }
