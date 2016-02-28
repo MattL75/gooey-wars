@@ -46,7 +46,6 @@ public class PhysicsBox {
 			
 			
 			float x = tempEnt.getX() + tempEnt.getVelocity().x * deltaTime + 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
-			//System.out.println(x);
 			float y = tempEnt.getY() + tempEnt.getVelocity().y * deltaTime + 1 / 2 * tempEnt.getAcceleration().y * deltaTime * deltaTime;
 			
 			Vector2 velocity = new Vector2(tempEnt.getVelocity().x + tempEnt.getAcceleration().x * deltaTime, tempEnt.getVelocity().y + tempEnt.getAcceleration().y * deltaTime);
@@ -57,8 +56,6 @@ public class PhysicsBox {
 			
 			tempEnt.setPosition(x, y);
 			tempEnt.setVelocity(velocity);
-			
-			
 		}
 		
 		tempEnt.nullifyForce();

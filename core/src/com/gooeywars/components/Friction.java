@@ -23,7 +23,6 @@ public class Friction extends Component{
 		for(int i = 0; i < entities.size; i++){
 			Vector2 velocity = new Vector2(entities.get(i).getVelocity());
 			friction = new Vector2(velocity.nor().scl(-1f * coefficient));
-			System.out.println("Friction" + friction);
 			entities.get(i).addForce(friction);
 		}
 	}
