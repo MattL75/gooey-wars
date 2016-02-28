@@ -1,8 +1,13 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Entity {
+	private Texture texture;
+	private Animation animation;
+	
 	private Sprite sprite;
 	
 	public float x;

@@ -27,18 +27,19 @@ public class GooeyWars extends Main{
 		menu = new GameBox(false, menuUI);
 		game = new GameBox(true, gameUI);
 		
-		game.addComponent(new Testing());
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
 		
 		batch = new SpriteBatch();
+		
+		game.addComponent(new Testing());
 	}
 
 	@Override
 	public void render() {
 		
-		
+		//System.out.println((Main.gameBoxes.size));
 		camera.update();
 		
 		

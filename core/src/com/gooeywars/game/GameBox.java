@@ -34,6 +34,7 @@ public class GameBox {
 	}
 	
 	public GameBox(boolean pE, Stage UI){
+		Main.gameBoxes.add(this);
 		physicsEnabled = pE;
 		this.UI = UI;
 		
@@ -76,7 +77,9 @@ public class GameBox {
 	
 	public void addEntity(Entity ent){
 		entities.add(ent);
-		physics.addEntity(ent);
+		if(physicsEnabled){
+			physics.addEntity(ent);
+		}
 	}
 	
 	public void removeEntity(int id){
