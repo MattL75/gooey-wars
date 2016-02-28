@@ -57,20 +57,20 @@ public class GameBox {
 		}
 		
 		if(physicsEnabled){
-			physics.update();
+			physics.update(Gdx.graphics.getDeltaTime());
 		}
 	
 		draw();
 	}
 	
+	//Draws to the screen the sprites of the entities. 
 	public void draw(){
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
 		for(int i = 0; i < entities.size; i++){
-			
-			batch.draw(entities.get(i).getSprite().getTexture(), entities.get(i).x, entities.get(i).y);
+			entities.get(i).getSprite().draw(batch);
 		}
 		batch.end();
 	}
@@ -89,6 +89,14 @@ public class GameBox {
 	public void addComponent(Component comp){
 		comp.create();
 		components.add(comp);
+	}
+	
+	public Array<Entity> getEntities(){
+		return entities;
+	}
+	
+	public void setEntities(Array<Entity> entities){
+		this.entities = entities;
 	}
 	
 	public boolean getPhysicsEnabled(){

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
+import com.gooeywars.components.Friction;
 import com.gooeywars.components.Testing;
 import com.gooeywars.entities.Entity;
 
@@ -34,6 +35,7 @@ public class GooeyWars extends Main{
 		batch = new SpriteBatch();
 		
 		game.addComponent(new Testing());
+		game.addComponent(new Friction());
 	}
 
 	@Override

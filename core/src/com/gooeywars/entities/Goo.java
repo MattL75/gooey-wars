@@ -1,5 +1,5 @@
 package com.gooeywars.entities;
 
-public class Goo {
+public class Goo extends Entity{
 
 }
