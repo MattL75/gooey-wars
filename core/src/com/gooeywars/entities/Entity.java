@@ -3,6 +3,7 @@ package com.gooeywars.entities;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 
 public class Entity {
@@ -18,6 +19,8 @@ public class Entity {
 	private Vector2 acceleration;
 	private Array<Collider> colliders;
 	private int mass;
+	
+	private int id;
 	
 	public Entity(){
 		sprite = new Sprite();
@@ -91,6 +94,14 @@ public class Entity {
 		}
 	}
 	
+	public Array<Collider> getColliders() {
+		return colliders;
+	}
+
+	public void setColliders(Array<Collider> colliders) {
+		this.colliders = colliders;
+	}
+
 	public Sprite getSprite(){
 		return sprite;
 	}

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.exception.TagSameException;
+import com.gooeywars.physics.Collider;
 import com.gooeywars.physics.PhysicsBox;
 
 public class GameBox {
@@ -17,6 +18,7 @@ public class GameBox {
 	
 	private PhysicsBox physics;
 	private boolean physicsEnabled;
+	private Array<Collider> colliders;
 	
 	private Stage UI;
 	
@@ -31,7 +33,6 @@ public class GameBox {
 	public GameBox(boolean pE){
 		Main.gameBoxes.add(this);
 		physicsEnabled = pE;
-		
 		create();
 	}
 	
@@ -47,6 +48,7 @@ public class GameBox {
 		entities = new Array<Entity>();
 		components = new Array<Component>();
 		batch = new SpriteBatch();
+		colliders = new Array<Collider>();
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();
@@ -79,13 +81,18 @@ public class GameBox {
 	
 	public void addEntity(Entity ent){
 		entities.add(ent);
+		for(int i = 0; i < ent.getColliders().size; i++){
+			colliders.add(ent.getColliders().get(i));
+		}
+		
 		if(physicsEnabled){
 			physics.addEntity(ent);
 		}
 	}
 	
 	public void removeEntity(int id){
-		
+		entities.get(id).dispose();
+		entities.removeIndex(id);
 	}
 	
 	public void addComponent(Component comp){
@@ -120,6 +127,14 @@ public class GameBox {
 		else{
 			throw new TagSameException("Tag already used by another GameBox");
 		}
+	}
+
+	public Array<Collider> getColliders() {
+		return colliders;
+	}
+
+	public void setColliders(Array<Collider> colliders) {
+		this.colliders = colliders;
 	}
 	
 	
