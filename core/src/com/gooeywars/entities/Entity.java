@@ -24,10 +24,12 @@ public class Entity {
 	
 	public Entity(){
 		sprite = new Sprite();
+		colliders = new Array<Collider>();
 	}
 	
 	public Entity(Sprite sprite){
 		this.sprite = sprite;
+		colliders = new Array<Collider>();
 	}
 	
 	public Entity(Sprite sprite, float x, float y){
@@ -36,12 +38,14 @@ public class Entity {
 		sprite.setY(y);
 		this.x = x;
 		this.y = y;
+		colliders = new Array<Collider>();
 	}
 	
 	private void initPhysics(){
 		force = new Vector2();
 		velocity = new Vector2();
 		acceleration = new Vector2();
+		mass = 1;
 	}
 	
 	public void update(){
@@ -60,6 +64,9 @@ public class Entity {
 	public void setX(float x){
 		this.x = x;
 		sprite.setX(x);
+		for(int i = 0; i < colliders.size; i++){
+			colliders.get(i).setX(x);
+		}
 	}
 	
 	public float getX(){
@@ -69,10 +76,15 @@ public class Entity {
 	public void setY(float y){
 		this.y = y;
 		sprite.setY(y);
+		
+		for(int i = 0; i < colliders.size; i++){
+			colliders.get(i).setY(y);
+		}
 	}
 	
 	public float getY(){
 		return y;
+		
 	}
 	
 	public void setPosition(float x, float y){
@@ -80,6 +92,10 @@ public class Entity {
 		this.y = y;
 		sprite.setX(x);
 		sprite.setY(y);
+		
+		for(int i = 0; i < colliders.size; i++){
+			colliders.get(i).setPosition(x, y);
+		}
 	}
 	
 	public boolean getPhysicsEnabled(){
@@ -102,6 +118,13 @@ public class Entity {
 		this.colliders = colliders;
 	}
 
+	public void addCollider(Collider collider){
+		collider.setEntity(this);
+		colliders.add(collider);
+		
+		
+	}
+	
 	public Sprite getSprite(){
 		return sprite;
 	}
@@ -143,5 +166,16 @@ public class Entity {
 	}
 
 	
+	public Entity clone(){
+		Sprite spriteClone = new Sprite(sprite.getTexture());
+		spriteClone.setX(x);
+		spriteClone.setY(y);
+		Entity entClone = new Entity(spriteClone, x, y);
+		
+		entClone.setPhysicsEnabled(physicsEnabled);
+		entClone.setColliders(new Array<Collider>(colliders));
+		
+		return entClone;
+	}
 	
 }

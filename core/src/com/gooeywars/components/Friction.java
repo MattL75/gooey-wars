@@ -21,9 +21,12 @@ public class Friction extends Component{
 	@Override
 	public void update() {
 		for(int i = 0; i < entities.size; i++){
-			Vector2 velocity = new Vector2(entities.get(i).getVelocity());
-			friction = new Vector2(velocity.nor().scl(-1f * coefficient));
-			entities.get(i).addForce(friction);
+			if(entities.get(i).getPhysicsEnabled()){
+				Vector2 velocity = new Vector2(entities.get(i).getVelocity());
+				friction = new Vector2(velocity.nor().scl(-1f * coefficient));
+				entities.get(i).addForce(friction);
+			}
+			
 		}
 	}
 

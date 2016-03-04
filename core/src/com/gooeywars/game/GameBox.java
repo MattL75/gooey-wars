@@ -18,7 +18,7 @@ public class GameBox {
 	
 	private PhysicsBox physics;
 	private boolean physicsEnabled;
-	private Array<Collider> colliders;
+	
 	
 	private Stage UI;
 	
@@ -48,7 +48,6 @@ public class GameBox {
 		entities = new Array<Entity>();
 		components = new Array<Component>();
 		batch = new SpriteBatch();
-		colliders = new Array<Collider>();
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();
@@ -71,19 +70,25 @@ public class GameBox {
 	public void draw(){
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Array<Collider> colliders = null;
 		
 		batch.begin();
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).getSprite().draw(batch);
+			
+			colliders = entities.get(i).getColliders();
+			for(int j = 0; j < colliders.size; j++){
+				if(colliders.get(j).isDrawable()){
+					colliders.get(j).draw(batch);
+				}
+			}
 		}
 		batch.end();
 	}
 	
 	public void addEntity(Entity ent){
 		entities.add(ent);
-		for(int i = 0; i < ent.getColliders().size; i++){
-			colliders.add(ent.getColliders().get(i));
-		}
+		
 		
 		if(physicsEnabled){
 			physics.addEntity(ent);
@@ -128,14 +133,4 @@ public class GameBox {
 			throw new TagSameException("Tag already used by another GameBox");
 		}
 	}
-
-	public Array<Collider> getColliders() {
-		return colliders;
-	}
-
-	public void setColliders(Array<Collider> colliders) {
-		this.colliders = colliders;
-	}
-	
-	
 }
