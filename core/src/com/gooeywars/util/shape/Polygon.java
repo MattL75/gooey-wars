@@ -43,6 +43,9 @@ public class Polygon{
 	
 	public boolean collide(Polygon other) {
 		count = vertices.size;
+		for(int i = 0; i < vertices.size; i++){
+			System.out.println(vertices.get(i));
+		}
 		// test separation axes of current polygon
 		for (int j = count - 1, i = 0; i < count; j = i, i++) {
 			Vector2 v0 = vertices.get(j);
@@ -70,7 +73,7 @@ public class Polygon{
 			axis.y = v1.y - v0.y; // edge
 			axis.rotate90(1); // Separate axis is perpendicular
 			
-			//axis.nor();							// to the edge
+			axis.nor();							// to the edge
 			if (separatedByAxis(axis, other))
 				return false;
 		}
@@ -115,7 +118,7 @@ public class Polygon{
 		setPosition(x, y);
 		addVertice(x, y);
 		addVertice(x+c, y);
-		addVertice(x+c, y+c);
+		addVertice(x+c/2, y+c);
 		addVertice(x, y+c);
 		for(int i = 0; i < vertices.size; i++){
 			//System.out.println(vertices.get(i));
