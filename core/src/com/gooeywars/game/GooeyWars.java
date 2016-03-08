@@ -8,9 +8,9 @@ import com.gooeywars.components.Friction;
 import com.gooeywars.components.Testing;
 
 public class GooeyWars extends Main{
-	private GameBox game;
-	private GameBox menu;
-	private GameBox currentBox;
+	private static GameBox game;
+	private static GameBox menu;
+	private static GameBox currentBox;
 	
 	private OrthographicCamera camera;
 	
@@ -52,28 +52,28 @@ public class GooeyWars extends Main{
 	public void dispose() {
 	}
 
-	public GameBox getCurrentBox() {
+	public static GameBox getCurrentBox() {
 		return currentBox;
 	}
 
-	public void setCurrentBox(GameBox currentBox) {
-		this.currentBox = currentBox;
+	public static void setCurrentBox(GameBox currentBox1) {
+		currentBox = currentBox1;
 	}
 
-	public GameBox getGame() {
+	public static GameBox getGame() {
 		return game;
 	}
 
-	public void setGame(GameBox game) {
-		this.game = game;
+	public static void setGame(GameBox game1) {
+		game = game1;
 	}
 
-	public GameBox getMenu() {
+	public static GameBox getMenu() {
 		return menu;
 	}
 
-	public void setMenu(GameBox menu) {
-		this.menu = menu;
+	public static void setMenu(GameBox menu1) {
+		menu = menu1;
 	}
 	
 	
