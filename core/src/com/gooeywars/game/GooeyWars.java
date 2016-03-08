@@ -31,7 +31,7 @@ public class GooeyWars extends Main{
 		
 		game.addComponent(new Testing());
 		game.addComponent(new Friction());
-		currentBox = game;
+		currentBox = menu;
 	}
 
 	@Override
