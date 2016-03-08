@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gooeywars.game.GooeyWars;
 
 public class MainMenuUI implements Screen {
 
@@ -21,6 +22,7 @@ public class MainMenuUI implements Screen {
 	SpriteBatch batch;
 	
 	public MainMenuUI() {
+		GooeyWars.setCurrentBox(GooeyWars.getMenu());
 		create();
 	}
 	
