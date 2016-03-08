@@ -1,6 +1,7 @@
 package com.gooeywars.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,7 +21,7 @@ public class GameBox {
 	private boolean physicsEnabled;
 	
 	
-	private Stage UI;
+	private Screen UI;
 	
 	private SpriteBatch batch;
 	
@@ -36,7 +37,7 @@ public class GameBox {
 		create();
 	}
 	
-	public GameBox(boolean pE, Stage UI){
+	public GameBox(boolean pE, Screen UI){
 		Main.gameBoxes.add(this);
 		physicsEnabled = pE;
 		this.UI = UI;
