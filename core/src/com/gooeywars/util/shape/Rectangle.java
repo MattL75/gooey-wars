@@ -1,5 +1,9 @@
 package com.gooeywars.util.shape;
 
-public class Rectangle extends Shape{
+import com.gooeywars.entities.Entity;
 
+public class Rectangle extends Polygon{
+	public Rectangle(Entity ent){
+		//super.addVertice();
+	}
 }

@@ -44,9 +44,7 @@ public class Polygon{
 	
 	public boolean collide(Polygon other) {
 		count = vertices.size;
-		for(int i = 0; i < vertices.size; i++){
-			System.out.println(vertices.get(i));
-		}
+		
 		// test separation axes of current polygon
 		for (int j = count - 1, i = 0; i < count; j = i, i++) {
 			Vector2 v0 = vertices.get(j);
@@ -55,14 +53,13 @@ public class Polygon{
 			
 			
 			
-			axis.x = v1.x - v0.x; // edge
-			axis.y = v1.y - v0.y; // edge
+			axis.x = v1.x - v0.x; 
+			axis.y = v1.y - v0.y; 
 			axis.nor();	
 
 			axis.rotate90(1); 
 			System.out.println(axis);
 			
-									// to the edge
 			if (separatedByAxis(axis, other))
 				return false;
 		}
@@ -75,78 +72,62 @@ public class Polygon{
 			Vector2 axis = new Vector2(0,0);
 			
 			
-			
-			axis.x = v1.x - v0.x; // edge
-			axis.y = v1.y - v0.y; // edge
+			axis.x = v1.x - v0.x;
+			axis.y = v1.y - v0.y; 
 			axis.nor();	
 
 			axis.rotate90(1); 
-			axis.nor();							// to the edge
+			axis.nor();							
 
 			if (separatedByAxis(axis, other))
 				return false;
 		}
 		return true;
 	}
-
-	public void calculateInterval(Vector2 axis) {
-		this.min = this.max = (float) axis.dot(vertices.get(0));
+	
+	public boolean separatedByAxis(Vector2 axis, Polygon poly) {
+		float mina = 0;
+		float maxa = 0;
+		
+		mina = maxa = (float) axis.dot(vertices.get(0));
 		
 		for (int i = 1; i < count; i++) {
 			float d = (float) axis.dot(vertices.get(i));
-			if (d < this.min)
-				this.min = d;
-			else if (d > this.max)
-				this.max = d;
+			if (d < mina)
+				 mina = d;
+			else if (d > maxa)
+				maxa = d;
 		}
-	}
-
-	public boolean intervalsSeparated(float mina, float maxa, float minb, float maxb) {
-		return (mina > maxb) || (minb > maxa);
-	}
-
-	public boolean separatedByAxis(Vector2 axis, Polygon poly) {
-		calculateInterval(axis);
-		mina = min;
-		maxa = max;
-		poly.calculateInterval(axis);
-		minb = poly.min;
-		maxb = poly.max;
 		
-		return intervalsSeparated(mina, maxa, minb, maxb);
+		float minb = 0;
+		float maxb = 0;
+		
+		minb = maxb = (float) axis.dot(poly.getVertices().get(0));
+		
+		for (int i = 1; i < count; i++) {
+			float d = (float) axis.dot(poly.getVertices().get(i));
+			if (d < minb)
+				minb = d;
+			else if (d > this.maxb)
+				maxb = d;
+		}
+		
+		return (mina > maxb) || (minb > maxa);
 	}
 	
 	public void genSquare(Entity ent, float c){
 		genSquare(ent.getX(), ent.getY(), c);
 	}
-	
-	public void genSquare2(Entity ent, float c){
-		genSquare2(ent.getX(), ent.getY(), c);
-	}
-	
+
 	public void genSquare(float x, float y, float c){
 		setPosition(x, y);
 		addVertice(x, y);
 		addVertice(x+c, y);
 		addVertice(x+c, y+c);
 		addVertice(x, y+c);
-		for(int i = 0; i < vertices.size; i++){
-			//System.out.println(vertices.get(i));
-		}
-		//System.out.println("Position: " + x + ", " + y);
 	}
 	
-	public void genSquare2(float x, float y, float c){
-		setPosition(x, y);
-		addVertice(x, y);
-		addVertice(x+c, y);
-		addVertice(x+c, y+c/3);
-		addVertice(x, y+c);
-		for(int i = 0; i < vertices.size; i++){
-			//System.out.println(vertices.get(i));
-		}
-		//System.out.println("Position: " + x + ", " + y);
-	}
+	
 	
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);
@@ -158,15 +139,11 @@ public class Polygon{
 		pix.setColor(Color.CORAL);
 		
 		for (int i = 0; i < vertices.size; i++) {
-			
 			Vector2 v1 = vertices.get(i);
-			
 			Vector2 v2 = vertices.get((i+1)%vertices.size);
-			
 			
 			pix.drawLine((int) Math.round(v1.x-x), (int) Math.round(pix.getHeight() - v1.y+y-1), (int) Math.round(v2.x-x), (int) Math.round(pix.getHeight() - v2.y+y-1));
 		}
-		
 		
 		Texture texture = new Texture(pix);
 		
@@ -212,8 +189,12 @@ public class Polygon{
 	}
 	
 	public void addVertice(float x, float y){
+		addVertice(new Vector2(x, y));
+	}
+	
+	public void addVertice(Vector2 v){
 		count = vertices.size;
-		vertices.add(new Vector2(x, y));
+		vertices.add(v);
 		genSprite();
 	}
 	
