@@ -181,6 +181,7 @@ public class Entity {
 	}
 
 	public float getWidth() {
+		sprite.getWidth();
 		return width;
 	}
 
