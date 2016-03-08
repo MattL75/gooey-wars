@@ -23,7 +23,6 @@ public class GooeyWars extends Main{
 		game = new GameBox(true, gameUI);
 		game.setTag("game");
 		
-		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
 		
@@ -40,7 +39,7 @@ public class GooeyWars extends Main{
 		camera.update();
 		
 		
-		game.update();
+		menu.update();
 		
 	}
 
