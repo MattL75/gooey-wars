@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -16,34 +15,20 @@ public class Polygon{
 	
 	private float x;
 	private float y;
-	
-	public int count;
-	
-	public float min;
-	public float max;
-	
-	private float mina;
-	private float maxa;
-	private float minb;
-	private float maxb;
-	
 	private Sprite sprite;
 	
 	public Polygon(){
 		vertices = new Array<Vector2>();
-		
-		
 	}
 	
 	public Polygon(Array<Vector2> vertices){
 		this.vertices = vertices;
-		count = vertices.size;
 		genSprite();
 	}
 	
 	
 	public boolean collide(Polygon other) {
-		count = vertices.size;
+		int count = vertices.size;
 		
 		// test separation axes of current polygon
 		for (int j = count - 1, i = 0; i < count; j = i, i++) {
@@ -57,16 +42,14 @@ public class Polygon{
 			axis.y = v1.y - v0.y; 
 			axis.nor();	
 
-			axis.rotate90(1); 
-			System.out.println(axis);
-			
+			axis.rotate90(1); 			
 			if (separatedByAxis(axis, other))
 				return false;
 		}
-		other.count = other.getVertices().size;
+		count = other.getVertices().size;
 		
 		// test separation axes of other polygon
-		for (int j = other.count - 1, i = 0; i < other.count; j = i, i++) {
+		for (int j = count - 1, i = 0; i < count; j = i, i++) {
 			Vector2 v0 = other.getVertices().get(j);
 			Vector2 v1 = other.getVertices().get(i);
 			Vector2 axis = new Vector2(0,0);
@@ -91,7 +74,7 @@ public class Polygon{
 		
 		mina = maxa = (float) axis.dot(vertices.get(0));
 		
-		for (int i = 1; i < count; i++) {
+		for (int i = 1; i < vertices.size; i++) {
 			float d = (float) axis.dot(vertices.get(i));
 			if (d < mina)
 				 mina = d;
@@ -104,11 +87,11 @@ public class Polygon{
 		
 		minb = maxb = (float) axis.dot(poly.getVertices().get(0));
 		
-		for (int i = 1; i < count; i++) {
+		for (int i = 1; i < poly.getVertices().size; i++) {
 			float d = (float) axis.dot(poly.getVertices().get(i));
 			if (d < minb)
 				minb = d;
-			else if (d > this.maxb)
+			else if (d > maxb)
 				maxb = d;
 		}
 		
@@ -123,11 +106,9 @@ public class Polygon{
 		setPosition(x, y);
 		addVertice(x, y);
 		addVertice(x+c, y);
-		addVertice(x+c, y+c);
+		addVertice(x+c, y+c/2);
 		addVertice(x, y+c);
 	}
-	
-	
 	
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);
@@ -136,7 +117,7 @@ public class Polygon{
 	private void genSprite(){
 		Pixmap pix = new Pixmap(getHeight(), getWidth(), Format.RGBA8888);
 		
-		pix.setColor(Color.CORAL);
+		pix.setColor(Color.GREEN);
 		
 		for (int i = 0; i < vertices.size; i++) {
 			Vector2 v1 = vertices.get(i);
@@ -193,7 +174,6 @@ public class Polygon{
 	}
 	
 	public void addVertice(Vector2 v){
-		count = vertices.size;
 		vertices.add(v);
 		genSprite();
 	}
@@ -203,7 +183,6 @@ public class Polygon{
 	}
 	
 	public void setVertices(Array<Vector2> vertices){
-		count = vertices.size;
 		this.vertices = vertices;
 		genSprite();
 	}

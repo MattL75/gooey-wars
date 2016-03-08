@@ -2,7 +2,6 @@ package com.gooeywars.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +14,7 @@ import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Polygon;
+import com.gooeywars.util.shape.Rectangle;
 
 public class Testing extends Component{
 	private Sprite sprite;
@@ -27,7 +27,7 @@ public class Testing extends Component{
 	
 	@Override
 	public void create() {
-		Pixmap pix = new Pixmap(65,65, Format.RGBA8888);
+		Pixmap pix = new Pixmap(100,65, Format.RGBA8888);
 		pix.setColor(1,0,0,1f);
 		pix.fillCircle(32, 32, 32);
 		
@@ -40,8 +40,8 @@ public class Testing extends Component{
 		ent.setMass(2);
 		ent.setPhysicsEnabled(true);
 		
-		Polygon poly = new Polygon();
-		poly.genSquare(ent, 64);
+		Rectangle poly = new Rectangle(ent);
+		
 		
 		Collider collider = new Collider(poly);
 		collider.setDrawable(true);
@@ -66,23 +66,6 @@ public class Testing extends Component{
 		collisionEnt.addCollider(coll2);
 		
 		game.addEntity(collisionEnt);
-		/*
-		Pixmap pix2 = new Pixmap(101,101, Format.RGBA8888);
-		pix2.setColor(Color.CYAN);
-		
-		pix2.drawLine(0, 0, 100, 0);
-		pix2.drawLine(100, 0, 100, 100);
-		pix2.drawLine(100, 100, 0, 100);
-		pix2.drawLine(0, 100, 0, 0);
-		System.out.println(pix2.getHeight());
-		Texture text = new Texture(pix2);
-		pix2.dispose();
-		Entity ent3 = new Entity(new Sprite(text), 0, 0);
-		ent3.setPhysicsEnabled(true);
-		
-		
-		game.addEntity(ent3);*/
-		
 	}
 
 	@Override
