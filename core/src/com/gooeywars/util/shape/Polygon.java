@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -47,12 +48,18 @@ public class Polygon{
 		for (int j = count - 1, i = 0; i < count; j = i, i++) {
 			Vector2 v0 = vertices.get(j);
 			Vector2 v1 = vertices.get(i);
-			Vector2 edge = new Vector2(0, 0);
-			edge.x = v1.x - v0.x; // edge
-			edge.y = v1.y - v0.y; // edge
+			Vector2 axis = new Vector2(0,0);
+			
+			
+			
+			axis.x = v1.x - v0.x; // edge
+			axis.y = v1.y - v0.y; // edge
+			axis.nor();	
 
-			Vector2 axis = edge.rotate90(1); // Separate axis is perpendicular
-												// to the edge
+			axis.rotate90(1); 
+			System.out.println(axis);
+			
+									// to the edge
 			if (separatedByAxis(axis, other))
 				return false;
 		}
@@ -68,9 +75,11 @@ public class Polygon{
 			
 			axis.x = v1.x - v0.x; // edge
 			axis.y = v1.y - v0.y; // edge
-			axis.rotate90(1); // Separate axis is perpendicular
+			axis.nor();	
+
+			axis.rotate90(1); 
 			
-			//axis.nor();							// to the edge
+			
 			if (separatedByAxis(axis, other))
 				return false;
 		}
@@ -78,7 +87,7 @@ public class Polygon{
 	}
 
 	public void calculateInterval(Vector2 axis) {
-		this.min = this.max = (float) vertices.get(0).dot(axis);
+		this.min = this.max = (float) axis.dot(vertices.get(0));
 		
 		for (int i = 1; i < count; i++) {
 			float d = (float) axis.dot(vertices.get(i));
@@ -97,9 +106,6 @@ public class Polygon{
 		calculateInterval(axis);
 		mina = min;
 		maxa = max;
-		
-		
-		
 		poly.calculateInterval(axis);
 		minb = poly.min;
 		maxb = poly.max;
@@ -111,11 +117,27 @@ public class Polygon{
 		genSquare(ent.getX(), ent.getY(), c);
 	}
 	
+	public void genSquare2(Entity ent, float c){
+		genSquare2(ent.getX(), ent.getY(), c);
+	}
+	
 	public void genSquare(float x, float y, float c){
 		setPosition(x, y);
 		addVertice(x, y);
 		addVertice(x+c, y);
 		addVertice(x+c, y+c);
+		addVertice(x, y+c);
+		for(int i = 0; i < vertices.size; i++){
+			//System.out.println(vertices.get(i));
+		}
+		//System.out.println("Position: " + x + ", " + y);
+	}
+	
+	public void genSquare2(float x, float y, float c){
+		setPosition(x, y);
+		addVertice(x, y);
+		addVertice(x+c, y);
+		addVertice(x+c, y+c/3);
 		addVertice(x, y+c);
 		for(int i = 0; i < vertices.size; i++){
 			//System.out.println(vertices.get(i));
@@ -139,7 +161,7 @@ public class Polygon{
 			Vector2 v2 = vertices.get((i+1)%vertices.size);
 			
 			
-			pix.drawLine((int) Math.round(v1.x-x), (int) Math.round(v1.y-y), (int) Math.round(v2.x-x), (int) Math.round(v2.y-y));
+			pix.drawLine((int) Math.round(v1.x-x), (int) Math.round(pix.getHeight() - v1.y+y-1), (int) Math.round(v2.x-x), (int) Math.round(pix.getHeight() - v2.y+y-1));
 		}
 		
 		
