@@ -10,6 +10,7 @@ import com.gooeywars.components.Testing;
 public class GooeyWars extends Main{
 	private GameBox game;
 	private GameBox menu;
+	private GameBox currentBox;
 	
 	private OrthographicCamera camera;
 	
@@ -31,16 +32,16 @@ public class GooeyWars extends Main{
 		
 		game.addComponent(new Testing());
 		game.addComponent(new Friction());
+		currentBox = game;
 	}
 
 	@Override
 	public void render() {
 		
-		//System.out.println((Main.gameBoxes.size));
 		camera.update();
 		
 		
-		game.update();
+		currentBox.update();
 		
 	}
 
@@ -52,4 +53,31 @@ public class GooeyWars extends Main{
 	public void dispose() {
 	}
 
+	public GameBox getCurrentBox() {
+		return currentBox;
+	}
+
+	public void setCurrentBox(GameBox currentBox) {
+		this.currentBox = currentBox;
+	}
+
+	public GameBox getGame() {
+		return game;
+	}
+
+	public void setGame(GameBox game) {
+		this.game = game;
+	}
+
+	public GameBox getMenu() {
+		return menu;
+	}
+
+	public void setMenu(GameBox menu) {
+		this.menu = menu;
+	}
+	
+	
+	
+	
 }

@@ -11,6 +11,8 @@ public class Entity {
 	
 	private float x;
 	private float y;
+	private float width;
+	private float height;
 	
 	private boolean physicsEnabled;
 	
@@ -177,5 +179,22 @@ public class Entity {
 		
 		return entClone;
 	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+	
 	
 }

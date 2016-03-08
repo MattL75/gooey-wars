@@ -74,6 +74,8 @@ public class GameBox {
 		Array<Collider> colliders = null;
 		
 		batch.begin();
+		UI.render(0);
+		
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).getSprite().draw(batch);
 			
@@ -134,4 +136,14 @@ public class GameBox {
 			throw new TagSameException("Tag already used by another GameBox");
 		}
 	}
+
+	public Screen getUI() {
+		return UI;
+	}
+
+	public void setUI(Screen uI) {
+		UI = uI;
+	}
+	
+	
 }
