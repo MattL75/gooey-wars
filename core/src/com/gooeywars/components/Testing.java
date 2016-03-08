@@ -59,7 +59,7 @@ public class Testing extends Component{
 		collisionEnt.setMass(2);
 		
 		Polygon poly2 = new Polygon();
-		poly2.genSquare(collisionEnt, 64);
+		poly2.genSquare2(collisionEnt, 64);
 		
 		Collider coll2 = new Collider(poly2);
 		coll2.setDrawable(true);
