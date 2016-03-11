@@ -14,7 +14,7 @@ import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Polygon;
-import com.gooeywars.util.shape.Rectangle;
+import com.gooeywars.util.shape.Square;
 
 public class Testing extends Component{
 	private Sprite sprite;
@@ -27,7 +27,7 @@ public class Testing extends Component{
 	
 	@Override
 	public void create() {
-		Pixmap pix = new Pixmap(100,65, Format.RGBA8888);
+		Pixmap pix = new Pixmap(64,64, Format.RGBA8888);
 		pix.setColor(1,0,0,1f);
 		pix.fillCircle(32, 32, 32);
 		
@@ -40,7 +40,7 @@ public class Testing extends Component{
 		ent.setMass(2);
 		ent.setPhysicsEnabled(true);
 		
-		Rectangle poly = new Rectangle(ent);
+		Square poly = new Square(ent);
 		
 		
 		Collider collider = new Collider(poly);
@@ -58,8 +58,8 @@ public class Testing extends Component{
 		collisionEnt.setPhysicsEnabled(true);
 		collisionEnt.setMass(2);
 		
-		Polygon poly2 = new Polygon();
-		poly2.genSquare(collisionEnt, 64);
+		Square poly2 = new Square(collisionEnt);
+		
 		
 		Collider coll2 = new Collider(poly2);
 		coll2.setDrawable(true);

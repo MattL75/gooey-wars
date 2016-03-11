@@ -15,27 +15,11 @@ public class PhysicsBox {
 	}
 	
 	public void update(float deltaTime){
-		checkCollisions();
 		calculateVectors();
 		calculatePosition(deltaTime);
 	}
 	
-	private void checkCollisions(){
-		
-		for(int i = 0; i < colliders.size; i++){
-			Polygon poly1 = colliders.get(i).getPolygon();
-			
-			for(int j = i+1; j < colliders.size; j++){
-				Polygon poly2 = colliders.get(j).getPolygon();
-				
-				System.out.println(poly1.collide(poly2));
-			}
-		}
-	}
 	
-	private void checkCollision(Polygon poly1, Polygon poly2){
-		poly1.collide(poly2);
-	}
 	
 	private void calculateVectors(){
 		Vector2 tempForce = null;
@@ -52,11 +36,12 @@ public class PhysicsBox {
 	
 	private void calculatePosition(float deltaTime){
 		Entity tempEnt = null;
-		
+		Entity proEnt = null;
 		
 		for(int i = 0; i < entities.size; i++){
 			
 			tempEnt = entities.get(i);
+			proEnt = tempEnt.clone();
 			if (tempEnt.getPhysicsEnabled()) {
 				float x = tempEnt.getX() + tempEnt.getVelocity().x * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
@@ -69,14 +54,39 @@ public class PhysicsBox {
 				if (Math.abs(velocity.x) < 5f && Math.abs(velocity.y) < 5f) {
 					velocity.setZero();
 				}
-
-				tempEnt.setPosition(x, y);
-				tempEnt.setVelocity(velocity);
-				tempEnt.nullifyForce();
+				
+				proEnt.setPosition(x, y);
+				if (checkCollisions(proEnt)) {
+					tempEnt.setVelocity(new Vector2());
+					tempEnt.nullifyForce();
+				} else {
+					tempEnt.setPosition(x, y);
+					tempEnt.setVelocity(velocity);
+					tempEnt.nullifyForce();
+				}
 			}
 		}
 		
 		
+	}
+	
+	private boolean checkCollisions(Entity ent){
+		Array<Collider> entColliders = ent.getColliders();
+		Polygon poly2 = null;
+		
+		for(int i = 0; i < entColliders.size; i++){
+			Polygon poly1 = entColliders.get(i).getPolygon();
+			
+			for(int j = i+1; j < colliders.size; j++){
+				poly2 = colliders.get(j).getPolygon();
+				
+				if(poly1.collide(poly2)){
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public void addEntity(Entity ent){

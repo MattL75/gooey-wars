@@ -98,24 +98,16 @@ public class Polygon{
 		return (mina > maxb) || (minb > maxa);
 	}
 	
-	public void genSquare(Entity ent, float c){
-		genSquare(ent.getX(), ent.getY(), c);
-	}
+	
 
-	public void genSquare(float x, float y, float c){
-		setPosition(x, y);
-		addVertice(x, y);
-		addVertice(x+c, y);
-		addVertice(x+c, y+c/2);
-		addVertice(x, y+c);
-	}
+	
 	
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);
 	}
 	
 	private void genSprite(){
-		Pixmap pix = new Pixmap(getHeight(), getWidth(), Format.RGBA8888);
+		Pixmap pix = new Pixmap(getWidth(), getHeight(), Format.RGBA8888);
 		
 		pix.setColor(Color.GREEN);
 		
