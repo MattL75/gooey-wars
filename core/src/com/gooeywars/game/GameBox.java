@@ -74,7 +74,6 @@ public class GameBox {
 		Array<Collider> colliders = null;
 		
 		batch.begin();
-		UI.render(0);
 		
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).getSprite().draw(batch);
@@ -87,6 +86,8 @@ public class GameBox {
 			}
 		}
 		batch.end();
+		UI.render(0);
+
 	}
 	
 	public void addEntity(Entity ent){

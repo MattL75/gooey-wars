@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
 
 public class MainMenuUI implements Screen {
@@ -38,7 +36,7 @@ public class MainMenuUI implements Screen {
 		skin = new Skin();
 		// Generate a 1x1 white texture and store it in the skin named "white".
 		Pixmap pixmap = new Pixmap(400, 200, Format.RGBA8888);
-		pixmap.setColor(Color.GREEN);
+		pixmap.setColor(Color.PURPLE);
 		pixmap.fill();
 
 		skin.add("white", new Texture(pixmap));
@@ -73,6 +71,7 @@ public class MainMenuUI implements Screen {
 				//System.out.println("Clicked! Is checked: " + textButton.isChecked());
 				//textButton.setText("Starting new game");
 				GooeyWars.setCurrentBox(GooeyWars.getGame());
+				GameUI.setFocus();
 			}
 		});
 	}
@@ -113,8 +112,11 @@ public class MainMenuUI implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		stage.dispose();
+		skin.dispose();
 	}
-
+	
+	public void setFocus() {
+		Gdx.input.setInputProcessor(stage);
+	}
 }
