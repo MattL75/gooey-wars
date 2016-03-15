@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
+import com.gooeywars.gameState.GameState;
 
 public class MainMenuUI implements Screen {
 
@@ -78,7 +79,9 @@ public class MainMenuUI implements Screen {
 			public void changed (ChangeEvent event, Actor actor) {
 				//System.out.println("Clicked! Is checked: " + textButton.isChecked());
 				//textButton.setText("Starting new game");
-				GooeyWars.setCurrentBox(GooeyWars.getGame());
+				////GooeyWars.setCurrentBox(GooeyWars.getGame());
+				GameState state = new GameState("save1.txt");
+				state.save();
 				GameUI.setFocus();
 			}
 		});

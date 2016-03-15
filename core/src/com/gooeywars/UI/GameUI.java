@@ -37,6 +37,7 @@ public class GameUI implements Screen {
 		//Gdx.input.setInputProcessor(stage);
 		
 		skin = new Skin();
+		
 		//Generate texture
 		Pixmap pixmap = new Pixmap(1,1, Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
