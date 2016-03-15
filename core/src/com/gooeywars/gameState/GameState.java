@@ -56,7 +56,7 @@ public class GameState {
 		
 		//Loop writes data for every entity
 		for (int i = 0; i < NumberEntity; i++) {
-			Entities.get(i);
+			String s = Entities.get(i).getSaveData();
 		}
 	}
 	

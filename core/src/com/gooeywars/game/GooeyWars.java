@@ -66,20 +66,17 @@ public class GooeyWars extends Main{
 
 	@Override
 	public void resize(int x, int y) {	
-<<<<<<< HEAD
 		if(fullScreen){
 			//Gdx.graphics.setFullscreenMode(new DisplayMode)
 		}
 		//Gdx.graphics.
 		//viewport.update(x,y);
-=======
 		if(!isFullScreen){
 			Gdx.graphics.setWindowedMode(x, y);
 		} else {
 		}
 		
 		viewport.update(x,y);
->>>>>>> be9cd76fc9a3ccdd3c60f220d5a86e54e1b92151
 	}
 
 	@Override
