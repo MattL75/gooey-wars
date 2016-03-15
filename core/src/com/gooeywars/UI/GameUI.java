@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameUI implements Screen {
 	Skin skin;
@@ -21,12 +22,18 @@ public class GameUI implements Screen {
 	SpriteBatch batch;
 	
 	public GameUI() {
+		stage = new Stage();
+		create();
+	}
+	
+	public GameUI(Viewport vp) {
+		stage = new Stage();
+		stage.setViewport(vp);
 		create();
 	}
 	
 	public void create() {
 		batch = new SpriteBatch();
-		stage = new Stage();
 		//Gdx.input.setInputProcessor(stage);
 		
 		skin = new Skin();
