@@ -79,9 +79,9 @@ public class MainMenuUI implements Screen {
 			public void changed (ChangeEvent event, Actor actor) {
 				//System.out.println("Clicked! Is checked: " + textButton.isChecked());
 				//textButton.setText("Starting new game");
-				////GooeyWars.setCurrentBox(GooeyWars.getGame());
-				GameState state = new GameState("save1.txt");
-				state.save();
+				GooeyWars.setCurrentBox(GooeyWars.getGame());
+				//GameState state = new GameState("save1.txt");
+				//state.save();
 				GameUI.setFocus();
 			}
 		});
