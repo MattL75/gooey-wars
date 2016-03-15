@@ -1,12 +1,11 @@
 package com.gooeywars.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
@@ -23,7 +22,9 @@ public class GooeyWars extends Main{
 	
 	private Viewport viewport;
 	
-	public static boolean isFullScreen = false;
+	public static boolean isFullScreen = true;
+	public static int resWidth = 600;
+	public static int resHeight = 800;
 	
 	
 	@Override
@@ -32,10 +33,12 @@ public class GooeyWars extends Main{
 
 		if(isFullScreen){
 			Gdx.graphics.setFullscreenMode(displayMode);
+		} else {
+			
 		}
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		viewport = new ScreenViewport(camera);
+		//camera.setToOrtho(false, resWidth, resHeight);
+		viewport = new FillViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),camera);
 		
 		MainMenuUI menuUI = new MainMenuUI(viewport);
 		GameUI gameUI = new GameUI(viewport);
@@ -57,7 +60,9 @@ public class GooeyWars extends Main{
 	@Override
 	public void render() {
 		
-		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		if(isFullScreen){
+			viewport.update(resWidth, resHeight);
+		}
 		
 		
 		currentBox.update();
