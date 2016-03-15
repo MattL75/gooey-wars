@@ -36,7 +36,7 @@ public class Testing extends Component{
 		sprite = new Sprite(texture);
 		pix.dispose();
 		
-		ent = new Entity(sprite, 10, 10);
+		ent = new Entity(sprite, 10, 210);
 		ent.setMass(2);
 		ent.setPhysicsEnabled(true);
 		
@@ -54,7 +54,7 @@ public class Testing extends Component{
 		
 		game.addEntity(ent);
 		
-		Entity collisionEnt = new Entity(new Sprite(texture), 100, 100);
+		Entity collisionEnt = new Entity(new Sprite(texture), 200, 200);
 		collisionEnt.setPhysicsEnabled(true);
 		collisionEnt.setMass(2);
 		

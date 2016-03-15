@@ -78,6 +78,11 @@ public class GameBox {
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).getSprite().draw(batch);
 			
+			
+		}
+		
+		for(int i = 0; i < entities.size; i++){
+			
 			colliders = entities.get(i).getColliders();
 			for(int j = 0; j < colliders.size; j++){
 				if(colliders.get(j).isDrawable()){
@@ -85,6 +90,7 @@ public class GameBox {
 				}
 			}
 		}
+		
 		batch.end();
 		UI.render(0);
 
