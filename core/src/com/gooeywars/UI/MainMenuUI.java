@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
 
 public class MainMenuUI implements Screen {
@@ -25,12 +26,19 @@ public class MainMenuUI implements Screen {
 	
 	public MainMenuUI() {
 		GooeyWars.setCurrentBox(GooeyWars.getMenu());
+		stage = new Stage();
+		create();
+	}
+	
+	public MainMenuUI(Viewport vp) {
+		GooeyWars.setCurrentBox(GooeyWars.getMenu());
+		stage = new Stage();
+		stage.setViewport(vp);
 		create();
 	}
 	
 	public void create() {
 		batch = new SpriteBatch();
-		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 
 		skin = new Skin();
