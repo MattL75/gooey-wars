@@ -198,5 +198,7 @@ public class Entity {
 		this.height = height;
 	}
 	
-	
+	public String getSaveData(){
+		return "Entity";
+	}
 }
