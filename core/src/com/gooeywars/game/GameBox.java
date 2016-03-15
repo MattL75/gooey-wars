@@ -110,6 +110,13 @@ public class GameBox {
 		entities.removeIndex(id);
 	}
 	
+	public void clearEntities(){
+		for(int i = 0; i < entities.size; i++){
+			entities.get(i).dispose();
+		}
+		entities.clear();
+	}
+	
 	public void addComponent(Component comp){
 		comp.create();
 		components.add(comp);

@@ -1,7 +1,12 @@
 package com.gooeywars.game;
 
+import java.awt.DisplayMode;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
 import com.gooeywars.components.Friction;
@@ -14,18 +19,26 @@ public class GooeyWars extends Main{
 	
 	private OrthographicCamera camera;
 	
+	private Viewport viewport;
+	
+	public static boolean fullScreen = false;
+	
+	
 	@Override
 	public void create() {
-		MainMenuUI menuUI = new MainMenuUI();
-		GameUI gameUI = new GameUI();
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, 800, 400);
+		viewport = new ScreenViewport(camera);
+		
+		MainMenuUI menuUI = new MainMenuUI(viewport);
+		GameUI gameUI = new GameUI(viewport);
 		
 		menu = new GameBox(false, menuUI);
 		menu.setTag("menu");
 		game = new GameBox(true, gameUI);
 		game.setTag("game");
 		
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 400);
+		
 		
 		batch = new SpriteBatch();
 		
@@ -37,7 +50,7 @@ public class GooeyWars extends Main{
 	@Override
 	public void render() {
 		
-		camera.update();
+		viewport.update(800,400);
 		
 		
 		currentBox.update();
@@ -46,10 +59,16 @@ public class GooeyWars extends Main{
 
 	@Override
 	public void resize(int x, int y) {	
+		if(fullScreen){
+			Gdx.graphics.setFullscreenMode(new DisplayMode)
+		}
+		Gdx.graphics.
+		viewport.update(x,y);
 	}
 
 	@Override
 	public void dispose() {
+		
 	}
 
 	public static GameBox getCurrentBox() {
