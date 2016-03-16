@@ -44,7 +44,7 @@ public class MainMenuUI implements Screen {
 
 		skin = new Skin();
 		// Generate a 1x1 white texture and store it in the skin named "white".
-		Pixmap pixmap = new Pixmap(350, 100, Format.RGBA8888);
+		Pixmap pixmap = new Pixmap(250, 70, Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
 
@@ -53,7 +53,7 @@ public class MainMenuUI implements Screen {
 		//Store the default libgdx font under the name "default"
 		BitmapFont bfont = new BitmapFont();
 		skin.add("default", bfont);
-		bfont.getData().setScale(3);
+		bfont.getData().setScale(2);
 
 		//Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
@@ -66,15 +66,22 @@ public class MainMenuUI implements Screen {
 
 		skin.add("default", textButtonStyle);
 
+		float padding = 50.0f;
+		
 		//Config for start button
 		final TextButton startButton = new TextButton("START", textButtonStyle);
-		startButton.setPosition((Gdx.graphics.getWidth() - startButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - startButton.getHeight()) / 2.0f + 100);
+		startButton.setPosition((Gdx.graphics.getWidth() - startButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - startButton.getHeight()) / 2.0f + padding * 2.0f);
 		stage.addActor(startButton);
 		
 		//Config for toggle full screen button
 		final TextButton fullScreenButton = new TextButton("FULL SCREEN", textButtonStyle);
-		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f - 100);
+		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f + padding * 0.0f);
 		stage.addActor(fullScreenButton);
+		
+		//Config for GameState testing
+		final TextButton gameStateButton = new TextButton("GAME STATE", textButtonStyle);
+		gameStateButton.setPosition((Gdx.graphics.getWidth() - gameStateButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - gameStateButton.getHeight()) / 2.0f - padding * 2.0f);
+		stage.addActor(gameStateButton);
 		
 		//Event for start button
 		startButton.addListener(new ChangeListener() {
@@ -130,7 +137,6 @@ public class MainMenuUI implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 

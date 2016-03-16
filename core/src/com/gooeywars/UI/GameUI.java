@@ -20,6 +20,7 @@ public class GameUI implements Screen {
 	Skin skin;
 	static Stage stage;
 	SpriteBatch batch;
+	Table table;
 	
 	public GameUI() {
 		stage = new Stage();
@@ -57,7 +58,8 @@ public class GameUI implements Screen {
 		skin.add("style", txtStyle);
 		
 		//Table creation
-		Table table = new Table();
+		table = new Table();
+		table.debug();
 		table.setFillParent(true);
 		table.bottom();
 		table.left();
@@ -65,10 +67,10 @@ public class GameUI implements Screen {
 		
 		//Button creation
 		final TextButton btCheck = new TextButton("Check", skin, "style");
-		table.add(btCheck);
+		//table.add(btCheck);
 		
-		table.add(new Image(skin.newDrawable("white", Color.RED))).prefWidth(250).prefHeight(200);
-		table.add(new Image(skin.newDrawable("white", Color.RED))).size(100);
+		table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(250).prefHeight(200);
+		table.add(new Image(skin.newDrawable("white", Color.WHITE))).size(100);
 	}
 	
 	@Override
@@ -84,7 +86,10 @@ public class GameUI implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		stage.getViewport().update(width, height);
 		
+		//TODO fix this table resizing thing
+		table.setSize(width, height);
 	}
 
 	@Override
