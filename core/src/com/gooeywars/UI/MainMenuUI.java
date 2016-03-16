@@ -105,6 +105,14 @@ public class MainMenuUI implements Screen {
 				}
 			}
 		});
+		
+		//Event for game state debug
+		gameStateButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				GameState state = new GameState("save1.txt");
+				state.save();
+			}
+		});
 	}
 	
 	@Override
