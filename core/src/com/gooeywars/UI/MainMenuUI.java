@@ -93,6 +93,8 @@ public class MainMenuUI implements Screen {
 			public void changed (ChangeEvent event, Actor actor) {
 				if (GooeyWars.isFullScreen) {
 					GooeyWars.setFullScreen(false);
+				} else {
+					GooeyWars.setFullScreen(true);
 				}
 			}
 		});
