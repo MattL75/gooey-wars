@@ -44,8 +44,8 @@ public class MainMenuUI implements Screen {
 
 		skin = new Skin();
 		// Generate a 1x1 white texture and store it in the skin named "white".
-		Pixmap pixmap = new Pixmap(400, 200, Format.RGBA8888);
-		pixmap.setColor(Color.PURPLE);
+		Pixmap pixmap = new Pixmap(350, 100, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
 
 		skin.add("white", new Texture(pixmap));
@@ -57,25 +57,27 @@ public class MainMenuUI implements Screen {
 
 		//Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		//When finger is up, AKA not on the button
-		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		//When finger is down AKA is clicking
-		textButtonStyle.down = skin.newDrawable("white", Color.WHITE);
-		//Has been clicked (can be switched off by clicking again)
-		textButtonStyle.checked = skin.newDrawable("white", Color.BLACK);
-		//Hovering over
-		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textButtonStyle.up = skin.newDrawable("white", Color.GRAY); 			//When finger is up, AKA not on the button
+		textButtonStyle.down = skin.newDrawable("white", Color.WHITE);			//When finger is down AKA is clicking
+		textButtonStyle.checked = skin.newDrawable("white", Color.BLACK);		//Has been clicked (can be switched off by clicking again)
+		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);		//Hovering over
 
 		textButtonStyle.font = skin.getFont("default");
 
 		skin.add("default", textButtonStyle);
 
-		final TextButton textButton = new TextButton("START", textButtonStyle);
-		textButton.setPosition(100, 200);
-		stage.addActor(textButton);
+		//Config for start button
+		final TextButton startButton = new TextButton("START", textButtonStyle);
+		startButton.setPosition((Gdx.graphics.getWidth() - startButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - startButton.getHeight()) / 2.0f + 100);
+		stage.addActor(startButton);
 		
-		textButton.addListener(new ChangeListener() {
-			
+		//Config for toggle full screen button
+		final TextButton fullScreenButton = new TextButton("FULL SCREEN", textButtonStyle);
+		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f - 100);
+		stage.addActor(fullScreenButton);
+		
+		//Event for start button
+		startButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				//System.out.println("Clicked! Is checked: " + textButton.isChecked());
 				//textButton.setText("Starting new game");
@@ -83,6 +85,15 @@ public class MainMenuUI implements Screen {
 				//GameState state = new GameState("save1.txt");
 				//state.save();
 				GameUI.setFocus();
+			}
+		});
+		
+		//Event for toggle full screen
+		fullScreenButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				if (GooeyWars.isFullScreen) {
+					GooeyWars.setFullScreen(false);
+				}
 			}
 		});
 	}
