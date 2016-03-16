@@ -21,7 +21,7 @@ public class GooeyWars extends Main{
 	
 	private Viewport viewport;
 	
-	public static boolean isFullScreen = true;
+	public static boolean isFullScreen = false;
 	public static int resWidth = 600;
 	public static int resHeight = 800;
 	
@@ -30,13 +30,10 @@ public class GooeyWars extends Main{
 	public void create() {
 		DisplayMode displayMode = Gdx.graphics.getDisplayMode();
 
-		if(isFullScreen){
-			Gdx.graphics.setFullscreenMode(displayMode);
-		} else {
-			
-		}
+		initializeScreen();
+		
 		camera = new OrthographicCamera();
-		//camera.setToOrtho(false, resWidth, resHeight);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		viewport = new ScreenViewport(camera);
 		
 		MainMenuUI menuUI = new MainMenuUI(viewport);
@@ -69,23 +66,21 @@ public class GooeyWars extends Main{
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void resize(int x, int y) {
-=======
+
 	public void resize(int x, int y) {	
-		if(fullScreen){
-			//Gdx.graphics.setFullscreenMode(new DisplayMode)
-		}
-		//Gdx.graphics.
-		//viewport.update(x,y);
->>>>>>> 556017445a9dad60f549a5a0adea3fae1d65395e
-		if(!isFullScreen){
-			Gdx.graphics.setWindowedMode(x, y);
-		} else {
-		
-		}
-		
 		viewport.update(x,y);
+	}
+	
+	public void setFullScreen(boolean isFullScreen){
+		this.isFullScreen = isFullScreen;
+	}
+	
+	public void initializeScreen(){
+		if(isFullScreen){
+			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		} else {
+			Gdx.graphics.setWindowedMode(800, 600);
+		}
 	}
 
 	@Override
