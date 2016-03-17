@@ -72,15 +72,20 @@ public class GooeyWars extends Main{
 		viewport.update(x,y);
 	}
 	
-	public void setFullScreen(boolean isFullScreen){
-		GooeyWars.isFullScreen = isFullScreen;
-	}
+
+	
 	
 	public static boolean getIsFullScreen(){
 		return isFullScreen;
 	}
+
+	public static void setFullScreen(boolean fullScreenValue){
+		isFullScreen = fullScreenValue;
+		initializeScreen();
+
+	}
 	
-	public void initializeScreen(){
+	public static void initializeScreen(){
 		if(isFullScreen){
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		} else {
