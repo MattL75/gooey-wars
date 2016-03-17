@@ -78,7 +78,7 @@ public class MainMenuUI implements Screen {
 		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f + padding * 0.0f);
 		stage.addActor(fullScreenButton);
 		
-		//Config for GameState testing
+		//Config for GameState testing button
 		final TextButton gameStateButton = new TextButton("GAME STATE", textButtonStyle);
 		gameStateButton.setPosition((Gdx.graphics.getWidth() - gameStateButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - gameStateButton.getHeight()) / 2.0f - padding * 2.0f);
 		stage.addActor(gameStateButton);
@@ -111,6 +111,7 @@ public class MainMenuUI implements Screen {
 			public void changed (ChangeEvent event, Actor actor) {
 				GameState state = new GameState("save1.txt");
 				state.save();
+				state.load();
 			}
 		});
 	}
