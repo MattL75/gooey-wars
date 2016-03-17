@@ -98,7 +98,7 @@ public class MainMenuUI implements Screen {
 		//Event for toggle full screen
 		fullScreenButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				if (GooeyWars.isFullScreen) {
+				if (GooeyWars.getIsFullScreen()) {
 					GooeyWars.setFullScreen(false);
 				} else {
 					GooeyWars.setFullScreen(true);
