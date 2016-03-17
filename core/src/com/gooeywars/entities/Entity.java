@@ -7,22 +7,22 @@ import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 
 public class Entity {
-	private Sprite sprite;
+	protected Sprite sprite;
 	
-	private float x;
-	private float y;
-	private float width;
-	private float height;
+	protected float x;
+	protected float y;
+	protected float width;
+	protected float height;
 	
-	private boolean physicsEnabled;
+	protected boolean physicsEnabled;
 	
-	private Vector2 force;
-	private Vector2 velocity;
-	private Vector2 acceleration;
-	private Array<Collider> colliders;
-	private int mass;
+	protected Vector2 force;
+	protected Vector2 velocity;
+	protected Vector2 acceleration;
+	protected Array<Collider> colliders;
+	protected int mass;
 	
-	private int id;
+	protected int id;
 	
 	public Entity(){
 		sprite = new Sprite();
@@ -117,6 +117,9 @@ public class Entity {
 	}
 
 	public void setColliders(Array<Collider> colliders) {
+		for(int i = 0; i < colliders.size; i++){
+			colliders.get(i).setEntity(this);
+		}
 		this.colliders = colliders;
 	}
 
@@ -129,6 +132,10 @@ public class Entity {
 	
 	public Sprite getSprite(){
 		return sprite;
+	}
+	
+	public void setSprite(Sprite sprite){
+		this.sprite = sprite;
 	}
 	
 	public void addForce(Vector2 force){

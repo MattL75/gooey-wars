@@ -21,7 +21,7 @@ public class GooeyWars extends Main{
 	
 	private Viewport viewport;
 	
-	public static boolean isFullScreen = false;
+	private static boolean isFullScreen = true;
 	public static int resWidth = 600;
 	public static int resHeight = 800;
 	
@@ -68,11 +68,16 @@ public class GooeyWars extends Main{
 	@Override
 
 	public void resize(int x, int y) {	
+		//camera.setToOrtho(false, x, y);
 		viewport.update(x,y);
 	}
 	
 	public void setFullScreen(boolean isFullScreen){
-		this.isFullScreen = isFullScreen;
+		GooeyWars.isFullScreen = isFullScreen;
+	}
+	
+	public static boolean getIsFullScreen(){
+		return isFullScreen;
 	}
 	
 	public void initializeScreen(){

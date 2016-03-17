@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		DisplayMode displayMode =  LwjglApplicationConfiguration.getDesktopDisplayMode();
 		config.setFromDisplayMode(displayMode);
 		
-		if(GooeyWars.isFullScreen){
+		if(GooeyWars.getIsFullScreen()){
 			config.fullscreen = true;
 		}
 		

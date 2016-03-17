@@ -80,6 +80,7 @@ public class PhysicsBox {
 			for(int j = i+1; j < colliders.size; j++){
 				poly2 = colliders.get(j).getPolygon();
 				
+				
 				if(poly1.collide(poly2)){
 					return true;
 				}
