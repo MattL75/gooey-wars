@@ -2,7 +2,7 @@ package com.gooeywars.components;
 
 import com.gooeywars.game.Component;
 
-public class MouseInputComponent extends Component{
+public class GameMouseInput extends Component{
 
 	@Override
 	public void create() {

@@ -15,13 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
 import com.gooeywars.gameState.GameState;
 
 public class MainMenuUI implements Screen {
 
-	Stage stage;
+	static Stage stage;
 	Skin skin;
 	SpriteBatch batch;
 	
@@ -76,26 +77,26 @@ public class MainMenuUI implements Screen {
 		//Config for toggle full screen button
 		final TextButton fullScreenButton = new TextButton("FULL SCREEN", textButtonStyle);
 		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f + padding * 1.0f);
+		fullScreenButton.setProgrammaticChangeEvents(false);
 		stage.addActor(fullScreenButton);
 		
 		//Config for GameState testing button
 		final TextButton gameStateButton = new TextButton("GAME STATE", textButtonStyle);
 		gameStateButton.setPosition((Gdx.graphics.getWidth() - gameStateButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - gameStateButton.getHeight()) / 2.0f - padding * 1.0f);
+		gameStateButton.setProgrammaticChangeEvents(false);
 		stage.addActor(gameStateButton);
 		
 		//Config for exit button
 		final TextButton exitButton = new TextButton("EXIT", textButtonStyle);
 		exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - exitButton.getHeight()) / 2.0f - padding * 3.0f);
+		exitButton.setProgrammaticChangeEvents(false);
 		stage.addActor(exitButton);
 		
 		//Event for start button
 		startButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				//System.out.println("Clicked! Is checked: " + textButton.isChecked());
-				//textButton.setText("Starting new game");
 				GooeyWars.setCurrentBox(GooeyWars.getGame());
-				//GameState state = new GameState("save1.txt");
-				//state.save();
+				resetButtons();
 				GameUI.setFocus();
 			}
 		});
@@ -108,6 +109,7 @@ public class MainMenuUI implements Screen {
 				} else {
 					GooeyWars.setFullScreen(true);
 				}
+				fullScreenButton.setChecked(false);
 			}
 		});
 		
@@ -117,6 +119,7 @@ public class MainMenuUI implements Screen {
 				GameState state = new GameState("save1.txt");
 				state.save();
 				state.load();
+				gameStateButton.setChecked(false);
 			}
 		});
 		
@@ -126,6 +129,17 @@ public class MainMenuUI implements Screen {
 				Gdx.app.exit();
 			}
 		});
+	}
+	
+	//Method resets the buttons (i.e. not checked)
+	public void resetButtons() {
+		Array<Actor> ar = stage.getActors();
+		for (int i = 0; i < ar.size; i++) {
+			if (ar.get(i) instanceof TextButton) {
+				TextButton txt = (TextButton) ar.get(i);
+				txt.setChecked(false);
+			}
+		}
 	}
 	
 	@Override
@@ -167,7 +181,7 @@ public class MainMenuUI implements Screen {
 		skin.dispose();
 	}
 	
-	public void setFocus() {
+	public static void setFocus() {
 		Gdx.input.setInputProcessor(stage);
 	}
 }
