@@ -1,6 +1,7 @@
 package com.gooeywars.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gooeywars.game.GooeyWars;
 
 public class GameUI implements Screen {
 	Skin skin;
@@ -81,7 +83,16 @@ public class GameUI implements Screen {
 	@Override
 	public void render(float delta) {
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		
+		//Event for escape key
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+        	GooeyWars.setCurrentBox(GooeyWars.getMenu());
+        	MainMenuUI.setFocus();
+        }
+		
+		batch.begin();
 		stage.draw();
+		batch.end();
 	}
 
 	@Override

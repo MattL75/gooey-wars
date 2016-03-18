@@ -1,13 +1,23 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 
 public class Entity {
+	protected int type;
+	protected static final int ENTITY = 0;
+	protected static final int GOO = 1;
+	protected static final int GEYSER = 2;
+	protected static final int ENVIRONMENT = 3;
+	protected static final int OBSTACLE = 4;
+	
 	protected Sprite sprite;
+	protected String texturePath;
+	protected int textureType;
 	
 	protected float x;
 	protected float y;
@@ -25,16 +35,21 @@ public class Entity {
 	protected int id;
 	
 	public Entity(){
+		type = 0;
 		sprite = new Sprite();
 		colliders = new Array<Collider>();
 	}
 	
-	public Entity(Sprite sprite){
+	public Entity(Sprite sprite, String texturePath){
+		this.texturePath = texturePath;
+		type = 0;
 		this.sprite = sprite;
 		colliders = new Array<Collider>();
 	}
 	
-	public Entity(Sprite sprite, float x, float y){
+	public Entity(Sprite sprite, String texturePath, float x, float y){
+		this.texturePath = texturePath;
+		type = 0;
 		this.sprite = sprite;
 		sprite.setX(x);
 		sprite.setY(y);
@@ -43,11 +58,82 @@ public class Entity {
 		colliders = new Array<Collider>();
 	}
 	
+	public Entity(){
+		initSprite();
+		initEntity(null,0,0);
+	}
+	
+	public Entity(Pixmap pix){
+		initSprite(pix);
+		initEntity(null,0,0);
+	}
+	
+	public Entity(String texturePath){
+		initSprite(texturePath);		
+		initEntity(null,0,0);
+	}
+	
+	public Entity(Pixmap pix, Array<Collider> colliders){
+		initSprite(pix);
+		initEntity(colliders, 0, 0);
+	}
+	
+	public Entity(String texturePath, Array<Collider> colliders){
+		initSprite(texturePath);
+		initEntity(colliders, 0, 0);
+	}
+	
+	public Entity(Pixmap pix, Array<Collider> colliders, float x, float y){
+		initSprite(pix);
+		initEntity(colliders, x, y);
+	}
+	
+	public Entity(String texturePath, Array<Collider> colliders, float x, float y){
+		initSprite(texturePath);
+		initEntity(colliders, x, y);
+	}
+	
+	public Entity(String texturePath, Array<Collider> colliders, float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+		initSprite(texturePath);
+		initEntity(colliders, x, y);
+		
+		physicsEnabled = true;
+		initPhysics(mass, force, velocity, acceleration);
+	}
+	
+	private void initSprite(){
+		sprite = null;
+	}
+	
+	private void initSprite(Pixmap pix){
+		textureType = 1;
+		Texture texture = new Texture(pix);
+		sprite = new Sprite(texture);
+	}
+	
+	private void initSprite(String texturePath){
+		textureType = 0;
+		this.texturePath = texturePath;
+		Texture texture = new Texture(texturePath);
+		sprite = new Sprite(texture);
+	}
+	
+	private void initEntity(Array<Collider> colliders, float x, float y){
+		this.x = x;
+		this.y = y;
+		sprite.setX(x);
+		sprite.setY(y);
+	}
+	
 	private void initPhysics(){
 		force = new Vector2();
 		velocity = new Vector2();
 		acceleration = new Vector2();
 		mass = 1;
+	}
+	
+	private void initPhysics(int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+		
 	}
 	
 	public void update(){
@@ -179,7 +265,7 @@ public class Entity {
 		Sprite spriteClone = new Sprite(sprite.getTexture());
 		spriteClone.setX(x);
 		spriteClone.setY(y);
-		Entity entClone = new Entity(spriteClone, x, y);
+		Entity entClone = new Entity(spriteClone,texturePath, x, y);
 		
 		entClone.setPhysicsEnabled(physicsEnabled);
 		entClone.setColliders(new Array<Collider>(colliders));
@@ -205,7 +291,15 @@ public class Entity {
 		this.height = height;
 	}
 	
+	//id,type,textureType,texturePathfile,x,y,physicsEnabled,force.x,force.y,velocity.x,velocity.y,acceleration.x,acceleration.y,mass,colliders.get(0),...,colliders.get(size-1)
+	//The textureType is 0 when the texture has a file path. It is 1 when the texture is automatically generated.
 	public String getSaveData(){
-		return "Entity";
+		String data = id + "," + type + "," + textureType + "," + texturePath + "," + x + "," + y + "," + physicsEnabled + "," + force.x + "," + force.y + "," + velocity.x + "," + velocity.y + "," + acceleration.x + "," + acceleration.y + "," + mass + ",";
+		
+		for(int i = 0; i < colliders.size; i++){
+			data += colliders.get(i).getSaveData();
+		}
+		
+		return data;
 	}
 }

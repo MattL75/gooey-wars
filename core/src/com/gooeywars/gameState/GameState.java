@@ -1,14 +1,10 @@
 package com.gooeywars.gameState;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.game.GameBox;
-import com.gooeywars.game.GooeyWars;
 import com.gooeywars.game.Main;
 
 public class GameState {
@@ -45,18 +41,26 @@ public class GameState {
 		
 		//Information for debugging
 		if (debug) {
-			System.out.println(NumberEntity);
-			System.out.println(locRoot);
-			System.out.println(file.name());
-			System.out.println(file.path());
+			System.out.println("--SAVING--\n" +
+					NumberEntity + "\n" +
+					locRoot + "\n" +
+					file.name() + "\n" +
+					file.path() + "\n" +
+					"--LOADING--");
 		}
 		
-		//Begin writing to file
-		file.writeString(String.valueOf(NumberEntity), false);
+		//Begin writing to file (Not necessary as entities are split via split function
+		//file.writeString(String.valueOf(NumberEntity), false);
 		
 		//Loop writes data for every entity
 		for (int i = 0; i < NumberEntity; i++) {
 			String s = Entities.get(i).getSaveData();
+			if (i == 0) {
+				file.writeString("", false);			//Line overwrites the previous file
+			} else {
+				file.writeString("+", true);
+			}
+			file.writeString(s, true);
 		}
 	}
 	
@@ -65,6 +69,20 @@ public class GameState {
 		GameBox box = Main.findGameBox("game");
 		box.clearEntities();
 		
+		String s = file.readString();
+		String[] sArray = s.split("\\+");
+		
+		if (debug);
+			System.out.println(s);
+		
+		//Convert to Array from libgdx
+		Array<String> splitArray = new Array<String>();
+		for (int i = 0; i < sArray.length; i++) {
+			splitArray.add(sArray[i]);
+		}
+		
+		if (debug);
+			System.out.println(splitArray);
 	}
 	
 	//Method sets the file to read

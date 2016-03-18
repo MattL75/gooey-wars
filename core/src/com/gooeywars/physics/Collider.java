@@ -65,5 +65,7 @@ public class Collider {
 		this.drawable = drawable;
 	}
 	
-	
+	public String getSaveData(){
+		return "";
+	}
 }
