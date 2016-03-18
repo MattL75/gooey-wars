@@ -29,7 +29,7 @@ public class GooeyWars extends Main{
 	
 	@Override
 	public void create() {
-		System.out.println((new Vector2(20,23)));
+		
 		DisplayMode displayMode = Gdx.graphics.getDisplayMode();
 
 		initializeScreen();

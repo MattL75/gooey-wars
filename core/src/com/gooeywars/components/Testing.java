@@ -31,12 +31,8 @@ public class Testing extends Component{
 		pix.setColor(1,0,0,1f);
 		pix.fillCircle(32, 32, 32);
 		
-		texture = new Texture(pix);
-		
-		sprite = new Sprite(texture);
-		pix.dispose();
-		
-		ent = new Entity(sprite, 10, 210);
+		ent = new Entity(pix, 10, 210);
+	
 		ent.setMass(2);
 		ent.setPhysicsEnabled(true);
 		
@@ -54,9 +50,14 @@ public class Testing extends Component{
 		
 		game.addEntity(ent);
 		
-		Entity collisionEnt = new Entity(new Sprite(texture), 200, 200);
-		collisionEnt.setPhysicsEnabled(true);
+		Pixmap pix2 = new Pixmap(64,64, Format.RGBA8888);
+		pix.setColor(1,0,0,1f);
+		pix.fillCircle(32, 32, 32);
+		
+		Entity collisionEnt = new Entity(pix2, 200, 200);
 		collisionEnt.setMass(2);
+		collisionEnt.setPhysicsEnabled(true);
+		
 		
 		Square poly2 = new Square(collisionEnt);
 		
