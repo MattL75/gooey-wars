@@ -89,7 +89,7 @@ public class GooeyWars extends Main{
 		if(isFullScreen){
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		} else {
-			Gdx.graphics.setWindowedMode(800, 600);
+			Gdx.graphics.setWindowedMode(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}
 
