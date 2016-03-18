@@ -70,18 +70,23 @@ public class MainMenuUI implements Screen {
 		
 		//Config for start button
 		final TextButton startButton = new TextButton("START", textButtonStyle);
-		startButton.setPosition((Gdx.graphics.getWidth() - startButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - startButton.getHeight()) / 2.0f + padding * 2.0f);
+		startButton.setPosition((Gdx.graphics.getWidth() - startButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - startButton.getHeight()) / 2.0f + padding * 3.0f);
 		stage.addActor(startButton);
 		
 		//Config for toggle full screen button
 		final TextButton fullScreenButton = new TextButton("FULL SCREEN", textButtonStyle);
-		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f + padding * 0.0f);
+		fullScreenButton.setPosition((Gdx.graphics.getWidth() - fullScreenButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - fullScreenButton.getHeight()) / 2.0f + padding * 1.0f);
 		stage.addActor(fullScreenButton);
 		
 		//Config for GameState testing button
 		final TextButton gameStateButton = new TextButton("GAME STATE", textButtonStyle);
-		gameStateButton.setPosition((Gdx.graphics.getWidth() - gameStateButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - gameStateButton.getHeight()) / 2.0f - padding * 2.0f);
+		gameStateButton.setPosition((Gdx.graphics.getWidth() - gameStateButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - gameStateButton.getHeight()) / 2.0f - padding * 1.0f);
 		stage.addActor(gameStateButton);
+		
+		//Config for exit button
+		final TextButton exitButton = new TextButton("EXIT", textButtonStyle);
+		exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth()) / 2.0f, (Gdx.graphics.getHeight() - exitButton.getHeight()) / 2.0f - padding * 3.0f);
+		stage.addActor(exitButton);
 		
 		//Event for start button
 		startButton.addListener(new ChangeListener() {
@@ -112,6 +117,13 @@ public class MainMenuUI implements Screen {
 				GameState state = new GameState("save1.txt");
 				state.save();
 				state.load();
+			}
+		});
+		
+		//Event for exit button
+		exitButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				Gdx.app.exit();
 			}
 		});
 	}
