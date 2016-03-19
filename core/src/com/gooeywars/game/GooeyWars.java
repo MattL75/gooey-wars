@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
 import com.gooeywars.components.Friction;
+import com.gooeywars.components.GameKeyInput;
 import com.gooeywars.components.Testing;
 
 
@@ -50,6 +51,7 @@ public class GooeyWars extends Main{
 		
 		batch = new SpriteBatch();
 		
+		game.addComponent(new GameKeyInput());
 		game.addComponent(new Testing());
 		game.addComponent(new Friction());
 		currentBox = menu;

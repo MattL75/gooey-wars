@@ -72,7 +72,7 @@ public class Testing extends Component{
 	@Override
 	public void update() {
 		
-		if(Gdx.input.isKeyPressed(Keys.D)){
+		/*if(Gdx.input.isKeyPressed(Keys.D)){
 			entities.get(0).addForce(new Vector2(1000, 0));
 		}
 		
@@ -90,6 +90,6 @@ public class Testing extends Component{
 		
 		if(Gdx.input.isKeyPressed(Keys.K)){
 			entities.get(0).setPosition(100, 100);
-		}
+		}*/
 	}
 }
