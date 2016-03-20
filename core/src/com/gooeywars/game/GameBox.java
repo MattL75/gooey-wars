@@ -75,9 +75,14 @@ public class GameBox {
 		
 		batch.begin();
 		
+		
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).getSprite().draw(batch);
-			
+			if(entities.size >= 1){
+				//System.out.println("test");
+				//System.out.println(entities.get(1).getSprite().getTexture().getHeight());
+				entities.get(1).getSprite().draw(batch);
+			}
 			
 		}
 		
@@ -92,7 +97,9 @@ public class GameBox {
 		}
 		
 		batch.end();
-		UI.render(0);
+		if(UI != null){
+			UI.render(0);
+		}
 
 	}
 	

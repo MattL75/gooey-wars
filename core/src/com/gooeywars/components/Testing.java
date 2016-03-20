@@ -20,6 +20,7 @@ public class Testing extends Component{
 	private Sprite sprite;
 	private Texture texture;
 	private Entity ent;
+	private Entity ent2;
 	float mod = 0;
 	
 	private Array<Entity> entities;
@@ -27,12 +28,27 @@ public class Testing extends Component{
 	
 	@Override
 	public void create() {
+entities = Main.gameBoxes.get(1).getEntities();
+		
+		game = Main.findGameBox("game");
+		
+	
+		
+		
 		Pixmap pix = new Pixmap(64,64, Format.RGBA8888);
 		pix.setColor(1,0,0,1f);
 		pix.fillCircle(32, 32, 32);
 		
-		ent = new Entity(pix, 10, 210);
+		
+		Texture texture = new Texture(pix);
+		pix.dispose();
+		Sprite sprite = new Sprite(texture);
+		
+		
+		ent = new Entity(sprite, 10, 210);
 	
+		
+		
 		ent.setMass(2);
 		ent.setPhysicsEnabled(true);
 		
@@ -43,30 +59,31 @@ public class Testing extends Component{
 		collider.setDrawable(true);
 		ent.addCollider(collider);
 		
-		
-		entities = Main.gameBoxes.get(1).getEntities();
-		
-		game = Main.findGameBox("game");
-		
 		game.addEntity(ent);
 		
+		
+		
 		Pixmap pix2 = new Pixmap(64,64, Format.RGBA8888);
-		pix.setColor(1,0,0,1f);
-		pix.fillCircle(32, 32, 32);
+		pix2.setColor(1,0,0,1f);
+		pix2.fillCircle(32, 32, 32);
 		
-		Entity collisionEnt = new Entity(pix2, 200, 200);
-		collisionEnt.setMass(2);
-		collisionEnt.setPhysicsEnabled(true);
+		Texture texture2 = new Texture(pix2);
+		pix2.dispose();
+		Sprite sprite2 = new Sprite(texture2);
+		
+		ent2 = new Entity(sprite2, 200, 200);
+		ent2.setMass(2);
+		ent2.setPhysicsEnabled(true);
 		
 		
-		Square poly2 = new Square(collisionEnt);
+		Square poly2 = new Square(ent2);
 		
 		
 		Collider coll2 = new Collider(poly2);
 		coll2.setDrawable(true);
-		collisionEnt.addCollider(coll2);
+		ent2.addCollider(coll2);
 		
-		game.addEntity(collisionEnt);
+		game.addEntity(ent2);
 	}
 
 	@Override

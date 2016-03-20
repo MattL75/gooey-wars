@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.physics.Collider;
+import com.sun.java_cup.internal.runtime.Symbol;
 
 public class Entity {
 	protected int type;
@@ -15,10 +16,7 @@ public class Entity {
 	protected static final int ENVIRONMENT = 3;
 	protected static final int OBSTACLE = 4;
 	
-	protected Sprite sprite;
-	protected String texturePath;
-	protected int textureType;
-	protected Pixmap pix;
+	private Sprite sprite;
 	
 	protected float x;
 	protected float y;
@@ -36,146 +34,56 @@ public class Entity {
 	protected int id;
 
 	public Entity(){
-		initEntity(false, new Array<Collider>(), 0, 0, false, 0, null, null, null);
+		initEntity(new Sprite(), new Array<Collider>(), 0, 0, false, 0, null, null, null);
 	}
 	
-	public Entity(Pixmap pix){
-		initEntity(pix, new Array<Collider>(), 0, 0, false, 0, null, null, null);
+	public Entity(Entity ent){
+		initEntity(new Sprite(ent.sprite), new Array<Collider>(ent.getColliders()), ent.getX(), ent.getY(), ent.getPhysicsEnabled(), ent.getMass(), new Vector2(ent.getForce()), new Vector2(ent.getVelocity()), new Vector2(ent.getAcceleration()));
 	}
 	
-	public Entity(String texturePath){	
-		initEntity(texturePath, new Array<Collider>(), 0, 0, false, 0, null, null, null);
+	public Entity(Sprite sprite){
+		initEntity(sprite, new Array<Collider>(), 0, 0, false, 0, null, null, null);
 	}
 	
-	public Entity(Pixmap pix, float x, float y){
-		initEntity(pix, new Array<Collider>(), x, y, false, 0, null, null, null);
+	public Entity(Sprite sprite, float x, float y){
+		initEntity(sprite, new Array<Collider>(), x, y, false, 0, null, null, null);
 	}
 	
-	public Entity(String texturePath, float x, float y){
-		initEntity(texturePath, new Array<Collider>(), x, y, false, 0, null, null, null);
+	public Entity(Sprite sprite, Array<Collider> colliders){
+		initEntity(sprite, colliders, 0, 0, false, 0, null, null, null);
 	}
 	
-	public Entity(Pixmap pix, Array<Collider> colliders){
-		initEntity(pix, colliders, 0, 0, false, 0, null, null, null);
+	public Entity(Sprite sprite, Array<Collider> colliders, float x, float y){
+		initEntity(sprite, colliders, x, y, false, 0, null, null, null);
 	}
 	
-	public Entity(String texturePath, Array<Collider> colliders){
-		initEntity(texturePath, colliders, 0, 0, false, 0, null, null, null);
-	}
-	
-	public Entity(Pixmap pix, Array<Collider> colliders, float x, float y){
-		initEntity(pix, colliders, x, y, false, 0, null, null, null);
-	}
-	
-	public Entity(String texturePath, Array<Collider> colliders, float x, float y){
-		initEntity(texturePath, colliders, x, y, false, 0, null, null, null);
-	}
-	
-	public Entity(Pixmap pix, Array<Collider> colliders, float x, float y, boolean physicsEnabled){
+	public Entity(Sprite sprite, Array<Collider> colliders, float x, float y, boolean physicsEnabled){
 		if(physicsEnabled){
-			initEntity(pix, colliders, x, y, physicsEnabled, 0, new Vector2(), new Vector2(), new Vector2());
+			initEntity(sprite, colliders, x, y, physicsEnabled, 0, new Vector2(), new Vector2(), new Vector2());
 		} else {
-			initEntity(pix, colliders, x, y, physicsEnabled, 1, null,null, null);
+			initEntity(sprite, colliders, x, y, physicsEnabled, 1, null,null, null);
 		}
 	}
 	
-	public Entity(String texturePath, Array<Collider> colliders, float x, float y, boolean physicsEnabled){
-		if(physicsEnabled){
-			initEntity(texturePath, colliders, x, y, physicsEnabled, 0, new Vector2(), new Vector2(), new Vector2());
-		} else {
-			initEntity(texturePath, colliders, x, y, physicsEnabled, 1, null,null, null);
-		}
-		
+	public Entity(Sprite sprite, Array<Collider> colliders, float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+		initEntity(sprite, colliders, x, y, true, mass, force, velocity, acceleration);
 	}
 	
-	public Entity(Pixmap pix, Array<Collider> colliders, float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		initEntity(pix, colliders, x, y, true, mass, force, velocity, acceleration);
-	}
-	
-	public Entity(boolean isTextured, Array<Collider> colliders, float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		initEntity(false, colliders, x, y, true, mass, force, velocity, acceleration);
-	}
-	
-	public Entity(String texturePath, Array<Collider> colliders, float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		initEntity(texturePath, colliders, x, y, true, mass, force, velocity, acceleration);
-	}
-	
-	private void initEntity(boolean isTextured, Array<Collider> colliders, float x, float y, boolean physicsEnabled, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+	private void initEntity(Sprite sprite, Array<Collider> colliders, float x, float y, boolean physicsEnabled, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
 		this.x = x;
 		this.y = y;
 		this.colliders = colliders;
 		this.physicsEnabled = physicsEnabled;
-		initSprite();
+		initSprite(sprite);
 		if(physicsEnabled){
 			initPhysics(mass, force, velocity, acceleration);
 		}
 	}
 	
-	private void initEntity(String texturePath, Array<Collider> colliders, float x, float y, boolean physicsEnabled, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		this.x = x;
-		this.y = y;
-		if(texturePath != null){
-			initSprite(texturePath);
-		} else {
-			initSprite();
-		}
-		this.colliders = colliders;
-		this.physicsEnabled = physicsEnabled;
-		if(physicsEnabled){
-			initPhysics(mass, force, velocity, acceleration);
-		}
-	}
-	
-	private void initEntity(Pixmap pix, Array<Collider> colliders, float x, float y, boolean physicsEnabled, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		this.x = x;
-		this.y = y;
-		if(pix != null){
-			initSprite(pix);
-		} else {
-			initSprite();
-		}
-		
-		this.colliders = colliders;
-		this.physicsEnabled = physicsEnabled;
-		if(physicsEnabled){
-			initPhysics(mass, force, velocity, acceleration);
-		}
-	}
-	
-	
-	private void initSprite(){
-		textureType = -1;
-		sprite = null;
-	}
-	
-	private void initSprite(Pixmap pix){
-		if(pix == null){
-			initSprite();
-		} else {
-			sprite = null;
-			this.pix = pix;
-			textureType = 1;
-			Texture texture = new Texture(pix);
-			sprite = new Sprite(texture);
-			sprite.setX(x);
-			sprite.setY(y);
-		}
-		
-	}
-	
-	private void initSprite(String texturePath){
-		if(texturePath == null){
-			initSprite();
-		} else {
-			sprite = null;
-			textureType = 0;
-			this.texturePath = texturePath;
-			Texture texture = new Texture(texturePath);
-			sprite = new Sprite(texture);
-			sprite.setX(x);
-			sprite.setY(y);
-		}
-		
+	private void initSprite(Sprite sprite){
+		this.sprite = sprite;
+		sprite.setX(x);
+		sprite.setY(y);
 	}
 	
 	private void initPhysics(int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
@@ -311,29 +219,7 @@ public class Entity {
 
 	
 	public Entity clone(){
-		Sprite spriteClone = new Sprite(sprite.getTexture());
-		spriteClone.setX(x);
-		spriteClone.setY(y);
-		Entity entClone = null;
-		entClone = new Entity();
-		if(textureType == 0){
-			entClone.setTexturePath(texturePath);
-		} else if(textureType == 1){
-			entClone.setPix(pix);			
-		} else if(textureType == -1){
-		}
-		
-		entClone.setPhysicsEnabled(physicsEnabled);
-		if(physicsEnabled){
-			entClone.setForce(new Vector2(force.x, force.y));
-			entClone.setVelocity(new Vector2(velocity.x, velocity.y));
-			entClone.setAcceleration(new Vector2(acceleration.x, acceleration.y));
-			entClone.setMass(mass);
-		}
-		
-		
-		entClone.setPhysicsEnabled(physicsEnabled);
-		
+		Entity entClone = new Entity(this);
 		
 		return entClone;
 	}
@@ -364,22 +250,6 @@ public class Entity {
 		this.type = type;
 	}
 
-	public String getTexturePath() {
-		return texturePath;
-	}
-
-	public void setTexturePath(String texturePath) {
-		initSprite(texturePath);
-	}
-
-	public Pixmap getPix() {
-		return pix;
-	}
-
-	public void setPix(Pixmap pix) {
-		initSprite(pix);
-	}
-
 	public void setForce(Vector2 force) {
 		this.force = force;
 	}
@@ -387,7 +257,7 @@ public class Entity {
 	//id,type,textureType,texturePathfile,x,y,physicsEnabled,force.x,force.y,velocity.x,velocity.y,acceleration.x,acceleration.y,mass,colliders.get(0),...,colliders.get(size-1)
 	//The textureType is 0 when the texture has a file path. It is 1 when the texture is automatically generated.
 	public String getSaveData(){
-		String data = id + "," + type + "," + textureType + "," + texturePath + "," + x + "," + y + "," + physicsEnabled + "," + force.x + "," + force.y + "," + velocity.x + "," + velocity.y + "," + acceleration.x + "," + acceleration.y + "," + mass + ",";
+		String data = id + "," + type + "," + x + "," + y + "," + physicsEnabled + "," + force.x + "," + force.y + "," + velocity.x + "," + velocity.y + "," + acceleration.x + "," + acceleration.y + "," + mass + ",";
 		
 		for(int i = 0; i < colliders.size; i++){
 			data += colliders.get(i).getSaveData();
