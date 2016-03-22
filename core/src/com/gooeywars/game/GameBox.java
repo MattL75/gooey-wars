@@ -77,23 +77,8 @@ public class GameBox {
 		
 		
 		for(int i = 0; i < entities.size; i++){
-			entities.get(i).getSprite().draw(batch);
-			if(entities.size >= 1){
-				//System.out.println("test");
-				//System.out.println(entities.get(1).getSprite().getTexture().getHeight());
-				entities.get(1).getSprite().draw(batch);
-			}
+			entities.get(i).draw(batch);			
 			
-		}
-		
-		for(int i = 0; i < entities.size; i++){
-			
-			colliders = entities.get(i).getColliders();
-			for(int j = 0; j < colliders.size; j++){
-				if(colliders.get(j).isDrawable()){
-					colliders.get(j).draw(batch);
-				}
-			}
 		}
 		
 		batch.end();

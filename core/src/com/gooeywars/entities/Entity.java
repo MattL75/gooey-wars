@@ -1,37 +1,35 @@
 package com.gooeywars.entities;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.physics.Collider;
-import com.sun.java_cup.internal.runtime.Symbol;
 
 public class Entity {
-	protected int type;
-	protected static final int ENTITY = 0;
-	protected static final int GOO = 1;
-	protected static final int GEYSER = 2;
-	protected static final int ENVIRONMENT = 3;
-	protected static final int OBSTACLE = 4;
+	private int type;
+	public static final int ENTITY = 0;
+	public static final int GOO = 1;
+	public static final int GEYSER = 2;
+	public static final int ENVIRONMENT = 3;
+	private static final int OBSTACLE = 4;
 	
 	private Sprite sprite;
 	
-	protected float x;
-	protected float y;
-	protected float width;
-	protected float height;
+	private float x;
+	private float y;
+	private float width;
+	private float height;
 	
-	protected boolean physicsEnabled;
+	private boolean physicsEnabled;
 	
-	protected Vector2 force;
-	protected Vector2 velocity;
-	protected Vector2 acceleration;
-	protected Array<Collider> colliders;
-	protected int mass;
+	private Vector2 force;
+	private Vector2 velocity;
+	private Vector2 acceleration;
+	private Array<Collider> colliders;
+	private int mass;
 	
-	protected int id;
+	private int id;
 
 	public Entity(){
 		initEntity(new Sprite(), new Array<Collider>(), 0, 0, false, 0, null, null, null);
@@ -91,6 +89,15 @@ public class Entity {
 		this.velocity = velocity;
 		this.acceleration = acceleration;
 		this.mass = mass;
+	}
+	
+	public void draw(SpriteBatch batch){
+		sprite.draw(batch);
+		for(int i = 0; i < colliders.size; i++){
+			if(colliders.get(i).isDrawable()){
+				colliders.get(i).draw(batch);
+			}
+		}
 	}
 	
 	public void update(){
@@ -179,6 +186,8 @@ public class Entity {
 	
 	public void setSprite(Sprite sprite){
 		this.sprite = sprite;
+		sprite.setX(x);
+		sprite.setY(y);
 	}
 	
 	public void addForce(Vector2 force){
@@ -225,7 +234,6 @@ public class Entity {
 	}
 
 	public float getWidth() {
-		width = sprite.getWidth();
 		return width;
 	}
 
@@ -234,7 +242,6 @@ public class Entity {
 	}
 
 	public float getHeight() {
-		height = sprite.getHeight();
 		return height;
 	}
 
@@ -253,15 +260,15 @@ public class Entity {
 	public void setForce(Vector2 force) {
 		this.force = force;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	//id,type,textureType,texturePathfile,x,y,physicsEnabled,force.x,force.y,velocity.x,velocity.y,acceleration.x,acceleration.y,mass,colliders.get(0),...,colliders.get(size-1)
 	//The textureType is 0 when the texture has a file path. It is 1 when the texture is automatically generated.
 	public String getSaveData(){
 		String data = id + "," + type + "," + x + "," + y + "," + physicsEnabled + "," + force.x + "," + force.y + "," + velocity.x + "," + velocity.y + "," + acceleration.x + "," + acceleration.y + "," + mass + ",";
-		
-		for(int i = 0; i < colliders.size; i++){
-			data += colliders.get(i).getSaveData();
-		}
 		
 		return data;
 	}

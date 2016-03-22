@@ -1,19 +1,16 @@
 package com.gooeywars.components;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
-import com.gooeywars.util.shape.Polygon;
 import com.gooeywars.util.shape.Square;
 
 public class Testing extends Component{
@@ -45,8 +42,10 @@ entities = Main.gameBoxes.get(1).getEntities();
 		Sprite sprite = new Sprite(texture);
 		
 		
-		ent = new Entity(sprite, 10, 210);
-	
+		ent = new Entity();
+		ent.setSprite(sprite);
+		ent.setX(10);
+		ent.setY(210);
 		
 		
 		ent.setMass(2);
@@ -84,6 +83,10 @@ entities = Main.gameBoxes.get(1).getEntities();
 		ent2.addCollider(coll2);
 		
 		game.addEntity(ent2);
+		
+		Goo goo = new Goo();
+		
+		game.addEntity(goo);
 	}
 
 	@Override

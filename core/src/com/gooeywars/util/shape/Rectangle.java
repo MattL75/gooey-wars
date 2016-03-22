@@ -11,8 +11,9 @@ public class Rectangle extends Polygon{
 	public Rectangle(Entity ent){
 		float x = ent.getX();
 		float y = ent.getY();
-		float width = ent.getWidth();
-		float height = ent.getHeight();
+		
+		float width = ent.getSprite().getWidth();
+		float height = ent.getSprite().getHeight();
 		
 		super.setX(x);
 		super.setY(y);
