@@ -75,24 +75,16 @@ public class GameBox {
 		
 		batch.begin();
 		
-		for(int i = 0; i < entities.size; i++){
-			entities.get(i).getSprite().draw(batch);
-			
-			
-		}
 		
 		for(int i = 0; i < entities.size; i++){
+			entities.get(i).draw(batch);			
 			
-			colliders = entities.get(i).getColliders();
-			for(int j = 0; j < colliders.size; j++){
-				if(colliders.get(j).isDrawable()){
-					colliders.get(j).draw(batch);
-				}
-			}
 		}
 		
 		batch.end();
-		UI.render(0);
+		if(UI != null){
+			UI.render(0);
+		}
 
 	}
 	

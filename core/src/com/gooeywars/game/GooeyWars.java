@@ -3,8 +3,8 @@ package com.gooeywars.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.UI.GameUI;
@@ -23,13 +23,15 @@ public class GooeyWars extends Main{
 	
 	private Viewport viewport;
 	
-	private static boolean isFullScreen = true;
+	private static boolean isFullScreen = false;
 	public static int resWidth = 600;
 	public static int resHeight = 800;
 	
 	
 	@Override
 	public void create() {
+		
+		
 		
 		DisplayMode displayMode = Gdx.graphics.getDisplayMode();
 

@@ -9,10 +9,10 @@ public class Square extends Rectangle{
 		float c = 0;
 		
 		if(ent.getWidth() > ent.getHeight()){
-			c = ent.getWidth();
+			c = ent.getSprite().getWidth();
 		}
 		else{
-			c = ent.getHeight();
+			c = ent.getSprite().getHeight();
 		}
 		
 		super.setX(ent.getX());
