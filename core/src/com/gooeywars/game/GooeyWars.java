@@ -11,6 +11,7 @@ import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
 import com.gooeywars.components.Friction;
 import com.gooeywars.components.GameKeyInput;
+import com.gooeywars.components.GameMouseInput;
 import com.gooeywars.components.Testing;
 
 
@@ -54,6 +55,7 @@ public class GooeyWars extends Main{
 		batch = new SpriteBatch();
 		
 		game.addComponent(new GameKeyInput());
+		game.addComponent(new GameMouseInput());
 		game.addComponent(new Testing());
 		game.addComponent(new Friction());
 		currentBox = menu;
