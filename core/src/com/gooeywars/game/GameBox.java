@@ -77,7 +77,6 @@ public class GameBox {
 		
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).draw(batch);			
-			System.out.println(entities.get(i).getType());
 		}
 		
 		batch.end();
