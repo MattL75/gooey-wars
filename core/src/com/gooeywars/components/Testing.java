@@ -1,5 +1,6 @@
 package com.gooeywars.components;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -64,7 +65,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		
 		Pixmap pix2 = new Pixmap(64,64, Format.RGBA8888);
-		pix2.setColor(1,0,0,1f);
+		pix2.setColor(Color.PINK);
 		pix2.fillCircle(32, 32, 32);
 		
 		Texture texture2 = new Texture(pix2);
@@ -87,11 +88,9 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		Goo goo = new Goo();
 		
-		System.out.println(goo.getSprite().getHeight());
-		System.out.println(goo.getSprite().getTexture().getHeight());
+		
 		
 		game.addEntity(goo);
-		game.getEntities().get(2).addForce(new Vector2(10,10));;
 	}
 
 	@Override
