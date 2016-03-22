@@ -1,5 +1,8 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -32,7 +35,7 @@ public class Entity {
 	private int id;
 
 	public Entity(){
-		initEntity(new Sprite(), new Array<Collider>(), 0, 0, false, 0, null, null, null);
+		initEntity(new Sprite(new Texture(new Pixmap(1,1,Format.RGBA8888))), new Array<Collider>(), 0, 0, false, 0, null, null, null);
 	}
 	
 	public Entity(Entity ent){
