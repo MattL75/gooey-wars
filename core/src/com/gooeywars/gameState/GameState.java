@@ -22,7 +22,7 @@ public class GameState {
 			file = Gdx.files.local(locSave + fileName);
 		}
 		catch (Exception ex) {
-			System.out.println("Error.");
+			System.out.println("Error. File creation failed.");
 			return;
 		}
 	}
@@ -49,7 +49,7 @@ public class GameState {
 					"--LOADING--");
 		}
 		
-		//Begin writing to file (Not necessary as entities are split via split function
+		//Begin writing to file (Not necessary as entities are split via split function)
 		//file.writeString(String.valueOf(NumberEntity), false);
 		
 		//Loop writes data for every entity
@@ -91,7 +91,7 @@ public class GameState {
 	}
 	
 	//Method gets the file to read
-	public String getFile() {
+	public String getFileName() {
 		return this.file.name();
 	}
 }
