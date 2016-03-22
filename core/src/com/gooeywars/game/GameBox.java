@@ -71,14 +71,13 @@ public class GameBox {
 	public void draw(){
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Array<Collider> colliders = null;
 		
 		batch.begin();
 		
 		
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).draw(batch);			
-			
+			System.out.println(entities.get(i).getType());
 		}
 		
 		batch.end();

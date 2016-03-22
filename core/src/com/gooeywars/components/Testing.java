@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Goo;
@@ -90,6 +91,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		System.out.println(goo.getSprite().getTexture().getHeight());
 		
 		game.addEntity(goo);
+		game.getEntities().get(2).addForce(new Vector2(10,10));;
 	}
 
 	@Override

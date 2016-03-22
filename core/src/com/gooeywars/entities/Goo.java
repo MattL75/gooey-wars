@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 public class Goo extends Entity{
 	protected int sideCount;
@@ -15,6 +16,18 @@ public class Goo extends Entity{
 		setPhysicsEnabled(true);
 		setMass(100);
 		createGoo();
+	}
+	
+	public Goo(float x, float y){
+		
+	}
+	
+	public Goo(float x, float y, int mass){
+		
+	}
+	
+	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+		
 	}
 	
 	public void createGoo(){
@@ -30,9 +43,6 @@ public class Goo extends Entity{
 		createColliders();
 		setX(300);
 		setY(300);
-		
-		setPhysicsEnabled(true);
-		setMass(2);
 	}
 	
 	private void createSprite(){
