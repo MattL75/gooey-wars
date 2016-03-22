@@ -27,7 +27,7 @@ public class Goo extends Entity{
 	}
 	
 	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		
+		setPhysicsEnabled(true);
 	}
 	
 	public void createGoo(){
@@ -50,17 +50,19 @@ public class Goo extends Entity{
 		float height = getHeight();
 		Pixmap pix = new Pixmap((int)width,(int)height,Format.RGBA8888);
 		
-		/*for(int i = 0; i< sideCount; i++){
-			pix.drawLine((int)(Math.cos(Math.PI/sideCount)*width), (int)(Math.sin(Math.PI/(sideCount+1)%sideCount)*height), (int)(Math.cos(Math.PI/(sideCount+1)%sideCount)*width), (int)(Math.sin(Math.PI/sideCount)*height));
-		}*/
-		pix.fillCircle(10, 10, 10);
 		pix.setColor(Color.PINK);
+		
+		for(int i = 0; i< sideCount; i++){
+			pix.drawLine((int)(Math.cos(Math.PI*i/sideCount)*width + width/2), (int)(Math.sin(Math.PI*i/(sideCount))*height + height/2), (int)(Math.cos(Math.PI * i/(sideCount+1)%sideCount)*width + width/2), (int)(Math.sin(Math.PI * i/(sideCount+1)%sideCount)*height + height/2));
+		}
+		
 		Texture texture = new Texture(pix);
 		pix.dispose();
 		
 		Sprite sprite = new Sprite(texture);
 		setSprite(sprite);
-		
+		setX(500);
+		setY(500);
 	}
 	
 	private void createColliders(){
