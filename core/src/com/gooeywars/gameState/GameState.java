@@ -2,8 +2,10 @@ package com.gooeywars.gameState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
 
@@ -76,11 +78,39 @@ public class GameState {
 			System.out.println(s);
 		
 		String[] secStringArray;
-			
-		for (int i = 0; i < sArray.length; i++) {
-			for (int i)
-		}
+		float[] floatArray;
 		
+		for (int i = 0; i < mainStringArray.length; i++) {
+			secStringArray = mainStringArray[i].split(",");
+			floatArray = new float[secStringArray.length];
+			
+			//Loop parses string into float
+			for (int j = 0; j < secStringArray.length; j++) {
+				
+				//If statement deals with boolean (true == 1, false == 0)
+				if (secStringArray[j].equals("true")) {
+					secStringArray[j] = String.valueOf(1);
+				} else if (secStringArray[j].equals("false")) {
+					secStringArray[j] = String.valueOf(0);
+				}
+				
+				floatArray[j] = Float.parseFloat(secStringArray[j]);
+			}
+			
+			//Build entity if type is 0
+			if (floatArray[1] == 0) {
+				
+			}
+			
+			//Build goo if type is 1
+			if (floatArray[1] == 1) {
+				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
+				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
+				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
+				Goo gooTemp = new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a);
+				box.addEntity(gooTemp);
+			}
+		}
 	}
 	
 	//Method sets the file to read
