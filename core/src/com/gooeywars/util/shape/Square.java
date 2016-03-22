@@ -3,6 +3,10 @@ package com.gooeywars.util.shape;
 import com.gooeywars.entities.Entity;
 
 public class Square extends Rectangle{
+	public Square(int c, int x, int y){
+		genRectangle(x, y, c, c);
+	}
+	
 	public Square(Entity ent){
 		
 

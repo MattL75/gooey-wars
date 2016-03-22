@@ -14,7 +14,7 @@ public class Goo extends Entity{
 		
 		
 		setPhysicsEnabled(true);
-		setMass(100);
+		setMass(200);
 		createGoo();
 	}
 	
@@ -33,6 +33,7 @@ public class Goo extends Entity{
 	public void createGoo(){
 		setType(1);
 		sideCount = getMass()/10;
+		//sideCount = 4;
 		//System.out.println(getMass());
 		
 		setWidth(getMass()/2.0f);
@@ -53,7 +54,14 @@ public class Goo extends Entity{
 		pix.setColor(Color.PINK);
 		
 		for(int i = 0; i< sideCount; i++){
-			pix.drawLine((int)(Math.cos(Math.PI*i/sideCount)*width + width/2), (int)(Math.sin(Math.PI*i/(sideCount))*height + height/2), (int)(Math.cos(Math.PI * i/(sideCount+1)%sideCount)*width + width/2), (int)(Math.sin(Math.PI * i/(sideCount+1)%sideCount)*height + height/2));
+			int indi = i;
+			int indf = (i+1)%sideCount;
+			double twoPi = 2*Math.PI;
+			double hWidth = width/2.0;
+			double hHeight = height/2.0;
+			
+			
+			pix.drawLine((int)Math.ceil(Math.cos(2*Math.PI*i/sideCount)*width/2 + width/2), (int)Math.ceil(Math.sin(2 * Math.PI*i/sideCount)*height/2 + height/2), (int)Math.ceil(Math.cos(2 * Math.PI*((i+1) %sideCount)/sideCount)*width/2 + width/2), (int)Math.ceil(Math.sin(2 * Math.PI*((i+1) %sideCount)/sideCount)*height/2 + height/2));
 		}
 		
 		Texture texture = new Texture(pix);
