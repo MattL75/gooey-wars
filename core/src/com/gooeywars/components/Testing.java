@@ -86,6 +86,9 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		Goo goo = new Goo();
 		
+		System.out.println(goo.getSprite().getHeight());
+		System.out.println(goo.getSprite().getTexture().getHeight());
+		
 		game.addEntity(goo);
 	}
 

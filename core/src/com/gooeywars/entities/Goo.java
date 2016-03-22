@@ -20,12 +20,12 @@ public class Goo extends Entity{
 	public void createGoo(){
 		setType(1);
 		sideCount = getMass()/10;
-		System.out.println(getMass());
+		//System.out.println(getMass());
 		
 		setWidth(getMass()/2.0f);
 		setHeight(getMass()/2.0f);
 		
-		System.out.println(getWidth());
+		//System.out.println(getWidth());
 		createSprite();
 		createColliders();
 		setX(300);
