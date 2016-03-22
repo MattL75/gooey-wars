@@ -54,9 +54,10 @@ public class GooeyWars extends Main{
 		
 		batch = new SpriteBatch();
 		
+		
+		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
-		game.addComponent(new Testing());
 		game.addComponent(new Friction());
 		currentBox = menu;
 	}
