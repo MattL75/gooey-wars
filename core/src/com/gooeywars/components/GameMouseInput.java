@@ -32,7 +32,8 @@ public class GameMouseInput extends Component{
 				if (x.getType() == 0 || x.getType() == 1) {
 					//Checks for same position XY
 					if(x.getColliders().size > 0){
-						if (x.getColliders().get(0).getPolygon().collide(new Square(new Entity(new Sprite(), Gdx.input.getX(), Gdx.input.getY())))) {
+						if (x.getColliders().get(0).getPolygon().collide(new Square(1, Gdx.input.getX(), Gdx.input.getX()))) {
+							System.out.println("Colliding");
 							Vector2 v = new Vector2(100000, 0);
 							entities.get(i).addForce(v);
 							entities.get(i).setX(300);
