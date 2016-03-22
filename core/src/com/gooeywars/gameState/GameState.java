@@ -70,19 +70,17 @@ public class GameState {
 		box.clearEntities();
 		
 		String s = file.readString();
-		String[] sArray = s.split("\\+");
+		String[] mainStringArray = s.split("\\+");
 		
 		if (debug);
 			System.out.println(s);
 		
-		//Convert to Array from libgdx
-		Array<String> splitArray = new Array<String>();
+		String[] secStringArray;
+			
 		for (int i = 0; i < sArray.length; i++) {
-			splitArray.add(sArray[i]);
+			for (int i)
 		}
 		
-		if (debug);
-			System.out.println(splitArray);
 	}
 	
 	//Method sets the file to read
