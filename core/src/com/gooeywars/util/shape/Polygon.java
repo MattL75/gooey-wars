@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -26,6 +27,20 @@ public class Polygon{
 		genSprite();
 	}
 	
+	public boolean collide(Circle other){
+		
+		Vector2 center = new Vector2(x,y);
+		float squareRadius = other.getR() * other.getR();
+		
+		for(int i = 0; i < vertices.size; i++){
+			Vector2 start = vertices.get(i);
+			Vector2 end = vertices.get((i+1)%vertices.size);
+			if(Intersector.intersectSegmentCircle(start, end, center, squareRadius)){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public boolean collide(Polygon other) {
 		int count = vertices.size;

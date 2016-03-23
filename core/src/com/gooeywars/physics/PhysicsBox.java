@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.util.shape.Polygon;
+import com.gooeywars.util.shape.Circle;
 
 public class PhysicsBox {
 	private Array<Entity> entities;
@@ -80,6 +81,18 @@ public class PhysicsBox {
 			for(int j = i+1; j < colliders.size; j++){
 				poly2 = colliders.get(j).getPolygon();
 				
+				if(poly1 instanceof Circle){
+					System.out.println("poly1 is a circle");
+					poly1 = (Circle)poly1;
+				}
+								
+				if(poly2 instanceof Circle){
+					poly2 = (Circle)poly2;
+					System.out.println("Switched");
+					Circle temp = (Circle)poly2;
+					poly1 = poly2;
+					poly2 = temp;
+				}	
 				
 				if(poly1.collide(poly2)){
 					return true;

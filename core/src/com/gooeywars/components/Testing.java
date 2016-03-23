@@ -90,7 +90,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		
 		
-		//game.addEntity(goo);
+		game.addEntity(goo);
 	}
 
 	@Override
