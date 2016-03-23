@@ -6,81 +6,141 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.gooeywars.physics.Collider;
+import com.gooeywars.util.shape.Circle;
 
 public class Goo extends Entity{
-	protected int sideCount;
+	private int radius;
+	private int owner;
+	private Color color; 
+	private GooProperty property;
 	
 	public Goo(){
-		
-		
-		setPhysicsEnabled(true);
-		setMass(200);
-		createGoo();
+		createGoo(0,0,100,new Vector2(),new Vector2(),new Vector2(),0,-1,0);
 	}
 	
 	public Goo(float x, float y){
-		
+		createGoo(x,y,100,new Vector2(),new Vector2(),new Vector2(),0,-1,0);
 	}
 	
 	public Goo(float x, float y, int mass){
+		createGoo(x,y,mass,new Vector2(),new Vector2(),new Vector2(),0,-1,0);
+	}
+	
+	public Goo(float x, float y, int mass, int prop, int owner, int color){
+		createGoo(x,y,mass,new Vector2(),new Vector2(),new Vector2(),prop,owner,color);
 		
 	}
 	
 	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		setPhysicsEnabled(true);
+		
+		createGoo(x,y,mass,force,velocity,acceleration,0,-1,0);
+		
 	}
 	
-	public void createGoo(){
+	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color){
+		createGoo(x,y,mass,force,velocity,acceleration,prop,owner,color);
+		
+	}
+	
+	public void createGoo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color){
+		setPhysicsEnabled(true);
+		
+		setX(x);
+		setY(y);
+		radius = mass/10;
+		setWidth((radius+1)*2.0f);
+		setHeight((radius+1)*2.0f);
+		
+		setMass(mass);
+		setForce(force);
+		setVelocity(velocity);
+		setAcceleration(acceleration);
+		
+		property = new GooProperty(prop);
+		this.color = genColor(color);
+		this.owner = owner;
+		
 		setType(1);
-		sideCount = getMass()/10;
-		//sideCount = 4;
-		//System.out.println(getMass());
 		
-		setWidth(getMass()/2.0f);
-		setHeight(getMass()/2.0f);
-		
-		//System.out.println(getWidth());
 		createSprite();
 		createColliders();
-		setX(300);
-		setY(300);
 	}
 	
 	private void createSprite(){
-		float width = getWidth();
-		float height = getHeight();
-		Pixmap pix = new Pixmap((int)width,(int)height,Format.RGBA8888);
+		Pixmap pix = new Pixmap((int)getWidth(),(int)getWidth(),Format.RGBA8888);
 		
 		pix.setColor(Color.PINK);
 		
-		for(int i = 0; i< sideCount; i++){
-			int indi = i;
-			int indf = (i+1)%sideCount;
-			double twoPi = 2*Math.PI;
-			double hWidth = width/2.0;
-			double hHeight = height/2.0;
-			
-			
-			pix.drawLine((int)Math.ceil(Math.cos(2*Math.PI*i/sideCount)*width/2 + width/2), (int)Math.ceil(Math.sin(2 * Math.PI*i/sideCount)*height/2 + height/2), (int)Math.ceil(Math.cos(2 * Math.PI*((i+1) %sideCount)/sideCount)*width/2 + width/2), (int)Math.ceil(Math.sin(2 * Math.PI*((i+1) %sideCount)/sideCount)*height/2 + height/2));
-		}
+		pix.fillCircle(radius, radius,radius);
 		
 		Texture texture = new Texture(pix);
 		pix.dispose();
 		
 		Sprite sprite = new Sprite(texture);
 		setSprite(sprite);
-		setX(500);
-		setY(500);
 	}
 	
 	private void createColliders(){
+		Collider coll = new Collider(new Circle(getX(), getY(), radius));
+		coll.setDrawable(true);
+		Array<Collider> colls = new Array<Collider>();
+		colls.add(coll);
 		
+		setColliders(colls);
 	}
 	
-	//
+	private Color genColor(int c){
+		switch(c){
+		case 0: return Color.BLACK; 
+		case 1: return Color.RED; 
+		case 2: return Color.GREEN; 
+		case 3: return Color.BLUE; 
+		case 4: return Color.PURPLE; 
+		case 5: return Color.PINK;
+		default: return null;
+		}
+	}
+	
 	@Override
 	public String getSaveData(){
 		String data = super.getSaveData();
 		return data;
 	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+		createSprite();
+	}
+
+	public int getOwner() {
+		return owner;
+	}
+
+	public void setOwner(int owner) {
+		this.owner = owner;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public GooProperty getProperty() {
+		return property;
+	}
+
+	public void setProperty(GooProperty property) {
+		this.property = property;
+	}
+	
+	
 }

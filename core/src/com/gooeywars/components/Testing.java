@@ -86,7 +86,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		game.addEntity(ent2);
 		
-		Goo goo = new Goo();
+		Goo goo = new Goo(500,500);
 		
 		
 		
