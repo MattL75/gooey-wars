@@ -41,12 +41,17 @@ public class PhysicsBox {
 		Entity tempEnt = null;
 		Entity proEnt = null;
 		//System.out.println(entities.size);
+		Polygon tempPoly = entities.get(1).getColliders().get(0).getPolygon();
+		//System.out.println("Vertice1: x: "+ tempPoly.getVertices().get(0).y);
+		//System.out.println("Vertice2: x: "+ tempPoly.getVertices().get(1).y);
+		//System.out.println("Vertice3: x: "+ tempPoly.getVertices().get(2).y);
+		//System.out.println("Vertice4: x: "+ tempPoly.getVertices().get(3).y);
 		for(int i = 0; i < entities.size; i++){
 			
 			tempEnt = entities.get(i);
 			proEnt = tempEnt.clone();
 			if (tempEnt.getPhysicsEnabled()) {
-				System.out.println("checking physics");
+				//System.out.println("checking physics");
 				float x = tempEnt.getX() + tempEnt.getVelocity().x * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
 				float y = tempEnt.getY() + tempEnt.getVelocity().y * deltaTime
@@ -62,7 +67,7 @@ public class PhysicsBox {
 				tempEnt.setPosition(x, y);
 				tempEnt.setVelocity(velocity);
 				tempEnt.nullifyForce();
-				System.out.println(checkCollisions(tempEnt));
+				//System.out.println(checkCollisions(tempEnt, i));
 				//System.out.println(tempEnt instanceof Goo);
 				//proEnt.setPosition(x, y);
 				/*if (checkCollisions(proEnt)) {
@@ -79,18 +84,38 @@ public class PhysicsBox {
 		
 	}
 	
-	private boolean checkCollisions(Entity ent){
+	private boolean checkCollisions(Entity ent, int index){
 		Array<Collider> entColliders = ent.getColliders();
-		
-		//System.out.println(entColliders.size);
+		Entity testingEnt = null;
+		Polygon poly1 = null;
+		Polygon poly2 = null;
 		for(int i = 0; i < entColliders.size; i++){
-			Polygon poly1 = entColliders.get(i).getPolygon();
-			Polygon poly2 = null;
+			poly1 = entColliders.get(i).getPolygon();
 			if(poly1 instanceof Circle){
-				
-				
 				poly1 = (Circle)poly1;
 			}
+			for(int j = 0; j <entities.size; j++){
+				if(j != index){
+					testingEnt = entities.get(j);
+					for(int k = 0; k < testingEnt.getColliders().size; k++){
+						poly2 = testingEnt.getColliders().get(k).getPolygon();
+						
+						if(poly1.collide(poly2)){
+							return true;
+						}
+						
+					}
+				}
+			}
+		}
+		
+		return false;
+		
+		//System.out.println(entColliders.size);
+		/*for(int i = 0; i < entColliders.size; i++){
+			Polygon poly1 = entColliders.get(i).getPolygon();
+			Polygon poly2 = null;
+			
 			
 			for(int j = i+1; j < colliders.size; j++){
 				poly2 = colliders.get(j).getPolygon();
@@ -107,7 +132,7 @@ public class PhysicsBox {
 			}
 		}
 		
-		return false;
+		return false;*/
 	}
 	
 	public void addEntity(Entity ent){

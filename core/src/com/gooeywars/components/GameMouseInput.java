@@ -2,7 +2,6 @@ package com.gooeywars.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -32,14 +31,13 @@ public class GameMouseInput extends Component{
 				//Checks if clicked entity is goo or entity type
 				if (x.getType() == 0 || x.getType() == 1) {
 					//Checks for same position XY
-					
 					if(x.getColliders().size > 0){
-						if (x.getColliders().get(0).getPolygon().collide(new Square(1, Gdx.input.getX(), Gdx.input.getX()))) {
-							System.out.println("Colliding");
-							Vector2 v = new Vector2(100000, 0);
+						if (x.getColliders().get(i).getPolygon().collide(new Square(1, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()))) {
+							
+							Vector2 v = new Vector2(1000, 0);
 							entities.get(i).addForce(v);
 							
-							entities.get(i).setX(300);
+							//entities.get(i).setX(300);
 							break;
 						}
 					}

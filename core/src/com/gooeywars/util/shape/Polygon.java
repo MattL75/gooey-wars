@@ -30,15 +30,15 @@ public class Polygon{
 	public boolean collide(Polygon other){
 		
 		if(other instanceof Circle){
-			System.out.println("Circle collision");
+			//System.out.println("Circle");
 			Circle circle = (Circle) other;
-			System.out.println("Poly 2 is a circle");
+			//System.out.println("Poly 2 is a circle");
 			if(collideCircle(circle)){
 				System.out.println("Circle collision");
 				return true;
 			}
 			
-			System.out.println("poly2 is a circle");
+			//System.out.println("poly2 is a circle");
 		} else {
 			
 			if(collidePolygon(other)){
@@ -52,7 +52,7 @@ public class Polygon{
 	
 	public boolean collideCircle(Circle other){
 		
-		Vector2 center = new Vector2(x,y);
+		Vector2 center = new Vector2(other.getX()+other.getR(),other.getY()+other.getR());
 		float squareRadius = other.getR() * other.getR();
 		
 		for(int i = 0; i < vertices.size; i++){

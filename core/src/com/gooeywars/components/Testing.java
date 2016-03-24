@@ -60,7 +60,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		collider.setDrawable(true);
 		ent.addCollider(collider);
 		
-		//game.addEntity(ent);
+		game.addEntity(ent);
 		
 		
 		
@@ -84,7 +84,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		coll2.setDrawable(true);
 		ent2.addCollider(coll2);
 		
-		//game.addEntity(ent2);
+		game.addEntity(ent2);
 		
 		Goo goo = new Goo(500,500);
 		Goo goo2 = new Goo(500, 400);
@@ -92,7 +92,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		game.addEntity(goo);
 		game.addEntity(goo2);
-		//game.addEntity(goo3);
+		game.addEntity(goo3);
 	}
 
 	@Override
