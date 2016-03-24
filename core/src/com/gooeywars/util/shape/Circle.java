@@ -29,16 +29,17 @@ public class Circle extends Polygon{
 	
 	@Override
 	public boolean collide(Polygon other){
-		if(other.getClass().getName().equals("Circle")){
-			Circle otherCircle = (Circle) other;
-			float distance = (float) Math.pow(Math.pow(other.getX() - x, 2) + Math.pow(other.getX() - x, 2), 0.5);
-			
-			if(distance < (otherCircle.getR() + r)){
+		//System.out.println("Calling circle collide");
+		if(other instanceof Circle){
+			Circle circleOther = (Circle) other;
+			float distance = (float) Math.pow((Math.pow(circleOther.getX() - x, 2) + Math.pow(circleOther.getY() - y, 2)), 0.5);
+			if(distance < (circleOther.getR() + r)){
 				return true;
 			}
 		}
 		
 		if(other.getClass().getName().equals("Polygon")){
+			System.out.println("Polygon");
 			Array<Vector2> vertices = other.getVertices();
 			Vector2 center = new Vector2(x,y);
 			float squareRadius = r * r;

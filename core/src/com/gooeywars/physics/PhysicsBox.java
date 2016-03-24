@@ -3,8 +3,9 @@ package com.gooeywars.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
-import com.gooeywars.util.shape.Polygon;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.util.shape.Circle;
+import com.gooeywars.util.shape.Polygon;
 
 public class PhysicsBox {
 	private Array<Entity> entities;
@@ -16,6 +17,7 @@ public class PhysicsBox {
 	}
 	
 	public void update(float deltaTime){
+		
 		calculateVectors();
 		calculatePosition(deltaTime);
 	}
@@ -38,12 +40,13 @@ public class PhysicsBox {
 	private void calculatePosition(float deltaTime){
 		Entity tempEnt = null;
 		Entity proEnt = null;
-		
+		//System.out.println(entities.size);
 		for(int i = 0; i < entities.size; i++){
 			
 			tempEnt = entities.get(i);
 			proEnt = tempEnt.clone();
 			if (tempEnt.getPhysicsEnabled()) {
+				System.out.println("checking physics");
 				float x = tempEnt.getX() + tempEnt.getVelocity().x * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
 				float y = tempEnt.getY() + tempEnt.getVelocity().y * deltaTime
@@ -56,15 +59,20 @@ public class PhysicsBox {
 					velocity.setZero();
 				}
 				
-				proEnt.setPosition(x, y);
-				if (checkCollisions(proEnt)) {
+				tempEnt.setPosition(x, y);
+				tempEnt.setVelocity(velocity);
+				tempEnt.nullifyForce();
+				System.out.println(checkCollisions(tempEnt));
+				//System.out.println(tempEnt instanceof Goo);
+				//proEnt.setPosition(x, y);
+				/*if (checkCollisions(proEnt)) {
 					tempEnt.setVelocity(new Vector2());
 					tempEnt.nullifyForce();
 				} else {
 					tempEnt.setPosition(x, y);
 					tempEnt.setVelocity(velocity);
 					tempEnt.nullifyForce();
-				}
+				}*/
 			}
 		}
 		
@@ -73,30 +81,29 @@ public class PhysicsBox {
 	
 	private boolean checkCollisions(Entity ent){
 		Array<Collider> entColliders = ent.getColliders();
-		Polygon poly2 = null;
 		
+		//System.out.println(entColliders.size);
 		for(int i = 0; i < entColliders.size; i++){
 			Polygon poly1 = entColliders.get(i).getPolygon();
+			Polygon poly2 = null;
+			if(poly1 instanceof Circle){
+				
+				
+				poly1 = (Circle)poly1;
+			}
 			
 			for(int j = i+1; j < colliders.size; j++){
 				poly2 = colliders.get(j).getPolygon();
+				System.out.println("i: " + i);
+				System.out.println("j: " + j);
+				System.out.println("Poly1 y: " + poly1.getY());
 				
-				if(poly1 instanceof Circle){
-					System.out.println("poly1 is a circle");
-					poly1 = (Circle)poly1;
-				}
-								
-				if(poly2 instanceof Circle){
-					poly2 = (Circle)poly2;
-					System.out.println("Switched");
-					Circle temp = (Circle)poly2;
-					poly1 = poly2;
-					poly2 = temp;
-				}	
 				
+				System.out.println("Poly2 y: " + poly2.getY());
 				if(poly1.collide(poly2)){
 					return true;
 				}
+				
 			}
 		}
 		

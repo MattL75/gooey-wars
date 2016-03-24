@@ -27,7 +27,30 @@ public class Polygon{
 		genSprite();
 	}
 	
-	public boolean collide(Circle other){
+	public boolean collide(Polygon other){
+		
+		if(other instanceof Circle){
+			System.out.println("Circle collision");
+			Circle circle = (Circle) other;
+			System.out.println("Poly 2 is a circle");
+			if(collideCircle(circle)){
+				System.out.println("Circle collision");
+				return true;
+			}
+			
+			System.out.println("poly2 is a circle");
+		} else {
+			
+			if(collidePolygon(other)){
+				System.out.println("Collision");
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean collideCircle(Circle other){
 		
 		Vector2 center = new Vector2(x,y);
 		float squareRadius = other.getR() * other.getR();
@@ -42,7 +65,7 @@ public class Polygon{
 		return false;
 	}
 	
-	public boolean collide(Polygon other) {
+	public boolean collidePolygon(Polygon other) {
 		int count = vertices.size;
 		
 		// test separation axes of current polygon

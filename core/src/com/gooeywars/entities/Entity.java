@@ -96,6 +96,7 @@ public class Entity {
 	
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);
+		
 		for(int i = 0; i < colliders.size; i++){
 			if(colliders.get(i).isDrawable()){
 				colliders.get(i).draw(batch);

@@ -83,8 +83,8 @@ public class Goo extends Entity{
 	}
 	
 	private void createColliders(){
-		Collider coll = new Collider(new Circle(getX(), getY(), radius));
-		coll.setDrawable(true);
+		Collider coll = new Collider(new Circle(radius, getX(), getY()));
+		coll.setDrawable(false);
 		Array<Collider> colls = new Array<Collider>();
 		colls.add(coll);
 		
