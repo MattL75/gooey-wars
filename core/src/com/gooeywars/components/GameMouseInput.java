@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.Main;
+import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Square;
 
 public class GameMouseInput extends Component{
@@ -18,7 +19,7 @@ public class GameMouseInput extends Component{
 	
 	@Override
 	public void create() {
-		entities = Main.findGameBox("game").getEntities();
+		//entities = Main.findGameBox("game").getEntities();
 	}
 
 	@Override
@@ -32,12 +33,12 @@ public class GameMouseInput extends Component{
 				if (x.getType() == 0 || x.getType() == 1) {
 					//Checks for same position XY
 					if(x.getColliders().size > 0){
-						if (x.getColliders().get(i).getPolygon().collide(new Square(1, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()))) {
+						
+						if (x.getColliders().get(0).collide(new Collider(new Square(100, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())))) {
+							
 							
 							Vector2 v = new Vector2(1000, 0);
 							entities.get(i).addForce(v);
-							
-							//entities.get(i).setX(300);
 							break;
 						}
 					}

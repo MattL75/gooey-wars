@@ -3,8 +3,8 @@ package com.gooeywars.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.exception.TagSameException;
@@ -20,6 +20,7 @@ public class GameBox {
 	private PhysicsBox physics;
 	private boolean physicsEnabled;
 	
+	private OrthographicCamera camera;
 	
 	private Screen UI;
 	
@@ -37,8 +38,9 @@ public class GameBox {
 		create();
 	}
 	
-	public GameBox(boolean pE, Screen UI){
+	public GameBox(boolean pE, Screen UI, OrthographicCamera camera){
 		Main.gameBoxes.add(this);
+		this.camera = camera;
 		physicsEnabled = pE;
 		this.UI = UI;
 		
@@ -69,7 +71,10 @@ public class GameBox {
 	
 	//Draws to the screen the sprites of the entities. 
 	public void draw(){
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
@@ -156,6 +161,14 @@ public class GameBox {
 
 	public void setUI(Screen uI) {
 		UI = uI;
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(OrthographicCamera camera) {
+		this.camera = camera;
 	}
 	
 	

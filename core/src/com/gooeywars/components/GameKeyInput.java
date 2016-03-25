@@ -10,6 +10,7 @@ import com.gooeywars.game.Main;
 
 public class GameKeyInput extends Component{
 	Array<Entity> entities;
+	int currentEnt;
 	
 	public GameKeyInput() {
 		create();
@@ -18,29 +19,30 @@ public class GameKeyInput extends Component{
 	@Override
 	public void create() {
 		entities = Main.gameBoxes.get(1).getEntities();
+		currentEnt = 2;
 	}
 
 	@Override
 	public void update() {
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			entities.get(0).addForce(new Vector2(0, 1000));
+			entities.get(currentEnt).addForce(new Vector2(0, 1000));
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			entities.get(0).addForce(new Vector2(0, -1000));
+			entities.get(currentEnt).addForce(new Vector2(0, -1000));
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			entities.get(0).addForce(new Vector2(-1000, 0));
+			entities.get(currentEnt).addForce(new Vector2(-1000, 0));
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			entities.get(0).addForce(new Vector2(1000, 0));
+			entities.get(currentEnt).addForce(new Vector2(1000, 0));
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.K)) {
-			entities.get(0).setPosition(100, 100);
+			currentEnt = (currentEnt+ 1)%entities.size;
 		}
 		
 	}

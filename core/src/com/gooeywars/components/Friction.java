@@ -9,12 +9,12 @@ import com.gooeywars.game.Main;
 public class Friction extends Component{
 	Array<Entity> entities;
 	Vector2 friction;
-	float coefficient;
+	float coefficient = 0.5f;
+	Vector2 normal;
 	@Override
 	public void create() {
 		entities = Main.findGameBox("game").getEntities();
 		friction = new Vector2();
-		coefficient = 500f;
 		
 	}
 
@@ -22,12 +22,15 @@ public class Friction extends Component{
 	public void update() {
 		for(int i = 0; i < entities.size; i++){
 			if(entities.get(i).getPhysicsEnabled()){
+				
 				Vector2 velocity = new Vector2(entities.get(i).getVelocity());
-				friction = new Vector2(velocity.nor().scl(-1f * coefficient));
+				normal = new Vector2(velocity.x, velocity.y).nor();
+				friction = new Vector2(normal.scl(-1f * coefficient * 9.8f * entities.get(i).getMass()));
 				entities.get(i).addForce(friction);
 			}
 			
 		}
+		
 	}
 
 }

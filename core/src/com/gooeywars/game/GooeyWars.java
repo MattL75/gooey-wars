@@ -45,9 +45,9 @@ public class GooeyWars extends Main{
 		MainMenuUI menuUI = new MainMenuUI(viewport);
 		GameUI gameUI = new GameUI(viewport);
 		
-		menu = new GameBox(false, menuUI);
+		menu = new GameBox(false, menuUI, camera);
 		menu.setTag("menu");
-		game = new GameBox(true, gameUI);
+		game = new GameBox(true, gameUI, camera);
 		game.setTag("game");
 		
 		
@@ -64,7 +64,7 @@ public class GooeyWars extends Main{
 
 	@Override
 	public void render() {
-		
+		camera.zoom = 1;
 		if(isFullScreen){
 			viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}

@@ -30,15 +30,11 @@ public class Polygon{
 	public boolean collide(Polygon other){
 		
 		if(other instanceof Circle){
-			//System.out.println("Circle");
 			Circle circle = (Circle) other;
-			//System.out.println("Poly 2 is a circle");
 			if(collideCircle(circle)){
 				System.out.println("Circle collision");
 				return true;
 			}
-			
-			//System.out.println("poly2 is a circle");
 		} else {
 			
 			if(collidePolygon(other)){
@@ -247,5 +243,15 @@ public class Polygon{
 			sprite.setY(y);
 		}
 	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+	
+	
 	
 }

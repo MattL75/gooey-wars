@@ -97,11 +97,7 @@ public class Entity {
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);
 		
-		for(int i = 0; i < colliders.size; i++){
-			if(colliders.get(i).isDrawable()){
-				colliders.get(i).draw(batch);
-			}
-		}
+		
 	}
 	
 	public void update(){
@@ -144,6 +140,8 @@ public class Entity {
 	}
 	
 	public void setPosition(float x, float y){
+		//System.out.println(x);
+		//System.out.println(y);
 		this.x = x;
 		this.y = y;
 		sprite.setX(x);

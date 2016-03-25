@@ -11,6 +11,8 @@ public class PhysicsBox {
 	private Array<Entity> entities;
 	private Array<Collider> colliders;
 	
+	private float pixelsPerMeter = 10;
+	
 	public PhysicsBox(){
 		entities = new Array<Entity>();
 		colliders = new Array<Collider>();
@@ -30,6 +32,8 @@ public class PhysicsBox {
 		for(int i = 0; i < entities.size; i++){
 			
 			if(entities.get(i).getPhysicsEnabled()){
+				
+				
 				tempForce = entities.get(i).getForce();
 				entities.get(i).setAcceleration(new Vector2(tempForce.scl(1/(float)entities.get(i).getMass())));
 			}
@@ -40,37 +44,37 @@ public class PhysicsBox {
 	private void calculatePosition(float deltaTime){
 		Entity tempEnt = null;
 		Entity proEnt = null;
-		//System.out.println(entities.size);
-		Polygon tempPoly = entities.get(1).getColliders().get(0).getPolygon();
-		//System.out.println("Vertice1: x: "+ tempPoly.getVertices().get(0).y);
-		//System.out.println("Vertice2: x: "+ tempPoly.getVertices().get(1).y);
-		//System.out.println("Vertice3: x: "+ tempPoly.getVertices().get(2).y);
-		//System.out.println("Vertice4: x: "+ tempPoly.getVertices().get(3).y);
+		
 		for(int i = 0; i < entities.size; i++){
 			
 			tempEnt = entities.get(i);
 			proEnt = tempEnt.clone();
 			if (tempEnt.getPhysicsEnabled()) {
 				//System.out.println("checking physics");
-				float x = tempEnt.getX() + tempEnt.getVelocity().x * deltaTime
+				//System.out.println(tempEnt.getVelocity());
+				float x = tempEnt.getX()/pixelsPerMeter + tempEnt.getVelocity().x * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
-				float y = tempEnt.getY() + tempEnt.getVelocity().y * deltaTime
+				float y = tempEnt.getY()/pixelsPerMeter + tempEnt.getVelocity().y * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().y * deltaTime * deltaTime;
 
 				Vector2 velocity = new Vector2(tempEnt.getVelocity().x + tempEnt.getAcceleration().x * deltaTime,
 						tempEnt.getVelocity().y + tempEnt.getAcceleration().y * deltaTime);
 
-				if (Math.abs(velocity.x) < 5f && Math.abs(velocity.y) < 5f) {
+				if (Math.abs(velocity.x) < 0.1f && Math.abs(velocity.y) < 0.1f) {
 					velocity.setZero();
 				}
 				
-				tempEnt.setPosition(x, y);
-				tempEnt.setVelocity(velocity);
-				tempEnt.nullifyForce();
-				//System.out.println(checkCollisions(tempEnt, i));
-				//System.out.println(tempEnt instanceof Goo);
+				
+				
+				entities.get(i).setPosition(x*pixelsPerMeter, y*pixelsPerMeter);
+				entities.get(i).setVelocity(velocity);
+				entities.get(i).nullifyForce();
+				
+				//System.out.println(tempEnt.getX());
+				System.out.println(checkCollisions(tempEnt, i));
+				
 				//proEnt.setPosition(x, y);
-				/*if (checkCollisions(proEnt)) {
+				/*if (checkCollisions(proEnt, i)) {
 					tempEnt.setVelocity(new Vector2());
 					tempEnt.nullifyForce();
 				} else {
@@ -87,20 +91,18 @@ public class PhysicsBox {
 	private boolean checkCollisions(Entity ent, int index){
 		Array<Collider> entColliders = ent.getColliders();
 		Entity testingEnt = null;
-		Polygon poly1 = null;
-		Polygon poly2 = null;
+		Collider coll1 = null;
+		Collider coll2 = null;
 		for(int i = 0; i < entColliders.size; i++){
-			poly1 = entColliders.get(i).getPolygon();
-			if(poly1 instanceof Circle){
-				poly1 = (Circle)poly1;
-			}
+			coll1 = entColliders.get(i);
+			
 			for(int j = 0; j <entities.size; j++){
 				if(j != index){
 					testingEnt = entities.get(j);
 					for(int k = 0; k < testingEnt.getColliders().size; k++){
-						poly2 = testingEnt.getColliders().get(k).getPolygon();
+						coll2 = testingEnt.getColliders().get(k);
 						
-						if(poly1.collide(poly2)){
+						if(coll1.collide(coll2)){
 							return true;
 						}
 						
@@ -141,4 +143,14 @@ public class PhysicsBox {
 		}
 		entities.add(ent);
 	}
+
+	public float getPixelsPerMeter() {
+		return pixelsPerMeter;
+	}
+
+	public void setPixelsPerMeter(float pixelsPerMeter) {
+		this.pixelsPerMeter = pixelsPerMeter;
+	}
+	
+	
 }

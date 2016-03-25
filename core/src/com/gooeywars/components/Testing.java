@@ -50,7 +50,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		ent.setY(210);
 		
 		
-		ent.setMass(2);
+		ent.setMass(1);
 		ent.setPhysicsEnabled(true);
 		
 		Square poly = new Square(ent);
@@ -86,9 +86,9 @@ entities = Main.gameBoxes.get(1).getEntities();
 		
 		game.addEntity(ent2);
 		
-		Goo goo = new Goo(500,500);
-		Goo goo2 = new Goo(500, 400);
-		Goo goo3 = new Goo(400, 600);
+		Goo goo = new Goo(500,500,100);
+		Goo goo2 = new Goo(500, 400,100);
+		Goo goo3 = new Goo(400, 600,100);
 		
 		game.addEntity(goo);
 		game.addEntity(goo2);
