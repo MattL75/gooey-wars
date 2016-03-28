@@ -34,13 +34,14 @@ public class Circle extends Polygon{
 		genSprite();
 	}
 	
+	//TODO implement
 	@Override
-	public boolean collide(Polygon other){
+	public Vector2 collide(Polygon other){
 		if(other instanceof Circle){
 			Circle circleOther = (Circle) other;
 			float distance = (float) Math.pow((Math.pow(circleOther.getX() - getX(), 2) + Math.pow(circleOther.getY() - getY(), 2)), 0.5);
 			if(distance < (circleOther.getR() + r)){
-				return true;
+				return null;
 			}
 		}
 		
@@ -54,13 +55,13 @@ public class Circle extends Polygon{
 				Vector2 end = vertices.get((i+1)%vertices.size);
 				
 				if(Intersector.intersectSegmentCircle(start, end, center, squareRadius)){
-					return true;
+					return null;
 				}
 			}
 		}
 		
 		
-		return false;
+		return null;
 	}
 	
 	private void genSprite(){

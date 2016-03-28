@@ -72,7 +72,7 @@ entities = Main.gameBoxes.get(1).getEntities();
 		pix2.dispose();
 		Sprite sprite2 = new Sprite(texture2);
 		
-		ent2 = new Entity(sprite2, 200, 200);
+		ent2 = new Entity(sprite2, 400, 400);
 		ent2.setMass(2);
 		ent2.setPhysicsEnabled(true);
 		
@@ -90,9 +90,9 @@ entities = Main.gameBoxes.get(1).getEntities();
 		Goo goo2 = new Goo(500, 400,100);
 		Goo goo3 = new Goo(400, 600,100);
 		
-		game.addEntity(goo);
-		game.addEntity(goo2);
-		game.addEntity(goo3);
+		//game.addEntity(goo);
+		//game.addEntity(goo2);
+		//game.addEntity(goo3);
 	}
 
 	@Override

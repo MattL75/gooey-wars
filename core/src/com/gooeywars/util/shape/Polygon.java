@@ -27,26 +27,21 @@ public class Polygon{
 		genSprite();
 	}
 	
-	public boolean collide(Polygon other){
+	public Vector2 collide(Polygon other){
 		
 		if(other instanceof Circle){
 			Circle circle = (Circle) other;
-			if(collideCircle(circle)){
-				System.out.println("Circle collision");
-				return true;
-			}
-		} else {
 			
-			if(collidePolygon(other)){
-				System.out.println("Collision");
-				return true;
-			}
+			return collideCircle(circle);
+			
+		} else {
+			return collidePolygon(other);
+			
 		}
-		
-		return false;
 	}
 	
-	public boolean collideCircle(Circle other){
+	//TODO implement circle collision for displacement vector
+	public Vector2 collideCircle(Circle other){
 		
 		Vector2 center = new Vector2(other.getX()+other.getR(),other.getY()+other.getR());
 		float squareRadius = other.getR() * other.getR();
@@ -55,86 +50,215 @@ public class Polygon{
 			Vector2 start = vertices.get(i);
 			Vector2 end = vertices.get((i+1)%vertices.size);
 			if(Intersector.intersectSegmentCircle(start, end, center, squareRadius)){
-				return true;
+				return new Vector2();
 			}
 		}
-		return false;
+		return new Vector2();
 	}
 	
-	public boolean collidePolygon(Polygon other) {
+	public Vector2 collidePolygon(Polygon other) {
 		int count = vertices.size;
+		Vector2 disVec = new Vector2();
 		
+		/*Vector2 v0 = vertices.get(0);
+		Vector2 v1 = vertices.get(1);
+		Vector2 axis = new Vector2(0,0);
+		
+		
+		
+		axis.x = v1.x - v0.x; 
+		axis.y = v1.y - v0.y; 
+		axis.nor();
+		axis.rotate90(1);
+		axis.setAngle(axis.angle()%180);
+		System.out.println(axis.angle()); 			
+		
+		
+		
+		System.out.println("This: " + 0 + " " +separatedByAxis(axis,other));
+		*/
+		
+		Vector2 v0 = vertices.get(count-1);
+		Vector2 v1 = vertices.get(0);
+		Vector2 axis = new Vector2(0,0);
+		
+		
+		
+		axis.x = v1.x - v0.x; 
+		axis.y = v1.y - v0.y; 
+		axis.nor();	
+		
+		axis.rotate90(1); 
+		
+		//axis.setAngle(axis.angle()%180);
+		
+		disVec = separatedByAxis(axis, other);
+		float tempOr = ((disVec.dot(axis) >= 0) ? 1: -1);
+		disVec.scl(tempOr);
+		Vector2 smallest = disVec.cpy();
 		// test separation axes of current polygon
-		for (int j = count - 1, i = 0; i < count; j = i, i++) {
-			Vector2 v0 = vertices.get(j);
-			Vector2 v1 = vertices.get(i);
-			Vector2 axis = new Vector2(0,0);
+		for (int j = count -1 , i = 0; i < count; j = i, i++) {
+			
+			
+			v0 = vertices.get(j);
+			v1 = vertices.get(i);
+			axis = new Vector2(0,0);
 			
 			
 			
 			axis.x = v1.x - v0.x; 
 			axis.y = v1.y - v0.y; 
 			axis.nor();	
-
-			axis.rotate90(1); 			
-			if (separatedByAxis(axis, other))
-				return false;
+			
+			axis.rotate90(1); 
+			
+			
+			disVec = separatedByAxis(axis, other);
+			
+			System.out.println("This: " + i + " " +disVec);
+			
+			
+			if(disVec.len2()==0){
+				return new Vector2();
+			}
+			
+			if(disVec.len2() <= smallest.len2()){
+				smallest = disVec.cpy();
+			}
 		}
+		
 		count = other.getVertices().size;
 		
+		v0 = other.getVertices().get(count-1);
+		v1 = other.getVertices().get(0);
+		axis = new Vector2(0,0);
+		
+		
+		axis.x = v1.x - v0.x;
+		axis.y = v1.y - v0.y; 
+		axis.nor();	
+		
+		axis.rotate90(1); 						
+		//axis.setAngle(axis.angle()%180);
+		
+		disVec = separatedByAxis(axis, other);
+		tempOr = ((disVec.dot(axis) >= 0) ? 1: -1);
+		disVec.scl(tempOr);
+		smallest = disVec.cpy();
+		
+		
 		// test separation axes of other polygon
-		for (int j = count - 1, i = 0; i < count; j = i, i++) {
-			Vector2 v0 = other.getVertices().get(j);
-			Vector2 v1 = other.getVertices().get(i);
-			Vector2 axis = new Vector2(0,0);
+		for (int j = count -1, i = 0; i < count; j = i, i++) {
+			v0 = other.getVertices().get(j);
+			v1 = other.getVertices().get(i);
+			axis = new Vector2(0,0);
 			
 			
 			axis.x = v1.x - v0.x;
 			axis.y = v1.y - v0.y; 
 			axis.nor();	
-
-			axis.rotate90(1); 
-			axis.nor();							
-
-			if (separatedByAxis(axis, other))
-				return false;
+			
+			axis.rotate90(1);
+			
+			disVec = separatedByAxis(axis, other);
+			
+			
+			if(disVec.len2()==0){
+				return new Vector2();
+			}
+			
+			if(disVec.len2() <= smallest.len2()){
+				smallest = disVec.cpy();
+			}
 		}
-		return true;
+		
+		
+		
+		return smallest;
 	}
 	
-	public boolean separatedByAxis(Vector2 axis, Polygon poly) {
-		float mina = 0;
-		float maxa = 0;
+	
+	
+	public Vector2 separatedByAxis(Vector2 axis, Polygon poly) {
+		//System.out.println("Axis vector: " + axis.angle());
 		
-		mina = maxa = (float) axis.dot(vertices.get(0));
+		Vector2 proj;
 		
+		
+		proj = projection(axis,vertices.get(0));
+		
+		Vector2 mina = proj.cpy();
+		Vector2 maxa = proj.cpy();
+		
+		//Find maximum and minimum projection of points for this polygon
 		for (int i = 1; i < vertices.size; i++) {
-			float d = (float) axis.dot(vertices.get(i));
-			if (d < mina)
-				 mina = d;
-			else if (d > maxa)
-				maxa = d;
+			
+			proj = projection(axis,vertices.get(i));
+			
+			float projOr = ((proj.dot(axis) > 0) ? 1: -1);
+			float minaOr = ((mina.dot(axis) > 0) ? 1: -1);
+			float maxaOr = ((maxa.dot(axis) > 0) ? 1: -1);
+			
+			if (projOr * proj.len2() <= minaOr * mina.len2())
+				mina = new Vector2(proj.x, proj.y);
+			else if (projOr * proj.len2() > maxaOr * maxa.len2())
+				maxa = new Vector2(proj.x, proj.y);
+			
+			
 		}
 		
-		float minb = 0;
-		float maxb = 0;
+		proj = projection(axis,poly.getVertices().get(0));
 		
-		minb = maxb = (float) axis.dot(poly.getVertices().get(0));
+		Vector2 minb = proj.cpy();
+		Vector2 maxb = proj.cpy();
 		
+		//Find maximum and minimum projection of points for other polygon
 		for (int i = 1; i < poly.getVertices().size; i++) {
-			float d = (float) axis.dot(poly.getVertices().get(i));
-			if (d < minb)
-				minb = d;
-			else if (d > maxb)
-				maxb = d;
+			
+			proj = projection(axis,poly.getVertices().get(i));
+			
+			float projOr = ((proj.dot(axis) > 0) ? 1: -1);
+			float minbOr = ((minb.dot(axis) > 0) ? 1: -1);
+			float maxbOr = ((maxb.dot(axis) > 0) ? 1: -1);
+			
+			if (projOr * proj.len2() <= minbOr * minb.len2())
+				minb = new Vector2(proj.x, proj.y);
+			else if (projOr * proj.len2() > maxbOr * maxb.len2())
+				maxb = new Vector2(proj.x, proj.y);
+			
+			
 		}
 		
-		return (mina > maxb) || (minb > maxa);
+		float minaOr = ((mina.dot(axis) > 0) ? 1: -1);
+		float maxaOr = ((maxa.dot(axis) > 0) ? 1: -1);
+		float minbOr = ((minb.dot(axis) > 0) ? 1: -1);
+		float maxbOr = ((maxb.dot(axis) > 0) ? 1: -1);
+		
+		if(mina.len2() * minaOr < maxb.len2() * maxbOr && maxa.len2() * maxaOr > minb.len2() * minbOr)
+		{
+			if(maxb.len2() * maxbOr > maxa.len2() * maxaOr){
+				
+				
+				Vector2 temp = new Vector2(minb.x - maxa.x, minb.y - maxa.y);
+				/*float tempOr = ((temp.dot(axis) > 0) ? 1: -1);
+				temp.add(new Vector2 (tempOr, tempOr));*/
+				return temp;
+			}
+			Vector2 temp = new Vector2(maxb.x - mina.x, maxb.y - mina.y);
+			/*float tempOr = ((temp.dot(axis) > 0) ? 1: -1);
+			temp.add(new Vector2 (tempOr, tempOr));*/
+			return temp;
+		}
+		
+		return new Vector2();
 	}
 	
-	
-
-	
+	public static Vector2 projection(Vector2 v1, Vector2 v2){
+		float valDot = v1.dot(v2);
+		float length = v1.len2();
+		Vector2 point = new Vector2((valDot*v1.x)/length, (valDot*v1.y)/length);
+		return point;
+	}
 	
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);

@@ -34,13 +34,14 @@ public class GameMouseInput extends Component{
 					//Checks for same position XY
 					if(x.getColliders().size > 0){
 						
-						if (x.getColliders().get(0).collide(new Collider(new Square(100, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())))) {
+						//Doesn't return a boolean anymore. We'll have to reimplement it.
+						/*if (x.getColliders().get(0).collide(new Collider(new Square(100, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())))) {
 							
 							
 							Vector2 v = new Vector2(1000, 0);
 							entities.get(i).addForce(v);
 							break;
-						}
+						}*/
 					}
 				}
 			}

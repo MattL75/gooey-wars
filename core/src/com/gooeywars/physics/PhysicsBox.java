@@ -11,7 +11,7 @@ public class PhysicsBox {
 	private Array<Entity> entities;
 	private Array<Collider> colliders;
 	
-	private float pixelsPerMeter = 10;
+	private float pixelsPerMeter = 100;
 	
 	public PhysicsBox(){
 		entities = new Array<Entity>();
@@ -71,7 +71,18 @@ public class PhysicsBox {
 				entities.get(i).nullifyForce();
 				
 				//System.out.println(tempEnt.getX());
-				System.out.println(checkCollisions(tempEnt, i));
+				System.out.println(i);
+				Vector2 test = null;
+				test = checkCollisions(tempEnt, i);
+				
+				
+				
+				entities.get(i).setPosition(entities.get(i).getX() + test.x, entities.get(i).getY() + test.y);
+				if(test.len2() != 0){
+					test.rotate90(1);
+					entities.get(i).setVelocity(Polygon.projection(test, entities.get(i).getVelocity()));
+				}
+				
 				
 				//proEnt.setPosition(x, y);
 				/*if (checkCollisions(proEnt, i)) {
@@ -88,7 +99,7 @@ public class PhysicsBox {
 		
 	}
 	
-	private boolean checkCollisions(Entity ent, int index){
+	private Vector2 checkCollisions(Entity ent, int index){
 		Array<Collider> entColliders = ent.getColliders();
 		Entity testingEnt = null;
 		Collider coll1 = null;
@@ -101,17 +112,15 @@ public class PhysicsBox {
 					testingEnt = entities.get(j);
 					for(int k = 0; k < testingEnt.getColliders().size; k++){
 						coll2 = testingEnt.getColliders().get(k);
+						return coll1.collide(coll2);
 						
-						if(coll1.collide(coll2)){
-							return true;
-						}
 						
 					}
 				}
 			}
 		}
 		
-		return false;
+		return null;
 		
 		//System.out.println(entColliders.size);
 		/*for(int i = 0; i < entColliders.size; i++){

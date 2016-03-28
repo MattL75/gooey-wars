@@ -1,9 +1,9 @@
 package com.gooeywars.physics;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
-import com.gooeywars.util.shape.Circle;
 import com.gooeywars.util.shape.Polygon;
 
 public class Collider {
@@ -26,13 +26,9 @@ public class Collider {
 		polygon.draw(batch);
 	}
 	
-	public boolean collide(Collider coll){
+	public Vector2 collide(Collider coll){
 		
-		if(polygon.collide(coll.getPolygon())){
-			return true;
-		}
-		
-		return false;
+		return polygon.collide(coll.getPolygon());
 	}
 	
 	public Polygon getPolygon(){
