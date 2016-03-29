@@ -9,7 +9,7 @@ public class PhysicsBox {
 	private Array<Entity> entities;
 	private Array<Collider> colliders;
 	
-	private float pixelsPerMeter = 100;
+	public static float pixelsPerMeter = 100;
 	
 	public PhysicsBox(){
 		entities = new Array<Entity>();
@@ -33,6 +33,7 @@ public class PhysicsBox {
 				
 				
 				tempForce = entities.get(i).getForce();
+				System.out.println(tempForce);
 				entities.get(i).setAcceleration(new Vector2(tempForce.scl(1/(float)entities.get(i).getMass())));
 			}
 			
@@ -45,6 +46,7 @@ public class PhysicsBox {
 		for(int i = 0; i < entities.size; i++){
 			//System.out.println(i);
 			tempEnt = entities.get(i);
+			//System.out.println(tempEnt.getPhysicsEnabled());
 			if (tempEnt.getPhysicsEnabled()) {
 				float x = tempEnt.getX()/pixelsPerMeter + tempEnt.getVelocity().x * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
@@ -91,6 +93,7 @@ public class PhysicsBox {
 						
 						coll2 = testingEnt.getColliders().get(k);
 						testResult = coll1.collide(coll2);
+						//System.out.println(testResult);
 						if(testResult.len2() > 0){
 							return testResult;
 						}
