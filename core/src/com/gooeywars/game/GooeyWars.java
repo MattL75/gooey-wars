@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.UI.GameUI;
@@ -12,6 +13,7 @@ import com.gooeywars.components.Friction;
 import com.gooeywars.components.GameKeyInput;
 import com.gooeywars.components.GameMouseInput;
 import com.gooeywars.components.Testing;
+import com.gooeywars.pathfinding.Grid;
 
 
 public class GooeyWars extends Main{
@@ -53,7 +55,7 @@ public class GooeyWars extends Main{
 		
 		batch = new SpriteBatch();
 		
-		
+		Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 40);
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());

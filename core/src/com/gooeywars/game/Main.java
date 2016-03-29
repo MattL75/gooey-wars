@@ -9,7 +9,7 @@ public abstract class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	public static Array<GameBox> gameBoxes = new Array<GameBox>();
-	public static boolean debug;
+	public static boolean debug = true;
 	
 	public static GameBox findGameBox(String tag){
 		
