@@ -32,8 +32,8 @@ public class GameState {
 	//Method saves all information to file 
 	public void save() {
 		GameBox box = Main.findGameBox("game");
-		Array<Entity> Entities = box.getEntities();
-		int NumberEntity = Entities.size;
+		Array<Entity> entities = box.getEntities();
+		int NumberEntity = entities.size;
 		
 		//Condition for not saving if no entities
 		if (NumberEntity == 0) {
@@ -47,8 +47,7 @@ public class GameState {
 					NumberEntity + "\n" +
 					locRoot + "\n" +
 					file.name() + "\n" +
-					file.path() + "\n" +
-					"--LOADING--");
+					file.path());
 		}
 		
 		//Begin writing to file (Not necessary as entities are split via split function)
@@ -56,7 +55,7 @@ public class GameState {
 		
 		//Loop writes data for every entity
 		for (int i = 0; i < NumberEntity; i++) {
-			String s = Entities.get(i).getSaveData();
+			String s = entities.get(i).getSaveData();
 			if (i == 0) {
 				file.writeString("", false);			//Line overwrites the previous file
 			} else {
@@ -68,6 +67,7 @@ public class GameState {
 	
 	//Method loads all information in file to gameBox
 	public void load() {
+		System.out.println("--LOADING--\n");
 		GameBox box = Main.findGameBox("game");
 		box.clearEntities();
 		

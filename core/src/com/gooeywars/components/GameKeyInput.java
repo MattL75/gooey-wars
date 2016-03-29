@@ -10,7 +10,7 @@ import com.gooeywars.game.Main;
 
 public class GameKeyInput extends Component{
 	Array<Entity> entities;
-	int currentEnt;
+	static Entity currentEnt;
 	
 	public GameKeyInput() {
 		create();
@@ -19,46 +19,28 @@ public class GameKeyInput extends Component{
 	@Override
 	public void create() {
 		entities = Main.gameBoxes.get(1).getEntities();
-		currentEnt = 0;
+		currentEnt = entities.first();
 	}
 
 	@Override
 	public void update() {
-		if(entities.get(currentEnt).getPhysicsEnabled()){
+		if(currentEnt.getPhysicsEnabled()){
 			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-				entities.get(currentEnt).addForce(new Vector2(0, 10));
+				currentEnt.addForce(new Vector2(0, 10));
 			}
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-				entities.get(currentEnt).addForce(new Vector2(0, -10));
+				currentEnt.addForce(new Vector2(0, -10));
 			}
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-				entities.get(currentEnt).addForce(new Vector2(-10, 0));
+				currentEnt.addForce(new Vector2(-10, 0));
 			}
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-				entities.get(currentEnt).addForce(new Vector2(10, 0));
+				currentEnt.addForce(new Vector2(10, 0));
 			}
 			
-			if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-				entities.get(currentEnt+1).addForce(new Vector2(0, 10));
-			}
-			
-			if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-				entities.get(currentEnt+1).addForce(new Vector2(0, -10));
-			}
-			
-			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-				entities.get(currentEnt+1).addForce(new Vector2(-10, 0));
-			}
-			
-			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-				entities.get(currentEnt+1).addForce(new Vector2(10, 0));
-			}
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.K)) {
-			currentEnt = (currentEnt+ 1)%entities.size;
 		}
 		
 	}
