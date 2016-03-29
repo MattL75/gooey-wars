@@ -69,6 +69,7 @@ public class Circle extends Polygon{
 		pix.setColor(Color.GREEN);
 		pix.drawCircle((int)r,(int) r, (int) r);
 		Texture texture = new Texture(pix);
+		pix.dispose();
 		Sprite sprite = new Sprite(texture);
 		sprite.setX(getX());
 		sprite.setY(getY());

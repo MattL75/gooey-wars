@@ -1,15 +1,121 @@
 package com.gooeywars.entities;
 
-import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.game.Main;
+import com.gooeywars.physics.Collider;
+import com.gooeywars.util.shape.Rectangle;
 
-public class Environment {
-	Array<Entity> children;
-	Polygon tst;
+
+public class Environment extends Entity{
+	private Rectangle leftRec;
+	private Rectangle upRec;
+	private Rectangle rightRec;
+	private Rectangle downRec;
+	
+	
+	public Environment(){
+		genEnvironment(500,500, new Array<Entity>(), null, Color.WHITE);
+	}
+	
+	public Environment(Color background){
+		genEnvironment(500,500, new Array<Entity>(), null, background);
+	}
+	
+	public Environment(float x, float y, Color background){
+		genEnvironment(x, y, new Array<Entity>(), null, background);
+	}
+	
+	public Environment(Array<Entity> children){
+		genEnvironment(500, 500, children, null, Color.WHITE);
+	}
+	
+	public Environment(float width, float height){
+		genEnvironment(width ,height, new Array<Entity>(), null, Color.WHITE);
+	}
+	
+	public Environment(float width, float height, Array<Entity> children){
+		genEnvironment(width ,height, children, null, Color.WHITE);
+	}
+	
+	public Environment(float width, float height, Array<Entity> children, Texture terrainTexture){
+		genEnvironment(width ,height, children, terrainTexture, Color.WHITE);
+	}
+	
+	public Environment(float width, float height, Array<Entity> children, Texture terrainTexture, Color background){
+		genEnvironment(width ,height, children, terrainTexture, background);
+	}
+	
+	public void genEnvironment(float width, float height, Array<Entity> children, Texture terrainTexture, Color background){
+		Texture texture = null;
+		
+		if(terrainTexture == null){
+			Pixmap pix = new Pixmap(100,100, Format.RGBA8888);
+			pix.setColor(Color.LIGHT_GRAY);
+			pix.fillRectangle(0, 0, 100, 100);
+			
+			texture = new Texture(pix);
+			pix.dispose();
+		} else {
+			texture = terrainTexture;
+		}
+		
+		//Texture
+		//texture.
+		//setSprite
+		
+		Main.findGameBox("game").setBackground(background);
+		setWidth(width);
+		setHeight(height);
+		
+		leftRec  = new Rectangle(-100,0,100,height);
+		Collider coll1 = new Collider(leftRec);
+		coll1.setDrawable(true);
+		addCollider(coll1);
+		
+		upRec = new Rectangle(0,height,width,100);
+		Collider coll2 = new Collider(upRec);
+		coll2.setDrawable(true);
+		addCollider(coll2);
+		
+		rightRec = new Rectangle(width, 0, 100, height);
+		Collider coll3 = new Collider(rightRec);
+		coll3.setDrawable(true);
+		addCollider(coll3);
+		
+		downRec = new Rectangle(0,-100,width,100);
+		Collider coll4 = new Collider(downRec);
+		coll4.setDrawable(true);
+		addCollider(coll4);
+		
+		
+		setChildren(children);
+	}
 	
 	public void addChild(Entity child){
-		children.add(child);
-		Main.findGameBox("game").addEntity(child);
+		getChildren().add(child);
+	}
+	
+	@Override
+	public void setWidth(float width){
+		super.setWidth(width);
+	}
+	
+	@Override
+	public void setHeight(float height){
+		super.setHeight(height);
+	}
+	
+	@Override
+	public void setX(float x){
+		
+	}
+	
+	@Override
+	public void setY(float y){
+		
 	}
 }

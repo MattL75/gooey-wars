@@ -24,23 +24,39 @@ public class GameKeyInput extends Component{
 
 	@Override
 	public void update() {
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			entities.get(currentEnt).addForce(new Vector2(0, 10));
+		if(entities.get(currentEnt).getPhysicsEnabled()){
+			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+				entities.get(currentEnt).addForce(new Vector2(0, 10));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+				entities.get(currentEnt).addForce(new Vector2(0, -10));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+				entities.get(currentEnt).addForce(new Vector2(-10, 0));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+				entities.get(currentEnt).addForce(new Vector2(10, 0));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+				entities.get(currentEnt+1).addForce(new Vector2(0, 10));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+				entities.get(currentEnt+1).addForce(new Vector2(0, -10));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+				entities.get(currentEnt+1).addForce(new Vector2(-10, 0));
+			}
+			
+			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+				entities.get(currentEnt+1).addForce(new Vector2(10, 0));
+			}
 		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			entities.get(currentEnt).addForce(new Vector2(0, -10));
-		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			entities.get(currentEnt).addForce(new Vector2(-10, 0));
-		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			entities.get(currentEnt).addForce(new Vector2(10, 0));
-		}
-		
 		if (Gdx.input.isKeyPressed(Input.Keys.K)) {
 			currentEnt = (currentEnt+ 1)%entities.size;
 		}

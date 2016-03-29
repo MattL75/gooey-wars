@@ -2,6 +2,7 @@ package com.gooeywars.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,8 @@ public class GameBox {
 	private Screen UI;
 	
 	private SpriteBatch batch;
+	
+	private Color background;
 	
 	public GameBox(){
 		Main.gameBoxes.add(this);
@@ -51,6 +54,7 @@ public class GameBox {
 		entities = new Array<Entity>();
 		components = new Array<Component>();
 		batch = new SpriteBatch();
+		background = Color.WHITE;
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();
@@ -73,7 +77,8 @@ public class GameBox {
 	public void draw(){
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		
+		Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -81,7 +86,12 @@ public class GameBox {
 		
 		
 		for(int i = 0; i < entities.size; i++){
-			entities.get(i).draw(batch);			
+			Array<Entity> children = entities.get(i).getChildren();
+			entities.get(i).draw(batch);
+			
+			for(int j = 0; j < children.size;j++){
+				children.get(j).draw(batch);
+			}
 		}
 		
 		for(int i = 0; i < entities.size; i++){
@@ -170,6 +180,12 @@ public class GameBox {
 	public void setCamera(OrthographicCamera camera) {
 		this.camera = camera;
 	}
-	
-	
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
+	}
 }

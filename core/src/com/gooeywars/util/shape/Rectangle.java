@@ -31,9 +31,15 @@ public class Rectangle extends Polygon{
 		genRectangle(x,y,width,height);
 	}
 	
+	public Rectangle(float x, float y, float width, float height){
+		genRectangle(x,y,width,height);
+	}
+	
 	public void genRectangle(float x, float y,float width, float height){
+		setX(x);
+		setY(y);
 		super.addVertice(x, y);
-		super.addVertice(x, y + height/2);
+		super.addVertice(x, y + height);
 		super.addVertice(x + width, y + height);
 		super.addVertice(x + width, y);
 	}

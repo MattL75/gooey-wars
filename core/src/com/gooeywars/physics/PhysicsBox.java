@@ -3,8 +3,6 @@ package com.gooeywars.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
-import com.gooeywars.entities.Goo;
-import com.gooeywars.util.shape.Circle;
 import com.gooeywars.util.shape.Polygon;
 
 public class PhysicsBox {
@@ -43,15 +41,11 @@ public class PhysicsBox {
 	
 	private void calculatePosition(float deltaTime){
 		Entity tempEnt = null;
-		Entity proEnt = null;
 		
 		for(int i = 0; i < entities.size; i++){
-			
+			//System.out.println(i);
 			tempEnt = entities.get(i);
-			proEnt = tempEnt.clone();
 			if (tempEnt.getPhysicsEnabled()) {
-				//System.out.println("checking physics");
-				//System.out.println(tempEnt.getVelocity());
 				float x = tempEnt.getX()/pixelsPerMeter + tempEnt.getVelocity().x * deltaTime
 						+ 1 / 2 * tempEnt.getAcceleration().x * deltaTime * deltaTime;
 				float y = tempEnt.getY()/pixelsPerMeter + tempEnt.getVelocity().y * deltaTime
@@ -70,80 +64,42 @@ public class PhysicsBox {
 				entities.get(i).setVelocity(velocity);
 				entities.get(i).nullifyForce();
 				
-				//System.out.println(tempEnt.getX());
-				System.out.println(i);
-				Vector2 test = null;
-				test = checkCollisions(tempEnt, i);
-				
-				
-				
+				Vector2 test = checkCollisions(tempEnt, i);
 				entities.get(i).setPosition(entities.get(i).getX() + test.x, entities.get(i).getY() + test.y);
-				if(test.len2() != 0){
+				
+				if(test.len2() != 0 && velocity.len2() != 0){
 					test.rotate90(1);
 					entities.get(i).setVelocity(Polygon.projection(test, entities.get(i).getVelocity()));
 				}
-				
-				
-				//proEnt.setPosition(x, y);
-				/*if (checkCollisions(proEnt, i)) {
-					tempEnt.setVelocity(new Vector2());
-					tempEnt.nullifyForce();
-				} else {
-					tempEnt.setPosition(x, y);
-					tempEnt.setVelocity(velocity);
-					tempEnt.nullifyForce();
-				}*/
 			}
 		}
-		
-		
 	}
+	
 	
 	private Vector2 checkCollisions(Entity ent, int index){
 		Array<Collider> entColliders = ent.getColliders();
 		Entity testingEnt = null;
 		Collider coll1 = null;
 		Collider coll2 = null;
+		Vector2 testResult;
 		for(int i = 0; i < entColliders.size; i++){
 			coll1 = entColliders.get(i);
-			
-			for(int j = 0; j <entities.size; j++){
+			for(int j = 0; j < entities.size; j++){
 				if(j != index){
 					testingEnt = entities.get(j);
 					for(int k = 0; k < testingEnt.getColliders().size; k++){
+						
 						coll2 = testingEnt.getColliders().get(k);
-						return coll1.collide(coll2);
-						
-						
+						testResult = coll1.collide(coll2);
+						if(testResult.len2() > 0){
+							return testResult;
+						}
 					}
 				}
 			}
 		}
 		
-		return null;
-		
-		//System.out.println(entColliders.size);
-		/*for(int i = 0; i < entColliders.size; i++){
-			Polygon poly1 = entColliders.get(i).getPolygon();
-			Polygon poly2 = null;
-			
-			
-			for(int j = i+1; j < colliders.size; j++){
-				poly2 = colliders.get(j).getPolygon();
-				System.out.println("i: " + i);
-				System.out.println("j: " + j);
-				System.out.println("Poly1 y: " + poly1.getY());
-				
-				
-				System.out.println("Poly2 y: " + poly2.getY());
-				if(poly1.collide(poly2)){
-					return true;
-				}
-				
-			}
-		}
-		
-		return false;*/
+		return new Vector2();
 	}
 	
 	public void addEntity(Entity ent){

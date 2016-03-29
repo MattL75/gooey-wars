@@ -60,24 +60,6 @@ public class Polygon{
 		int count = vertices.size;
 		Vector2 disVec = new Vector2();
 		
-		/*Vector2 v0 = vertices.get(0);
-		Vector2 v1 = vertices.get(1);
-		Vector2 axis = new Vector2(0,0);
-		
-		
-		
-		axis.x = v1.x - v0.x; 
-		axis.y = v1.y - v0.y; 
-		axis.nor();
-		axis.rotate90(1);
-		axis.setAngle(axis.angle()%180);
-		System.out.println(axis.angle()); 			
-		
-		
-		
-		System.out.println("This: " + 0 + " " +separatedByAxis(axis,other));
-		*/
-		
 		Vector2 v0 = vertices.get(count-1);
 		Vector2 v1 = vertices.get(0);
 		Vector2 axis = new Vector2(0,0);
@@ -114,9 +96,6 @@ public class Polygon{
 			
 			
 			disVec = separatedByAxis(axis, other);
-			
-			System.out.println("This: " + i + " " +disVec);
-			
 			
 			if(disVec.len2()==0){
 				return new Vector2();
@@ -180,8 +159,6 @@ public class Polygon{
 	
 	
 	public Vector2 separatedByAxis(Vector2 axis, Polygon poly) {
-		//System.out.println("Axis vector: " + axis.angle());
-		
 		Vector2 proj;
 		
 		
@@ -229,24 +206,18 @@ public class Polygon{
 			
 		}
 		
-		float minaOr = ((mina.dot(axis) > 0) ? 1: -1);
-		float maxaOr = ((maxa.dot(axis) > 0) ? 1: -1);
-		float minbOr = ((minb.dot(axis) > 0) ? 1: -1);
-		float maxbOr = ((maxb.dot(axis) > 0) ? 1: -1);
+		float minalen2 = mina.len2() * ((mina.dot(axis) > 0) ? 1: -1);
+		float maxalen2 = maxa.len2() * ((maxa.dot(axis) > 0) ? 1: -1);
+		float minblen2 = minb.len2() * ((minb.dot(axis) > 0) ? 1: -1);
+		float maxblen2 = maxb.len2() * ((maxb.dot(axis) > 0) ? 1: -1);
 		
-		if(mina.len2() * minaOr < maxb.len2() * maxbOr && maxa.len2() * maxaOr > minb.len2() * minbOr)
+		if(minalen2 < maxblen2 && maxalen2 > minblen2)
 		{
-			if(maxb.len2() * maxbOr > maxa.len2() * maxaOr){
-				
-				
+			if(maxblen2 > maxalen2){
 				Vector2 temp = new Vector2(minb.x - maxa.x, minb.y - maxa.y);
-				/*float tempOr = ((temp.dot(axis) > 0) ? 1: -1);
-				temp.add(new Vector2 (tempOr, tempOr));*/
 				return temp;
 			}
 			Vector2 temp = new Vector2(maxb.x - mina.x, maxb.y - mina.y);
-			/*float tempOr = ((temp.dot(axis) > 0) ? 1: -1);
-			temp.add(new Vector2 (tempOr, tempOr));*/
 			return temp;
 		}
 		
@@ -267,7 +238,7 @@ public class Polygon{
 	private void genSprite(){
 		Pixmap pix = new Pixmap(getWidth(), getHeight(), Format.RGBA8888);
 		
-		pix.setColor(Color.GREEN);
+		pix.setColor(Color.BLUE);
 		
 		for (int i = 0; i < vertices.size; i++) {
 			Vector2 v1 = vertices.get(i);
@@ -277,7 +248,7 @@ public class Polygon{
 		}
 		
 		Texture texture = new Texture(pix);
-		
+		pix.dispose();
 		sprite = new Sprite(texture);
 		sprite.setX(x);
 		sprite.setY(y);

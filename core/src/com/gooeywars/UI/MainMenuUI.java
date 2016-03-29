@@ -50,7 +50,8 @@ public class MainMenuUI implements Screen {
 		pixmap.fill();
 
 		skin.add("white", new Texture(pixmap));
-
+		pixmap.dispose();
+		
 		//Store the default libgdx font under the name "default"
 		BitmapFont bfont = new BitmapFont();
 		skin.add("default", bfont);

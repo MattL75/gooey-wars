@@ -3,7 +3,6 @@ package com.gooeywars.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,7 +23,7 @@ public class GooeyWars extends Main{
 	
 	private Viewport viewport;
 	
-	private static boolean isFullScreen = false;
+	private static boolean isFullScreen = true;
 	public static int resWidth = 600;
 	public static int resHeight = 800;
 	
@@ -44,7 +43,7 @@ public class GooeyWars extends Main{
 		
 		MainMenuUI menuUI = new MainMenuUI(viewport);
 		GameUI gameUI = new GameUI(viewport);
-		
+		gameUI.dispose();
 		menu = new GameBox(false, menuUI, camera);
 		menu.setTag("menu");
 		game = new GameBox(true, gameUI, camera);
@@ -64,7 +63,7 @@ public class GooeyWars extends Main{
 
 	@Override
 	public void render() {
-		camera.zoom = 1;
+		camera.zoom = 1f;
 		if(isFullScreen){
 			viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
@@ -104,7 +103,7 @@ public class GooeyWars extends Main{
 
 	@Override
 	public void dispose() {
-		
+		batch.dispose();
 	}
 
 	public static GameBox getCurrentBox() {

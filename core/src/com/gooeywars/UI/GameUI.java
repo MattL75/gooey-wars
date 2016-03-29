@@ -46,7 +46,7 @@ public class GameUI implements Screen {
 		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
 		skin.add("white", new Texture(pixmap));
-		
+		pixmap.dispose();
 		//Font setting
 		skin.add("font", new BitmapFont());
 		
@@ -73,6 +73,7 @@ public class GameUI implements Screen {
 		
 		table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(250).prefHeight(200);
 		table.add(new Image(skin.newDrawable("white", Color.WHITE))).size(100);
+		
 	}
 	
 	@Override

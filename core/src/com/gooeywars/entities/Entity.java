@@ -33,6 +33,7 @@ public class Entity {
 	private int mass;
 	
 	private int id;
+	private Array<Entity> children;
 
 	public Entity(){
 		initEntity(new Sprite(new Texture(new Pixmap(1,1,Format.RGBA8888))), new Array<Collider>(), 0, 0, false, 0, null, null, null);
@@ -75,6 +76,7 @@ public class Entity {
 		this.y = y;
 		this.colliders = colliders;
 		this.physicsEnabled = physicsEnabled;
+		children = new Array<Entity>();
 		initSprite(sprite);
 		if(physicsEnabled){
 			initPhysics(mass, force, velocity, acceleration);
@@ -140,8 +142,6 @@ public class Entity {
 	}
 	
 	public void setPosition(float x, float y){
-		//System.out.println(x);
-		//System.out.println(y);
 		this.x = x;
 		this.y = y;
 		sprite.setX(x);
@@ -263,6 +263,14 @@ public class Entity {
 		this.force = force;
 	}
 	
+	public Array<Entity> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Array<Entity> children) {
+		this.children = children;
+	}
+
 	public int getId() {
 		return id;
 	}

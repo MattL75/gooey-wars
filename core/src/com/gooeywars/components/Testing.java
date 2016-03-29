@@ -1,13 +1,14 @@
 package com.gooeywars.components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Environment;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.GameBox;
@@ -93,29 +94,13 @@ entities = Main.gameBoxes.get(1).getEntities();
 		//game.addEntity(goo);
 		//game.addEntity(goo2);
 		//game.addEntity(goo3);
+		
+		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
+		game.addEntity(environment);
 	}
 
 	@Override
 	public void update() {
 		
-		/*if(Gdx.input.isKeyPressed(Keys.D)){
-			entities.get(0).addForce(new Vector2(1000, 0));
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.A)){
-			entities.get(0).addForce(new Vector2(-1000, 0));
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.W)){
-			entities.get(0).addForce(new Vector2(0, 1000));
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.S)){
-			entities.get(0).addForce(new Vector2(0, -1000));
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.K)){
-			entities.get(0).setPosition(100, 100);
-		}*/
 	}
 }

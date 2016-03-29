@@ -80,6 +80,7 @@ public class Goo extends Entity{
 		
 		Sprite sprite = new Sprite(texture);
 		setSprite(sprite);
+		
 	}
 	
 	private void createColliders(){
