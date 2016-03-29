@@ -1,6 +1,8 @@
 package com.gooeywars.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
+import com.gooeywars.entities.Entity;
+import com.gooeywars.util.shape.Square;
 
 public class Node {
 	private boolean isWalkable;
