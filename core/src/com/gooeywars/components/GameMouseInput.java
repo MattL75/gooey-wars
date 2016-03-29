@@ -12,7 +12,7 @@ import com.gooeywars.util.shape.Square;
 
 public class GameMouseInput extends Component{
 	Array<Entity> entities;
-	
+	Collider mouseTip;
 	public GameMouseInput() {
 		create();
 	}
@@ -20,6 +20,7 @@ public class GameMouseInput extends Component{
 	@Override
 	public void create() {
 		//entities = Main.findGameBox("game").getEntities();
+		mouseTip = new Collider(new Square(10,0,0));
 	}
 
 	@Override
@@ -27,16 +28,21 @@ public class GameMouseInput extends Component{
 		entities = Main.findGameBox("game").getEntities();
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			//Loop checks if an entity is clicked
+			
 			for (int i = 0; i < entities.size; i++) {
+				
 				Entity x = entities.get(i);
 				//Checks if clicked entity is goo or entity type
 				if (x.getType() == 0 || x.getType() == 1) {
+					
 					//Checks for same position XY
 					if(x.getColliders().size > 0){
-						
+						mouseTip.setX(Gdx.input.getX());
+						mouseTip.setY(Gdx.graphics.getHeight() - Gdx.input.getY());
 						//Doesn't return a boolean anymore. We'll have to reimplement it.
-						if (x.getColliders().get(0).collide(new Collider(new Square(100, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()))).len2() != 0) {
+						if (x.getColliders().get(0).collide(mouseTip).len2() > 0) {
 							GameKeyInput.currentEnt = x;
+							
 							break;
 						}
 					}

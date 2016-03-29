@@ -17,6 +17,7 @@ import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Square;
 
 public class Testing extends Component{
+	
 	private Sprite sprite;
 	private Texture texture;
 	private Entity ent;
@@ -31,11 +32,10 @@ public class Testing extends Component{
 entities = Main.gameBoxes.get(1).getEntities();
 		
 		game = Main.findGameBox("game");
-		
 	
 		
 		
-		Pixmap pix = new Pixmap(64,64, Format.RGBA8888);
+		/*Pixmap pix = new Pixmap(64,64, Format.RGBA8888);
 		pix.setColor(1,0,0,1f);
 		pix.fillCircle(32, 32, 32);
 		
@@ -86,15 +86,21 @@ entities = Main.gameBoxes.get(1).getEntities();
 		coll2.setDrawable(true);
 		ent2.addCollider(coll2);
 		
-		game.addEntity(ent2);
+		game.addEntity(ent2);*/
 		
 		Goo goo = new Goo(500,500,100);
 		Goo goo2 = new Goo(500, 400,100);
 		Goo goo3 = new Goo(400, 600,100);
 		
-		game.addEntity(goo);
+		for(int i = 0; i < 5; i++){
+			for(int j = 0; j < 5; j++){
+				game.addEntity(new Goo(i*30,j*30,100));
+			}
+		}
+		
+		/*game.addEntity(goo);
 		game.addEntity(goo2);
-		game.addEntity(goo3);
+		game.addEntity(goo3);*/
 		
 		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
 		game.addEntity(environment);

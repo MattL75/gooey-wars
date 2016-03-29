@@ -30,10 +30,7 @@ public class PhysicsBox {
 		for(int i = 0; i < entities.size; i++){
 			
 			if(entities.get(i).getPhysicsEnabled()){
-				
-				
 				tempForce = entities.get(i).getForce();
-				System.out.println(tempForce);
 				entities.get(i).setAcceleration(new Vector2(tempForce.scl(1/(float)entities.get(i).getMass())));
 			}
 			

@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.game.Main;
+import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Rectangle;
 
@@ -15,6 +17,7 @@ public class Environment extends Entity{
 	private Rectangle upRec;
 	private Rectangle rightRec;
 	private Rectangle downRec;
+	private Grid grid;
 	
 	
 	public Environment(){
@@ -91,7 +94,7 @@ public class Environment extends Entity{
 		coll4.setDrawable(true);
 		addCollider(coll4);
 		
-		
+		grid = new Grid(new Vector2(width,height), 10);
 		setChildren(children);
 	}
 	

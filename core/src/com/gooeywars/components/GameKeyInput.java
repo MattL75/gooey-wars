@@ -26,19 +26,19 @@ public class GameKeyInput extends Component{
 	public void update() {
 		if(currentEnt.getPhysicsEnabled()){
 			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-				currentEnt.addForce(new Vector2(0, 10));
+				currentEnt.addForce(new Vector2(0, 1000));
 			}
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-				currentEnt.addForce(new Vector2(0, -10));
+				currentEnt.addForce(new Vector2(0, -1000));
 			}
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-				currentEnt.addForce(new Vector2(-10, 0));
+				currentEnt.addForce(new Vector2(-1000, 0));
 			}
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-				currentEnt.addForce(new Vector2(10, 0));
+				currentEnt.addForce(new Vector2(1000, 0));
 			}
 			
 		}
