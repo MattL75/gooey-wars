@@ -2,12 +2,14 @@ package com.gooeywars.gameState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
+import com.gooeywars.physics.Collider;
 
 public class GameState {
 	private FileHandle file;
@@ -80,6 +82,7 @@ public class GameState {
 		String[] secStringArray;
 		float[] floatArray;
 		
+		//Goes through elements of mainStringArray
 		for (int i = 0; i < mainStringArray.length; i++) {
 			secStringArray = mainStringArray[i].split(",");
 			floatArray = new float[secStringArray.length];
@@ -99,7 +102,16 @@ public class GameState {
 			
 			//Build entity if type is 0
 			if (floatArray[1] == 0) {
-				
+				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
+				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
+				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
+				Entity entTemp = new Entity(new Sprite(), new Array<Collider>(), floatArray[2], floatArray[3], (int)floatArray[11], f, v, a);
+				if (floatArray[4] == 1) {
+					entTemp.setPhysicsEnabled(true);
+				} else {
+					entTemp.setPhysicsEnabled(false);
+				}
+				box.addEntity(entTemp);
 			}
 			
 			//Build goo if type is 1
@@ -107,8 +119,7 @@ public class GameState {
 				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
 				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
 				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
-				Goo gooTemp = new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a);
-				box.addEntity(gooTemp);
+				box.addEntity(new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a));
 			}
 		}
 	}

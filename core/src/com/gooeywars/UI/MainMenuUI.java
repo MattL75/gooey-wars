@@ -118,7 +118,6 @@ public class MainMenuUI implements Screen {
 		gameStateButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				GameState state = new GameState("save1.txt");
-				state.save();
 				state.load();
 				gameStateButton.setChecked(false);
 			}
