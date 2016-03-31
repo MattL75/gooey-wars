@@ -2,9 +2,9 @@ package com.gooeywars.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
@@ -42,7 +42,10 @@ public class GameMouseInput extends Component{
 						//Doesn't return a boolean anymore. We'll have to reimplement it.
 						if (x.getColliders().get(0).collide(mouseTip).len2() > 0) {
 							GameKeyInput.currentEnt = x;
-							
+							if(x instanceof Goo){
+								Goo goo = (Goo) x;
+								goo.setSelected(true);
+							}
 							break;
 						}
 					}

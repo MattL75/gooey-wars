@@ -8,14 +8,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.physics.Collider;
-import com.gooeywars.util.shape.Circle;
 import com.gooeywars.util.shape.Polygon;
 
 public class Goo extends Entity{
 	private int radius;
 	private int owner;
 	private Color color; 
+	private int colorInt;
 	private GooProperty property;
+	private int propInt;
 	private boolean isSelected;
 	
 	private int sideCount = 8;
@@ -50,6 +51,8 @@ public class Goo extends Entity{
 	
 	public void createGoo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color){
 		setPhysicsEnabled(true);
+		colorInt = color;
+		propInt = prop;
 		
 		setX(x);
 		setY(y);
@@ -75,15 +78,16 @@ public class Goo extends Entity{
 	private void createSprite(){
 		Pixmap pix = new Pixmap((int)getWidth(),(int)getWidth(),Format.RGBA8888);
 		
-		pix.setColor(Color.PINK);
+		pix.setColor(color);
 		
 		pix.fillCircle(radius, radius,radius);
 		
 		Texture texture = new Texture(pix);
 		pix.dispose();
 		
-		Sprite sprite = new Sprite(texture);
+		/*Texture texture = GeyserProperty.getWaterTexture();*/
 		
+		Sprite sprite = new Sprite(texture);
 		setSprite(sprite);
 		
 	}
@@ -97,7 +101,7 @@ public class Goo extends Entity{
 		}
 		
 		Collider coll = new Collider(poly);
-		coll.setDrawable(true);
+		coll.setDrawable(false);
 		Array<Collider> colls = new Array<Collider>();
 		colls.add(coll);
 		
@@ -110,15 +114,25 @@ public class Goo extends Entity{
 		case 1: return Color.RED; 
 		case 2: return Color.GREEN; 
 		case 3: return Color.BLUE; 
-		case 4: return Color.PURPLE; 
-		case 5: return Color.PINK;
 		default: return null;
 		}
 	}
 	
+	private Color genColorSelected(int c){
+		switch(c){
+		case 0: return Color.DARK_GRAY; 
+		case 1: return Color.PINK; 
+		case 2: return Color.LIME; 
+		case 3: return Color.CYAN; 
+		default: return null;
+		}
+	}
+	
+	//super.getSaveData,owner,colorInt,propInt
 	@Override
 	public String getSaveData(){
 		String data = super.getSaveData();
+		data += "," + owner + "," + colorInt + "," + propInt;
 		return data;
 	}
 
@@ -162,5 +176,12 @@ public class Goo extends Entity{
 	//TODO deal with color change when selected
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
+		if(isSelected){
+			color = genColorSelected(colorInt);
+			createSprite();
+		} else {
+			color = genColor(colorInt);
+			createSprite();
+		}
 	}
 }

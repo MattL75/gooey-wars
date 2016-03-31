@@ -1,7 +1,10 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 public class Geyser extends Entity{
 	private GeyserProperty property;
+	private int propInt;
 	
 	public Geyser(){
 		genGeyser(0,0,0);
@@ -20,12 +23,19 @@ public class Geyser extends Entity{
 	}
 	
 	private void genGeyser(float x, float y, int prop){
+		propInt = prop;
+		setPhysicsEnabled(false);
 		setX(x);
 		setY(y);
 		property = new GeyserProperty(prop);
+		setSprite(new Sprite(property.getTexture()));
+		setType(Entity.GEYSER);
 	}
 	
-	/*public genSprite(){
-		property.
-	}*/
+	
+	public String getSaveData(){
+		String data = super.getSaveData();
+		data+= "," + propInt;
+		return data;
+	}
 }
