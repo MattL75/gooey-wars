@@ -7,6 +7,7 @@ import com.gooeywars.util.shape.Square;
 public class Node {
 	private boolean isWalkable;
 	private Vector2 worldPos;
+	//World position is bottom left corner of the node square
 	
 	public Node() {
 		this.isWalkable = false;

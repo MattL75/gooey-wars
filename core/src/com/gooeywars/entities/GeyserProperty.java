@@ -28,7 +28,7 @@ public class GeyserProperty {
 		}
 	}
 	
-	private loadTexture(){
+	private void loadTexture(){
 		
 	}
 }
