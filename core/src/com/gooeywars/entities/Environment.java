@@ -96,7 +96,7 @@ public class Environment extends Entity{
 		coll4.setDrawable(true);
 		addCollider(coll4);
 		
-		grid = new Grid(new Vector2(width,height), 10);
+		//grid = new Grid(new Vector2(width,height), 10);
 		setChildren(children);
 	}
 	

@@ -59,7 +59,9 @@ public class GooeyWars extends Main{
 		
 		batch = new SpriteBatch();
 		
-		Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 40);
+		//Test line pls not remove
+		//Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
+		
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());

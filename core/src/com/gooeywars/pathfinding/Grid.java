@@ -30,27 +30,37 @@ public class Grid {
 		gridSizeX = Math.round(worldSize.x / nodeDiameter);
 		gridSizeY = Math.round(worldSize.y / nodeDiameter);
 		System.out.println(gridSizeX + " " + gridSizeY);
-		int startPosX = Math.round(nodeRadius);
-		int startPosY = Math.round(nodeRadius);
-		
-		Pixmap pixmap = new Pixmap(Math.round(nodeDiameter), Math.round(nodeDiameter), Format.RGBA8888);
-		pixmap.setColor(Color.RED);
-		pixmap.drawRectangle(0, 0, Math.round(nodeDiameter), Math.round(nodeDiameter));
-		Texture tex = new Texture(pixmap);
-		pixmap.dispose();
+		int startPosX = 0;
+		int startPosY = 0;
+			
 		for (int x = 0; x < gridSizeX; x++) {
 			for (int y = 0; y < gridSizeY; y++) {
-				//nodeGrid.set(x, new Array<Node>());
-				//nodeGrid.get(x).set(y, new Node(true, new Vector2(startPosX * x, startPosY * y)));
 				nodeGrid.add(new Array<Node>());
-				nodeGrid.get(x).add(new Node(true, new Vector2(startPosX * x, startPosY * y)));	//WRONG 0 + radius
-					
-				Entity ent = new Entity();
-				ent.setX(startPosX * x);
-				ent.setY(startPosY * y);
-				ent.setSprite(new Sprite(tex));
-				Main.findGameBox("game").getEntities().add(ent);
+				nodeGrid.get(x).add(new Node(true, new Vector2(startPosX, startPosY)));	
+				
+				//TODO this debugging more efficiently?
+				if (Main.debug) {
+					Pixmap pixmap = new Pixmap(Math.round(nodeDiameter), Math.round(nodeDiameter), Format.RGBA8888);
+					pixmap.setColor(Color.RED);
+					pixmap.drawRectangle(0, 0, Math.round(nodeDiameter), Math.round(nodeDiameter));
+					Texture tex = new Texture(pixmap);
+					pixmap.dispose();
+					Main.findGameBox("game").getEntities().add(new Entity(new Sprite(tex), startPosX, startPosY));
+				}
+				
+				startPosY += Math.round(nodeDiameter);
 			}
+			startPosY = 0;
+			startPosX += Math.round(nodeDiameter);
 		}
 	}
+
+	public float getNodeRadius() {
+		return nodeRadius;
+	}
+
+	public void setNodeRadius(float nodeRadius) {
+		this.nodeRadius = nodeRadius;
+	}
+	
 }

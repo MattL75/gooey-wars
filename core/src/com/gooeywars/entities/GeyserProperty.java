@@ -34,12 +34,14 @@ public class GeyserProperty {
 		}
 	}
 	
+
 	public static void loadTextures(){
 		waterTexture = new Texture(Gdx.files.local("assets/textures/geyser/water_geyser.jpg"));
 	}
 
 	public static Texture getWaterTexture() {
 		return waterTexture;
+
 	}
 
 	public static void setWaterTexture(Texture waterTexture) {
