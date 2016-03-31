@@ -1,5 +1,6 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class GeyserProperty {
@@ -11,24 +12,45 @@ public class GeyserProperty {
 	
 	private Texture texture;
 	
+	private static Texture waterTexture;
+	
+	private int propInt;
+	
 	public GeyserProperty(){
-		genGeyser(0);
+		genGeyserProp(0);
 	}
 	
 	public GeyserProperty(int prop){
-		genGeyser(prop);
+		genGeyserProp(prop);
 	}
 	
-	private void genGeyser(int prop){
+	private void genGeyserProp(int prop){
+		propInt = prop;
+		
 		switch(prop){
 		case 0: 
 			isCarbon = true;
-			
-		
+			texture = waterTexture;
 		}
 	}
 	
-	private void loadTexture(){
-		
+
+	public static void loadTextures(){
+		waterTexture = new Texture(Gdx.files.local("assets/textures/geyser/water_geyser.jpg"));
 	}
+
+	public static Texture getWaterTexture() {
+		return waterTexture;
+
+	}
+
+	public static void setWaterTexture(Texture waterTexture) {
+		GeyserProperty.waterTexture = waterTexture;
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	
 }

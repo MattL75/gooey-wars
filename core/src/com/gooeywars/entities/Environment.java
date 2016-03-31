@@ -66,6 +66,8 @@ public class Environment extends Entity{
 			texture = terrainTexture;
 		}
 		
+		setType(Entity.ENVIRONMENT);
+		setPhysicsEnabled(false);
 		//Texture
 		//texture.
 		//setSprite
@@ -120,5 +122,10 @@ public class Environment extends Entity{
 	@Override
 	public void setY(float y){
 		
+	}
+	
+	public String getSaveData(){
+		String data = super.getSaveData();
+		return data;
 	}
 }

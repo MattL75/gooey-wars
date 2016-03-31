@@ -1,7 +1,10 @@
+//Explanation of how to properly export. Copy both the assets and saves file inside the folder containing the game JAR. 
+
 package com.gooeywars.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +16,7 @@ import com.gooeywars.components.Friction;
 import com.gooeywars.components.GameKeyInput;
 import com.gooeywars.components.GameMouseInput;
 import com.gooeywars.components.Testing;
+import com.gooeywars.entities.GeyserProperty;
 import com.gooeywars.pathfinding.Grid;
 
 
@@ -33,7 +37,7 @@ public class GooeyWars extends Main{
 	@Override
 	public void create() {
 		
-		
+		GeyserProperty.loadTextures();
 		
 		DisplayMode displayMode = Gdx.graphics.getDisplayMode();
 
@@ -58,10 +62,15 @@ public class GooeyWars extends Main{
 		//Test line pls not remove
 		//Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
 		
+		
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
 		game.addComponent(new Friction());
+		
+		
+		menu.init();
+		game.init();
 		currentBox = menu;
 	}
 

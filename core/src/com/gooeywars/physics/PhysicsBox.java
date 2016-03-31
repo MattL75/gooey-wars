@@ -109,6 +109,11 @@ public class PhysicsBox {
 		entities.add(ent);
 	}
 
+	public void clearEntities(){
+		entities.clear();
+		colliders.clear();
+	}
+	
 	public float getPixelsPerMeter() {
 		return pixelsPerMeter;
 	}

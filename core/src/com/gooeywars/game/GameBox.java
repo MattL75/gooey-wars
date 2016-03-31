@@ -82,6 +82,7 @@ public class GameBox {
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		batch.enableBlending();
 		batch.begin();
 		
 		
@@ -110,6 +111,12 @@ public class GameBox {
 
 	}
 	
+	public void init(){
+		for(int i = 0; i < components.size; i++){
+			components.get(i).create();
+		}
+	}
+	
 	public void addEntity(Entity ent){
 		entities.add(ent);
 		
@@ -129,10 +136,10 @@ public class GameBox {
 			entities.get(i).dispose();
 		}
 		entities.clear();
+		physics.clearEntities();
 	}
 	
 	public void addComponent(Component comp){
-		comp.create();
 		components.add(comp);
 	}
 	

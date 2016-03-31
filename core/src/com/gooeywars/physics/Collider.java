@@ -26,6 +26,10 @@ public class Collider {
 		polygon.draw(batch);
 	}
 	
+	public void dispose(){
+		polygon.dispose();
+	}
+	
 	public Vector2 collide(Collider coll){
 		
 		return polygon.collide(coll.getPolygon());
@@ -69,6 +73,12 @@ public class Collider {
 
 	public void setDrawable(boolean drawable) {
 		this.drawable = drawable;
+		if(drawable){
+			polygon.genSprite();
+
+		} else {
+			polygon.dispose();
+		}
 	}
 	
 	public String getSaveData(){
