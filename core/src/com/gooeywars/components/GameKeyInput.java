@@ -13,12 +13,12 @@ public class GameKeyInput extends Component{
 	static Entity currentEnt;
 	
 	public GameKeyInput() {
-		create();
+		
 	}
 	
 	@Override
 	public void create() {
-		entities = Main.gameBoxes.get(1).getEntities();
+		entities = Main.findGameBox("game").getEntities();
 		currentEnt = entities.first();
 	}
 

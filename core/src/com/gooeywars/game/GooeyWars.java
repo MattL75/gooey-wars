@@ -62,10 +62,13 @@ public class GooeyWars extends Main{
 		//Test line pls not remove
 		//Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
 		
+		
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
 		game.addComponent(new Friction());
+		
+		
 		menu.init();
 		game.init();
 		currentBox = menu;
