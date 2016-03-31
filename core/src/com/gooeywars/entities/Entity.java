@@ -19,6 +19,7 @@ public class Entity {
 	
 	private Sprite sprite;
 	
+	
 	private float x;
 	private float y;
 	private float width;
@@ -106,7 +107,12 @@ public class Entity {
 	}
 	
 	public void dispose(){
-		
+		sprite.getTexture().dispose();
+		for(int i = 0; i < colliders.size; i++){
+			colliders.get(i).dispose();
+			
+		}
+		colliders.clear();
 	}
 	
 	public void stopEntity(){

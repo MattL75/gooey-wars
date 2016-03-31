@@ -136,6 +136,7 @@ public class GameBox {
 			entities.get(i).dispose();
 		}
 		entities.clear();
+		physics.clearEntities();
 	}
 	
 	public void addComponent(Component comp){

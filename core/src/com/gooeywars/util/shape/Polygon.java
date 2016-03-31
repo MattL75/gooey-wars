@@ -24,7 +24,6 @@ public class Polygon{
 	
 	public Polygon(Array<Vector2> vertices){
 		this.vertices = vertices;
-		genSprite();
 	}
 	
 	public Vector2 collide(Polygon other){
@@ -235,7 +234,7 @@ public class Polygon{
 		sprite.draw(batch);
 	}
 	
-	private void genSprite(){
+	public void genSprite(){
 		Pixmap pix = new Pixmap(getWidth(), getHeight(), Format.RGBA8888);
 		
 		pix.setColor(Color.BLUE);
@@ -252,6 +251,10 @@ public class Polygon{
 		sprite = new Sprite(texture);
 		sprite.setX(x);
 		sprite.setY(y);
+	}
+	
+	public void dispose(){
+		sprite.getTexture().dispose();
 	}
 	
 	private int getHeight(){

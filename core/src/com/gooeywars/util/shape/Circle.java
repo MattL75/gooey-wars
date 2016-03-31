@@ -64,7 +64,7 @@ public class Circle extends Polygon{
 		return null;
 	}
 	
-	private void genSprite(){
+	public void genSprite(){
 		Pixmap pix = new Pixmap((int)(r*2+1), (int) (r*2+1), Format.RGBA8888);
 		pix.setColor(Color.GREEN);
 		pix.drawCircle((int)r,(int) r, (int) r);

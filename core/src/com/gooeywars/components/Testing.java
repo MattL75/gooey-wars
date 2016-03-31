@@ -30,8 +30,8 @@ public class Testing extends Component{
 		
 		game = Main.findGameBox("game");
 		
-		for(int i = 0; i < 20; i++){
-			for(int j = 0; j < 20; j++){
+		for(int i = 0; i < 5; i++){
+			for(int j = 0; j < 5; j++){
 				game.addEntity(new Goo(i*30,j*30,100));
 			}
 		}
