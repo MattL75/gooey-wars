@@ -36,7 +36,7 @@ public class Testing extends Component{
 			}
 		}
 		
-		Geyser geyser = new Geyser(1000,1000);
+		Geyser geyser = new Geyser(700,700);
 		game.addEntity(geyser);
 		
 		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);

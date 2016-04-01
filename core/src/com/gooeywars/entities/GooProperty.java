@@ -8,13 +8,18 @@ public class GooProperty {
 	public static final int PURPLE = 4;
 	public static final int PINK = 5;
 	
+	
+	
 	private float damage;
 	private float defence;
 	
+	//Passive Properties
 	private boolean solidified;
 	private boolean flammable;
 	private boolean explosive;
 	private boolean radioactive;
+	
+	//Active Properties
 	private boolean immobilized;
 	private boolean isOnFire;
 	
@@ -43,33 +48,88 @@ public class GooProperty {
 		switch(prop){
 		case 0:
 			//Default Goo
+			damage = 1;
+			defence = 1;
+			//Passive Properties
 			solidified = false;
 			flammable = true;
 			explosive = false;
 			radioactive = false;
+			//Active
 			immobilized = false;
-			damage = 1;
-			defence = 1;
+			
+			break;
 		case 1:
 			//Steel Goo
+			damage = 1;
+			defence = 2;
 			solidified = true;
 			flammable = true;
 			explosive = false;
 			radioactive = false;
 			immobilized = false;
-			damage = 1;
-			defence = 2;
+			
+			break;
 		case 2:
 			//Fire proof
+			damage = 1;
+			defence = 1;
 			solidified = false;
 			flammable = false;
 			explosive = false;
 			radioactive = false;
 			immobilized = false;
+			break;
+		case 3:
+			//Explosive Goo
 			damage = 1;
 			defence = 1;
-		case 3:
+			solidified = false;
+			flammable = true;
+			explosive = true;
+			radioactive = false;
+			immobilized = false;
+			break;
 		case 4:
+			//Nuclear Goo
+			damage = 1;
+			defence = 1;
+			solidified = false;
+			flammable = true;
+			explosive = false;
+			radioactive = true;
+			immobilized = false;
+			break;
+		case 5:
+			//Calcified_Steel Goo
+			damage = 1;
+			defence = 2;
+			solidified = true;
+			flammable = false;
+			explosive = false;
+			radioactive = false;
+			immobilized = false;
+			break;
+		case 6:
+			//C4 Goo
+			damage = 1;
+			defence = 1;
+			solidified = false;
+			flammable = false;
+			explosive = true;
+			radioactive = false;
+			immobilized = false;
+			break;
+		case 7:
+			//Nuclear Bomb Goo
+			damage = 1;
+			defence = 1;
+			solidified = false;
+			flammable = false;
+			explosive = true;
+			radioactive = true;
+			immobilized = false;
+			break;
 		}
 	}
 
@@ -97,6 +157,7 @@ public class GooProperty {
 		return radioactive;
 	}
 
+	//Active Properties
 	public boolean isImmobilized() {
 		return immobilized;
 	}

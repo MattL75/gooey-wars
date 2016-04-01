@@ -19,6 +19,9 @@ public class Goo extends Entity{
 	private int propInt;
 	private boolean isSelected;
 	
+	private int element1;
+	private int element2;
+	
 	private int sideCount = 8;
 	
 	public Goo(){
@@ -44,7 +47,7 @@ public class Goo extends Entity{
 		
 	}
 	
-	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color){
+	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color, int element1, int element2){
 		createGoo(x, y, mass, force, velocity, acceleration, prop, owner, color);
 		
 	}
@@ -132,7 +135,7 @@ public class Goo extends Entity{
 	@Override
 	public String getSaveData(){
 		String data = super.getSaveData();
-		data += "," + owner + "," + colorInt + "," + propInt;
+		data += "," + owner + "," + colorInt + "," + propInt + "," + element1 + "," + element2;
 		return data;
 	}
 
