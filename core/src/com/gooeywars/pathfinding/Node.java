@@ -9,6 +9,9 @@ public class Node {
 	private Vector2 worldPos;
 	//World position is bottom left corner of the node square
 	
+	int gCost;
+	int hCost;
+	
 	public Node() {
 		this.isWalkable = false;
 		this.worldPos = new Vector2(0, 0);
@@ -33,5 +36,9 @@ public class Node {
 
 	public void setWorldPos(Vector2 worldPos) {
 		this.worldPos = worldPos;
+	}
+	
+	public int fCost() {
+		return hCost + gCost;
 	}
 } 

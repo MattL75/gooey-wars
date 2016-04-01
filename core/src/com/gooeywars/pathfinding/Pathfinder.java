@@ -13,21 +13,25 @@ public class Pathfinder {
 		setupArrays();
 	}
 	
-	private boolean isEndPosValid() {
-		//Does the node above the end point contain an obstacle?
-		//If false, return. Or maybe move to closest node
-		//If true, keeps going
+	private boolean isPosOpen(Vector2 endPos) {
+		if (grid.nodeFromWorldPoint(endPos).isWalkable()) {
+			return true;
+		}
 		return false;
 	}
 	
 	public void setupArrays() {
 		//Check if a node contains an obstacle
-		//if so, add node to closed
+		//if so, add node to closed and set walkable to false
 		//if not, add node to open
 	}
 
 	public void findPath(Vector2 iniPos, Vector2 endPos) {
-		Node initialPos = grid.nodeFromWorldPoint(iniPos);
+		if (!isPosOpen(endPos)) {
+			return;
+		}
+		Node initialNode = grid.nodeFromWorldPoint(iniPos);
+		Node endNode = grid.nodeFromWorldPoint(endPos);
 	}
 	
 	public void clearArrays() {

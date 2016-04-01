@@ -38,16 +38,6 @@ public class Grid {
 				nodeGrid.add(new Array<Node>());
 				nodeGrid.get(x).add(new Node(true, new Vector2(startPosX, startPosY)));	
 				
-				//TODO this debugging more efficiently?
-				if (Main.debug) {
-					Pixmap pixmap = new Pixmap(Math.round(nodeDiameter), Math.round(nodeDiameter), Format.RGBA8888);
-					pixmap.setColor(Color.RED);
-					pixmap.drawRectangle(0, 0, Math.round(nodeDiameter), Math.round(nodeDiameter));
-					Texture tex = new Texture(pixmap);
-					pixmap.dispose();
-					Main.findGameBox("game").getEntities().add(new Entity(new Sprite(tex), startPosX, startPosY));
-				}
-				
 				startPosY += Math.round(nodeDiameter);
 			}
 			startPosY = 0;
