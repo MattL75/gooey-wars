@@ -53,7 +53,7 @@ public class MainMenuUI implements Screen {
 		stage.addActor(background);
 		
 		//Logo processing
-		float scale = Gdx.graphics.getWidth()/ (Gdx.graphics.getWidth() + ((1/3) * Gdx.graphics.getWidth()));
+		float scale = Gdx.graphics.getWidth() / (Gdx.graphics.getWidth() + ((0.333f) * Gdx.graphics.getWidth()));
 		System.out.println(scale);
 		Image logoImage = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/main_logo.png")));
 		logoImage.setScale(scale);
