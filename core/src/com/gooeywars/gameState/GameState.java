@@ -15,7 +15,6 @@ public class GameState {
 	private FileHandle file;
 	private String locRoot = Gdx.files.getLocalStoragePath();
 	private String locSave = "saves/";
-	private boolean debug = true;
 	
 	public GameState() {
 		
@@ -44,16 +43,13 @@ public class GameState {
 		}
 		
 		//Information for debugging
-		if (debug) {
+		if (Main.debug) {
 			System.out.println("--SAVING--\n" +
 					NumberEntity + "\n" +
 					locRoot + "\n" +
 					file.name() + "\n" +
 					file.path());
 		}
-		
-		//Begin writing to file (Not necessary as entities are split via split function)
-		//file.writeString(String.valueOf(NumberEntity), false);
 		
 		//Loop writes data for every entity
 		for (int i = 0; i < NumberEntity; i++) {
@@ -69,20 +65,23 @@ public class GameState {
 	
 	//Method loads all information in file to gameBox
 	public void load() {
-		System.out.println("--LOADING--\n");
 		GameBox box = Main.findGameBox("game");
 		box.clearEntities();
 		
+		//Reads file as one line and splits every '+' into array
 		String s = file.readString();
 		String[] mainStringArray = s.split("\\+");
 		
-		if (debug);
+		//Debugging
+		if (Main.debug) {
+			System.out.println("--LOADING--\n");
 			System.out.println(s);
+		}
 		
 		String[] secStringArray;
 		float[] floatArray;
 		
-		//Goes through elements of mainStringArray
+		//Goes through elements of mainStringArray, parses everything to floats
 		for (int i = 0; i < mainStringArray.length; i++) {
 			secStringArray = mainStringArray[i].split(",");
 			floatArray = new float[secStringArray.length];

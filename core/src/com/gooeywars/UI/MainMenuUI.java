@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -24,7 +28,7 @@ public class MainMenuUI implements Screen {
 
 	static Stage stage;
 	Skin skin;
-	SpriteBatch batch;
+	SpriteBatch batch = new SpriteBatch();
 	
 	public MainMenuUI() {
 		GooeyWars.setCurrentBox(GooeyWars.getMenu());
@@ -43,6 +47,18 @@ public class MainMenuUI implements Screen {
 		batch = new SpriteBatch();
 		Gdx.input.setInputProcessor(stage);
 
+		//Background
+		Image background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_no_logo.png")));
+		background.setAlign(2);
+		stage.addActor(background);
+		
+		//Logo processing
+		float scale = 0.8f;
+		Image logoImage = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/main_logo.png")));
+		logoImage.setScale(scale);
+		logoImage.setPosition((Gdx.graphics.getWidth() - (logoImage.getWidth() * scale)) / 2.0f, (Gdx.graphics.getHeight() - (logoImage.getHeight() * scale)) / 2.0f + 300);
+		stage.addActor(logoImage);
+		
 		skin = new Skin();
 		// Generate a 1x1 white texture and store it in the skin named "white".
 		Pixmap pixmap = new Pixmap(250, 70, Format.RGBA8888);
