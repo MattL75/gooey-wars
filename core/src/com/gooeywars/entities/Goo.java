@@ -132,6 +132,29 @@ public class Goo extends Entity{
 		}
 	}
 	
+	@Override
+	public Vector2 collide(Entity other){
+		Vector2 displacement = new Vector2();
+		System.out.println("Goo");
+		return displacement;
+	}
+	
+	public void split(Vector2 dirVect){
+		
+	}
+	
+	public void merge(Goo other){
+		
+	}
+	
+	public void build(Array<Vector2> path){
+		
+	}
+	
+	public void toggleAttackMode(){
+		
+	}
+	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
 	public String getSaveData(){

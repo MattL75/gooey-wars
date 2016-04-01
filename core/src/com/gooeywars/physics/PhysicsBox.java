@@ -7,13 +7,11 @@ import com.gooeywars.util.shape.Polygon;
 
 public class PhysicsBox {
 	private Array<Entity> entities;
-	private Array<Collider> colliders;
 	
 	public static float pixelsPerMeter = 100;
 	
 	public PhysicsBox(){
 		entities = new Array<Entity>();
-		colliders = new Array<Collider>();
 	}
 	
 	public void update(float deltaTime){
@@ -76,25 +74,13 @@ public class PhysicsBox {
 	
 	
 	private Vector2 checkCollisions(Entity ent, int index){
-		Array<Collider> entColliders = ent.getColliders();
-		Entity testingEnt = null;
-		Collider coll1 = null;
-		Collider coll2 = null;
 		Vector2 testResult;
-		for(int i = 0; i < entColliders.size; i++){
-			coll1 = entColliders.get(i);
-			for(int j = 0; j < entities.size; j++){
-				if(j != index){
-					testingEnt = entities.get(j);
-					for(int k = 0; k < testingEnt.getColliders().size; k++){
-						
-						coll2 = testingEnt.getColliders().get(k);
-						testResult = coll1.collide(coll2);
-						//System.out.println(testResult);
-						if(testResult.len2() > 0){
-							return testResult;
-						}
-					}
+		
+		for(int i = 0; i < entities.size; i++){
+			if(i != index){
+				testResult = ent.collide(entities.get(i));
+				if(testResult.len2() > 0){
+					return testResult;
 				}
 			}
 		}
@@ -103,15 +89,11 @@ public class PhysicsBox {
 	}
 	
 	public void addEntity(Entity ent){
-		/*for(int i = 0; i < ent.getColliders().size; i++){
-			colliders.add(ent.getColliders().get(i));
-		}*/
 		entities.add(ent);
 	}
 
 	public void clearEntities(){
 		entities.clear();
-		colliders.clear();
 	}
 	
 	public float getPixelsPerMeter() {
