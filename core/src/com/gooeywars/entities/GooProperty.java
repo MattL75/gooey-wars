@@ -21,7 +21,8 @@ public class GooProperty {
 	
 	//Active Properties
 	private boolean immobilized;
-	private boolean isOnFire;
+	private boolean onFire;
+	private boolean radiated;
 	
 	private int propInt;
 	
@@ -50,14 +51,10 @@ public class GooProperty {
 			//Default Goo
 			damage = 1;
 			defence = 1;
-			//Passive Properties
 			solidified = false;
 			flammable = true;
 			explosive = false;
 			radioactive = false;
-			//Active
-			immobilized = false;
-			
 			break;
 		case 1:
 			//Steel Goo
@@ -67,8 +64,6 @@ public class GooProperty {
 			flammable = true;
 			explosive = false;
 			radioactive = false;
-			immobilized = false;
-			
 			break;
 		case 2:
 			//Fire proof
@@ -78,7 +73,6 @@ public class GooProperty {
 			flammable = false;
 			explosive = false;
 			radioactive = false;
-			immobilized = false;
 			break;
 		case 3:
 			//Explosive Goo
@@ -88,7 +82,6 @@ public class GooProperty {
 			flammable = true;
 			explosive = true;
 			radioactive = false;
-			immobilized = false;
 			break;
 		case 4:
 			//Nuclear Goo
@@ -98,7 +91,6 @@ public class GooProperty {
 			flammable = true;
 			explosive = false;
 			radioactive = true;
-			immobilized = false;
 			break;
 		case 5:
 			//Calcified_Steel Goo
@@ -108,7 +100,6 @@ public class GooProperty {
 			flammable = false;
 			explosive = false;
 			radioactive = false;
-			immobilized = false;
 			break;
 		case 6:
 			//C4 Goo
@@ -118,7 +109,6 @@ public class GooProperty {
 			flammable = false;
 			explosive = true;
 			radioactive = false;
-			immobilized = false;
 			break;
 		case 7:
 			//Nuclear Bomb Goo
@@ -131,6 +121,10 @@ public class GooProperty {
 			immobilized = false;
 			break;
 		}
+	}
+	
+	public int getPropInt() {
+		return propInt;
 	}
 
 	public float getDamage() {
@@ -161,14 +155,4 @@ public class GooProperty {
 	public boolean isImmobilized() {
 		return immobilized;
 	}
-
-	public boolean isOnFire() {
-		return isOnFire;
-	}
-
-	public int getPropInt() {
-		return propInt;
-	}
-	
-	
 }

@@ -103,9 +103,9 @@ public class PhysicsBox {
 	}
 	
 	public void addEntity(Entity ent){
-		for(int i = 0; i < ent.getColliders().size; i++){
+		/*for(int i = 0; i < ent.getColliders().size; i++){
 			colliders.add(ent.getColliders().get(i));
-		}
+		}*/
 		entities.add(ent);
 	}
 
