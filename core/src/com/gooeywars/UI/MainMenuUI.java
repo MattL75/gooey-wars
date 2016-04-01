@@ -29,6 +29,7 @@ public class MainMenuUI implements Screen {
 	static Stage stage;
 	Skin skin;
 	SpriteBatch batch = new SpriteBatch();
+	BitmapFont bfont;
 	
 	public MainMenuUI() {
 		GooeyWars.setCurrentBox(GooeyWars.getMenu());
@@ -56,7 +57,7 @@ public class MainMenuUI implements Screen {
 		float scale = 0.8f;
 		Image logoImage = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/main_logo.png")));
 		logoImage.setScale(scale);
-		logoImage.setPosition((Gdx.graphics.getWidth() - (logoImage.getWidth() * scale)) / 2.0f, (Gdx.graphics.getHeight() - (logoImage.getHeight() * scale * scale)));
+		logoImage.setPosition((Gdx.graphics.getWidth() - (logoImage.getWidth() * scale)) / 2.0f, (Gdx.graphics.getHeight() - (logoImage.getHeight() * scale)) / 2.0f + Gdx.graphics.getWidth() / 6);
 		stage.addActor(logoImage);
 		
 		skin = new Skin();
@@ -69,7 +70,7 @@ public class MainMenuUI implements Screen {
 		pixmap.dispose();
 		
 		//Store the default libgdx font under the name "default"
-		BitmapFont bfont = new BitmapFont();
+		bfont = new BitmapFont();
 		skin.add("default", bfont);
 		bfont.getData().setScale(2);
 
@@ -195,6 +196,7 @@ public class MainMenuUI implements Screen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+		bfont.dispose();
 	}
 	
 	public static void setFocus() {

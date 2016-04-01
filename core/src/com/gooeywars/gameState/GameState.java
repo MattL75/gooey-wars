@@ -101,14 +101,15 @@ public class GameState {
 			
 			//Build entity if type is 0
 			if (floatArray[1] == 0) {
-				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
-				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
-				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
-				Entity entTemp = new Entity(new Sprite(), new Array<Collider>(), floatArray[2], floatArray[3], (int)floatArray[11], f, v, a);
+				Entity entTemp;
 				if (floatArray[4] == 1) {
+					Vector2 f = new Vector2(floatArray[5], floatArray[6]);
+					Vector2 v = new Vector2(floatArray[7], floatArray[8]);
+					Vector2 a = new Vector2(floatArray[9], floatArray[10]);
+					entTemp = new Entity(new Sprite(), new Array<Collider>(), floatArray[2], floatArray[3], (int)floatArray[11], f, v, a);
 					entTemp.setPhysicsEnabled(true);
 				} else {
-					entTemp.setPhysicsEnabled(false);
+					entTemp = new Entity(new Sprite(), new Array<Collider>(), floatArray[2], floatArray[3], false);
 				}
 				box.addEntity(entTemp);
 			}
@@ -118,7 +119,7 @@ public class GameState {
 				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
 				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
 				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
-				box.addEntity(new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a));
+				box.addEntity(new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a, (int)floatArray[12], (int)floatArray[13], (int)floatArray[14]));
 			}
 		}
 	}
