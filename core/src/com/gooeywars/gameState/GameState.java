@@ -119,7 +119,7 @@ public class GameState {
 				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
 				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
 				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
-				box.addEntity(new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a, (int)floatArray[12], (int)floatArray[13], (int)floatArray[14]));
+				box.addEntity(new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a, (int)floatArray[12], (int)floatArray[13], (int)floatArray[14], (int)floatArray[15], (int)floatArray[16]));
 			}
 		}
 	}
