@@ -16,6 +16,7 @@ public class GooProperty {
 	private boolean explosive;
 	private boolean radioactive;
 	private boolean immobilized;
+	private boolean isOnFire;
 	
 	private int propInt;
 	
@@ -41,6 +42,7 @@ public class GooProperty {
 		
 		switch(prop){
 		case 0:
+			//Default Goo
 			solidified = false;
 			flammable = true;
 			explosive = false;
@@ -49,16 +51,63 @@ public class GooProperty {
 			damage = 1;
 			defence = 1;
 		case 1:
+			//Steel Goo
 			solidified = true;
 			flammable = true;
 			explosive = false;
 			radioactive = false;
 			immobilized = false;
 			damage = 1;
-			defence = 1;
+			defence = 2;
 		case 2:
+			//Fire proof
+			solidified = false;
+			flammable = false;
+			explosive = false;
+			radioactive = false;
+			immobilized = false;
+			damage = 1;
+			defence = 1;
 		case 3:
 		case 4:
 		}
 	}
+
+	public float getDamage() {
+		return damage;
+	}
+
+	public float getDefence() {
+		return defence;
+	}
+
+	public boolean isSolidified() {
+		return solidified;
+	}
+
+	public boolean isFlammable() {
+		return flammable;
+	}
+
+	public boolean isExplosive() {
+		return explosive;
+	}
+
+	public boolean isRadioactive() {
+		return radioactive;
+	}
+
+	public boolean isImmobilized() {
+		return immobilized;
+	}
+
+	public boolean isOnFire() {
+		return isOnFire;
+	}
+
+	public int getPropInt() {
+		return propInt;
+	}
+	
+	
 }

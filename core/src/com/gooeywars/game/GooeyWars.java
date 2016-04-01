@@ -29,7 +29,7 @@ public class GooeyWars extends Main{
 	
 	private Viewport viewport;
 	
-	private static boolean isFullScreen = false;
+	private static boolean isFullScreen = true;
 	public static int resWidth = 600;
 	public static int resHeight = 800;
 	
