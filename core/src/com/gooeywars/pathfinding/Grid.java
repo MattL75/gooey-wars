@@ -55,6 +55,18 @@ public class Grid {
 		}
 	}
 
+	public Node nodeFromWorldPoint(Vector2 vec) {
+		float percentX = (vec.x + worldSize.x / 2) / worldSize.x;
+		float percentY = (vec.y + worldSize.y / 2) / worldSize.y;
+		
+		percentX = Math.max(0, Math.min(1, percentX));
+		percentY = Math.max(0, Math.min(1, percentY));
+		
+		int x = Math.round((gridSizeX - 1) * percentX);
+		int y = Math.round((gridSizeY - 1) * percentY);
+		return nodeGrid.get(x).get(y);
+	}
+	
 	public float getNodeRadius() {
 		return nodeRadius;
 	}
