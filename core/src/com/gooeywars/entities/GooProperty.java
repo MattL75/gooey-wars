@@ -49,6 +49,13 @@ public class GooProperty {
 			damage = 1;
 			defence = 1;
 		case 1:
+			solidified = true;
+			flammable = true;
+			explosive = false;
+			radioactive = false;
+			immobilized = false;
+			damage = 1;
+			defence = 1;
 		case 2:
 		case 3:
 		case 4:
