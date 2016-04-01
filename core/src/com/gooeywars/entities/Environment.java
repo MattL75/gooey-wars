@@ -105,6 +105,13 @@ public class Environment extends Entity{
 	}
 	
 	@Override
+	public Vector2 collide(Entity other){
+		Vector2 displacement = new Vector2();
+		System.out.println("Environment");
+		return displacement;
+	}
+	
+	@Override
 	public void setWidth(float width){
 		super.setWidth(width);
 	}
