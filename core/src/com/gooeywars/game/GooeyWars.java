@@ -50,7 +50,7 @@ public class GooeyWars extends Main{
 		
 		MainMenuUI menuUI = new MainMenuUI(viewport);
 		GameUI gameUI = new GameUI(viewport);
-		gameUI.dispose();
+		//gameUI.dispose();
 		menu = new GameBox(false, menuUI, camera);
 		menu.setTag("menu");
 		game = new GameBox(true, gameUI, camera);
