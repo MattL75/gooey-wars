@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.UI.GameUI;
@@ -49,25 +50,18 @@ public class GooeyWars extends Main{
 		
 		MainMenuUI menuUI = new MainMenuUI(viewport);
 		GameUI gameUI = new GameUI(viewport);
-		gameUI.dispose();
+		//gameUI.dispose();
 		menu = new GameBox(false, menuUI, camera);
 		menu.setTag("menu");
 		game = new GameBox(true, gameUI, camera);
-		game.setTag("game");
-		
-		
+		game.setTag("game");	
 		
 		batch = new SpriteBatch();
-		
-		//Test line pls not remove
-		//Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
-		
 		
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
 		game.addComponent(new Friction());
-		
 		
 		menu.init();
 		game.init();

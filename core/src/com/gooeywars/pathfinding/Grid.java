@@ -1,14 +1,7 @@
 package com.gooeywars.pathfinding;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.gooeywars.entities.Entity;
-import com.gooeywars.game.Main;
 
 public class Grid {
 	public Array<Array<Node>> nodeGrid;
@@ -64,10 +57,9 @@ public class Grid {
 		return NodeAr;
 	}
 	
-	//Problem here
 	public Node nodeFromWorldPoint(Vector2 vec) {
-		float percentX = (vec.x + worldSize.x / 2) / worldSize.x;
-		float percentY = (vec.y + worldSize.y / 2) / worldSize.y;
+		float percentX = (vec.x) / worldSize.x;
+		float percentY = (vec.y) / worldSize.y;
 		
 		percentX = Math.min(Math.max(percentX, 0), 1);
 		percentY = Math.min(Math.max(percentY, 0), 1);

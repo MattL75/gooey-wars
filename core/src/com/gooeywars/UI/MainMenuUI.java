@@ -7,11 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -49,16 +46,16 @@ public class MainMenuUI implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		//Background
-		Image background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_no_logo.png")));
+		Image background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_w_logo.jpg")));
 		background.setAlign(2);
 		stage.addActor(background);
 		
-		//Logo processing
+		/*/Logo processing (NOW INCLUDED IN BACKGROUND)
 		float scale = 0.8f;
 		Image logoImage = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/main_logo.png")));
 		logoImage.setScale(scale);
 		logoImage.setPosition((Gdx.graphics.getWidth() - (logoImage.getWidth() * scale)) / 2.0f, (Gdx.graphics.getHeight() - (logoImage.getHeight() * scale)) / 2.0f + Gdx.graphics.getWidth() / 6);
-		stage.addActor(logoImage);
+		stage.addActor(logoImage);/*/
 		
 		skin = new Skin();
 		// Generate a 1x1 white texture and store it in the skin named "white".

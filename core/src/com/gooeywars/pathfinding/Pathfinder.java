@@ -25,9 +25,9 @@ public class Pathfinder {
 	}
 
 	public Array<Node> findPath(Vector2 iniPos, Vector2 endPos) {
-		/*/if (!isPosOpen(endPos)) {
-			return;
-		}/*/
+		if (!isPosOpen(endPos)) {
+			return new Array<Node>();
+		}
 		Node initialNode = grid.nodeFromWorldPoint(iniPos);
 		System.out.println("Initial: " + initialNode.getWorldPos().x + " " + initialNode.getWorldPos().y);
 		Node endNode = grid.nodeFromWorldPoint(endPos);

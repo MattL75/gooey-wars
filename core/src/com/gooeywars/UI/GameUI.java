@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
 
@@ -67,12 +69,23 @@ public class GameUI implements Screen {
 		table.left();
 		stage.addActor(table);
 		
-		//Button creation
-		final TextButton btCheck = new TextButton("Check", skin, "style");
-		//table.add(btCheck);
+		//Group stuff
+		Group group = new Group();
+		Image minMap = new Image(skin.newDrawable("white", Color.WHITE));
+		minMap.setWidth(Gdx.graphics.getWidth() / 6);
+		minMap.setHeight(Gdx.graphics.getHeight() / 5);
+		minMap.setAlign(Align.bottomLeft);
+		group.addActor(minMap);
+		Image botBar = new Image(skin.newDrawable("white", Color.WHITE));
+		botBar.setWidth(1000);
+		botBar.setHeight(100);
+		botBar.setAlign(Align.bottom);
+		group.addActor(botBar);
 		
-		table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(250).prefHeight(200);
-		table.add(new Image(skin.newDrawable("white", Color.WHITE))).size(100);
+		table.add(group);
+		
+		//table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(Gdx.graphics.getWidth() / 6).prefHeight(Gdx.graphics.getHeight() / 5);
+		//table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(1000).prefHeight(100).align(Align.bottom);
 		
 	}
 	
