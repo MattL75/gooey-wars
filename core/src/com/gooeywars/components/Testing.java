@@ -12,6 +12,7 @@ import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Environment;
 import com.gooeywars.entities.Geyser;
 import com.gooeywars.entities.Goo;
+import com.gooeywars.entities.Obstacle;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
@@ -58,6 +59,7 @@ public class Testing extends Component{
 		game.addEntity(geyser);
 		
 		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
+		environment.addChild(new Obstacle(400, 400));
 		game.addEntity(environment);
 	}
 

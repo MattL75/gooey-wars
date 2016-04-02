@@ -53,6 +53,7 @@ public class Environment extends Entity{
 	}
 	
 	public void genEnvironment(float width, float height, Array<Entity> children, Texture terrainTexture, Color background){
+		setType(Entity.ENVIRONMENT);
 		Texture texture = null;
 		
 		if(terrainTexture == null){
@@ -107,7 +108,6 @@ public class Environment extends Entity{
 	@Override
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
-		System.out.println("Environment");
 		return displacement;
 	}
 	
@@ -133,6 +133,9 @@ public class Environment extends Entity{
 	
 	public String getSaveData(){
 		String data = super.getSaveData();
+		for(int i = 0; i < getChildren().size; i++){
+			data += "," + getChildren().get(i).getSaveData();
+		}
 		return data;
 	}
 }

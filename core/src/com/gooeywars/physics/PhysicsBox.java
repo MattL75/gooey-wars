@@ -78,7 +78,14 @@ public class PhysicsBox {
 		
 		for(int i = 0; i < entities.size; i++){
 			if(i != index){
+				
 				testResult = ent.collide(entities.get(i));
+				if(testResult.len2() > 0){
+					return testResult;
+				}
+				for(int j = 0; j < entities.get(i).getChildren().size; j++){
+					testResult = ent.collide(entities.get(i).getChildren().get(j));
+				}
 				if(testResult.len2() > 0){
 					return testResult;
 				}

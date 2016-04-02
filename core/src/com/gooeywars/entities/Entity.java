@@ -15,7 +15,7 @@ public class Entity {
 	public static final int GOO = 1;
 	public static final int GEYSER = 2;
 	public static final int ENVIRONMENT = 3;
-	private static final int OBSTACLE = 4;
+	public static final int OBSTACLE = 4;
 	
 	private Sprite sprite;
 	
@@ -200,8 +200,6 @@ public class Entity {
 	public void addCollider(Collider collider){
 		collider.setEntity(this);
 		colliders.add(collider);
-		
-		
 	}
 	
 	public Sprite getSprite(){
@@ -312,4 +310,6 @@ public class Entity {
 		
 		return data;
 	}
+	
+	
 }

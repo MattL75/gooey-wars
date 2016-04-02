@@ -23,6 +23,7 @@ public class Geyser extends Entity{
 	}
 	
 	private void genGeyser(float x, float y, int prop){
+		setType(Entity.GEYSER);
 		propInt = prop;
 		setPhysicsEnabled(false);
 		setX(x);

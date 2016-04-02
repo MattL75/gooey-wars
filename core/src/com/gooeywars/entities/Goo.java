@@ -75,7 +75,7 @@ public class Goo extends Entity{
 		this.color = genColor(color);
 		this.owner = owner;
 		
-		setType(1);
+		setType(Entity.GOO);
 		
 		createSprite();
 		createColliders();
@@ -136,7 +136,7 @@ public class Goo extends Entity{
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
 		//System.out.println("Goo");
-		return displacement;
+		return super.collide(other);
 	}
 	
 	public void split(Vector2 dirVect){
