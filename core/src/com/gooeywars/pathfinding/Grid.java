@@ -29,14 +29,13 @@ public class Grid {
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Math.round(worldSize.x / nodeDiameter);
 		gridSizeY = Math.round(worldSize.y / nodeDiameter);
-		System.out.println(gridSizeX + " " + gridSizeY);
 		int startPosX = 0;
 		int startPosY = 0;
 			
 		for (int x = 0; x < gridSizeX; x++) {
 			for (int y = 0; y < gridSizeY; y++) {
 				nodeGrid.add(new Array<Node>());
-				nodeGrid.get(x).add(new Node(true, new Vector2(startPosX, startPosY)));	
+				nodeGrid.get(x).add(new Node(true, new Vector2(startPosX, startPosY), x, y));	
 				
 				startPosY += Math.round(nodeDiameter);
 			}
@@ -45,12 +44,33 @@ public class Grid {
 		}
 	}
 
+	public Array<Node> GetNeighbours(Node node) {
+		Array<Node> NodeAr = new Array<Node>();
+		
+		for (int x = -1; x <= 1; x++) {
+			for (int y = -1; y <= 1; y++) {
+				if (x == 0 && y == 0) {
+					continue;
+				}
+				
+				int checkX = node.gridX + x;
+				int checkY = node.gridY + y;
+				
+				if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY) {
+					NodeAr.add(nodeGrid.get(checkX).get(checkY));
+				}
+			}
+		}
+		return NodeAr;
+	}
+	
+	//Problem here
 	public Node nodeFromWorldPoint(Vector2 vec) {
 		float percentX = (vec.x + worldSize.x / 2) / worldSize.x;
 		float percentY = (vec.y + worldSize.y / 2) / worldSize.y;
 		
-		percentX = Math.max(0, Math.min(1, percentX));
-		percentY = Math.max(0, Math.min(1, percentY));
+		percentX = Math.min(Math.max(percentX, 0), 1);
+		percentY = Math.min(Math.max(percentY, 0), 1);
 		
 		int x = Math.round((gridSizeX - 1) * percentX);
 		int y = Math.round((gridSizeY - 1) * percentY);

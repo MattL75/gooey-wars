@@ -135,7 +135,7 @@ public class Goo extends Entity{
 	@Override
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
-		System.out.println("Goo");
+		//System.out.println("Goo");
 		return displacement;
 	}
 	

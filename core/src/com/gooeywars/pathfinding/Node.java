@@ -9,6 +9,11 @@ public class Node {
 	private Vector2 worldPos;
 	//World position is bottom left corner of the node square
 	
+	public Node parent;
+	
+	int gridX;
+	int gridY;
+	
 	int gCost;
 	int hCost;
 	
@@ -17,9 +22,11 @@ public class Node {
 		this.worldPos = new Vector2(0, 0);
 	}
 	
-	public Node(boolean walkable, Vector2 worldPos) {
+	public Node(boolean walkable, Vector2 worldPos, int gridX, int gridY) {
 		this.isWalkable = walkable;
 		this.worldPos = worldPos;
+		this.gridX = gridX;
+		this.gridY = gridY;
 	}
 
 	public boolean isWalkable() {
