@@ -43,9 +43,9 @@ public class Testing extends Component{
 		
 		//Path testing
 		Pathfinder finder = new Pathfinder();
-		Array<Node> path = finder.findPath(new Vector2(0, 0), new Vector2(220, 400));
+		Array<Node> path = finder.findPath(new Vector2(220, 100), new Vector2(1220, 600));
 		Pixmap pix = new Pixmap(20, 20, Format.RGB888);
-		pix.setColor(Color.BLACK);
+		pix.setColor(Color.RED);
 		pix.fill();
 		Texture tex = new Texture(pix);
 		pix.dispose();
