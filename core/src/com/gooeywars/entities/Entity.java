@@ -35,6 +35,8 @@ public class Entity {
 	
 	private int id;
 	private Array<Entity> children;
+	
+	private boolean isObstacle;
 
 	public Entity(){
 		initEntity(new Sprite(new Texture(new Pixmap(1,1,Format.RGBA8888))), new Array<Collider>(), 0, 0, false, 0, null, null, null);
@@ -135,6 +137,19 @@ public class Entity {
 			}
 		}
 		return displacement;
+	}
+	
+	public static float genObstacleCoordX(float x, int nodeRadius){
+		int xInt = (int) x;
+		xInt = (xInt/(nodeRadius*2)) * (nodeRadius*2);
+		return xInt;
+	}
+	
+	public static float genObtsacleCoordY(float y, int nodeRadius){
+		
+		int yInt = (int) y;
+		yInt = (yInt/(nodeRadius*2)) * (nodeRadius*2);
+		return yInt;
 	}
 	
 	public void setX(float x){
@@ -290,11 +305,21 @@ public class Entity {
 	public void setChildren(Array<Entity> children) {
 		this.children = children;
 	}
+	
+	public boolean isObstacle() {
+		return isObstacle;
+	}
+
+	public void setIsObstacle(boolean isObstacle) {
+		this.isObstacle = isObstacle;
+	}
 
 	public int getId() {
 		return id;
 	}
 
+	
+	
 	//id,type,x,y,physicsEnabled,force.x,force.y,velocity.x,velocity.y,acceleration.x,acceleration.y,mass
 	//The textureType is 0 when the texture has a file path. It is 1 when the texture is automatically generated.
 	public String getSaveData(){

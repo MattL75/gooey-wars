@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.Array;
 public class Pathfinder {
 	private Array<Node> closed = new Array<Node>();
 	private Array<Node> open = new Array<Node>();
-	Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
+	private Grid grid;
+	//Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
 	
-	public Pathfinder() {
+	public Pathfinder(Grid grid) {
+		this.grid = grid;
 		setupObstacles();
 	}
 	

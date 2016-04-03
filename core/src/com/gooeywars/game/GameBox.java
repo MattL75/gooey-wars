@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.exception.TagSameException;
+import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.physics.PhysicsBox;
 
@@ -28,6 +30,8 @@ public class GameBox {
 	private SpriteBatch batch;
 	
 	private Color background;
+	
+	private Grid grid;
 	
 	public GameBox(){
 		Main.gameBoxes.add(this);
@@ -50,7 +54,7 @@ public class GameBox {
 		create();
 	}
 	
-	public void create(){
+	private void create(){
 		entities = new Array<Entity>();
 		components = new Array<Component>();
 		batch = new SpriteBatch();
@@ -118,8 +122,11 @@ public class GameBox {
 	}
 	
 	public void addEntity(Entity ent){
+		if(ent.isObstacle()){
+			ent.setX(Entity.genObstacleCoordX(ent.getX(), (int)grid.getNodeRadius()));
+			ent.setX(Entity.genObstacleCoordX(ent.getY(), (int)grid.getNodeRadius()));
+		}
 		entities.add(ent);
-		
 		
 		if(physicsEnabled){
 			physics.addEntity(ent);
@@ -194,5 +201,13 @@ public class GameBox {
 
 	public void setBackground(Color background) {
 		this.background = background;
+	}
+
+	public Grid getGrid() {
+		return grid;
+	}
+
+	public void setGrid(Grid grid) {
+		this.grid = grid;
 	}
 }

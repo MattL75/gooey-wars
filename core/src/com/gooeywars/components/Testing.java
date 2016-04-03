@@ -38,12 +38,12 @@ public class Testing extends Component{
 		
 		for(int i = 0; i < 5; i++){
 			for(int j = 0; j < 5; j++){
-				game.addEntity(new Goo(i*30,j*30,100));
+				game.addEntity(new Goo(i*30,j*30 + 200,100));
 			}
 		}
 		
 		//Path testing
-		Pathfinder finder = new Pathfinder();
+		Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
 		Array<Node> path = finder.findPath(new Vector2(220, 100), new Vector2(1220, 600));
 		Pixmap pix = new Pixmap(20, 20, Format.RGB888);
 		pix.setColor(Color.RED);
@@ -59,7 +59,7 @@ public class Testing extends Component{
 		game.addEntity(geyser);
 		
 		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
-		environment.addChild(new Obstacle(400, 400));
+		environment.addChild(new Obstacle(5, 400));
 		game.addEntity(environment);
 	}
 

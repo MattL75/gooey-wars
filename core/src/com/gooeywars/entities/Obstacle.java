@@ -38,6 +38,7 @@ public class Obstacle extends Entity{
 	}
 	
 	public void createObstacle(int x, int y, int color, int type, float width, float height){
+		setIsObstacle(true);
 		setType(Entity.OBSTACLE);
 		vertices = new Array<Vector2>();
 		this.color = Color.PURPLE;
@@ -51,6 +52,7 @@ public class Obstacle extends Entity{
 		setHeight(height);
 		setX(x);
 		setY(y);
+		
 	}
 	
 	public void createSquare(float size){
