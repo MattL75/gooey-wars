@@ -102,13 +102,18 @@ public class Environment extends Entity{
 	}
 	
 	public void addChild(Entity child){
+		if(child.isObstacle()){
+			child.setX(Main.findGameBox("game").genObstacleCoordX(child.getX()));
+			child.setY(Main.findGameBox("game").genObstacleCoordY(child.getY()));
+		}
+		System.out.println(child.getX());
 		getChildren().add(child);
 	}
 	
 	@Override
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
-		return displacement;
+		return super.collide(other);
 	}
 	
 	@Override

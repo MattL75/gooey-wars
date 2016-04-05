@@ -75,24 +75,25 @@ public class PhysicsBox {
 	
 	private Vector2 checkCollisions(Entity ent, int index){
 		Vector2 testResult;
+		Vector2 largest = new Vector2();
 		
 		for(int i = 0; i < entities.size; i++){
 			if(i != index){
 				
 				testResult = ent.collide(entities.get(i));
-				if(testResult.len2() > 0){
-					return testResult;
+				if(testResult.len2() > largest.len2()){
+					largest = testResult.cpy();
 				}
 				for(int j = 0; j < entities.get(i).getChildren().size; j++){
 					testResult = ent.collide(entities.get(i).getChildren().get(j));
-				}
-				if(testResult.len2() > 0){
-					return testResult;
+					if(testResult.len2() > largest.len2()){
+						largest = testResult.cpy();
+					}
 				}
 			}
 		}
 		
-		return new Vector2();
+		return largest;
 	}
 	
 	public void addEntity(Entity ent){

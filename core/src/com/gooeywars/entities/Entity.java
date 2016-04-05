@@ -127,29 +127,16 @@ public class Entity {
 		Vector2 displacement = new Vector2();
 		Array<Collider> otherColls = other.getColliders();
 		
-		if(otherColls != null){
-			if(otherColls.size > 0){
+		/*if(otherColls != null){
+			if(otherColls.size > 0){*/
 				for(int i = 0; i < colliders.size; i++){
 					for(int j = 0; j < otherColls.size; j++){
 						displacement = colliders.get(i).collide(otherColls.get(j));
 					}
 				}
-			}
-		}
+			/*}
+		}*/
 		return displacement;
-	}
-	
-	public static float genObstacleCoordX(float x, int nodeRadius){
-		int xInt = (int) x;
-		xInt = (xInt/(nodeRadius*2)) * (nodeRadius*2);
-		return xInt;
-	}
-	
-	public static float genObtsacleCoordY(float y, int nodeRadius){
-		
-		int yInt = (int) y;
-		yInt = (yInt/(nodeRadius*2)) * (nodeRadius*2);
-		return yInt;
 	}
 	
 	public void setX(float x){

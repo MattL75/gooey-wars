@@ -123,8 +123,8 @@ public class GameBox {
 	
 	public void addEntity(Entity ent){
 		if(ent.isObstacle()){
-			ent.setX(Entity.genObstacleCoordX(ent.getX(), (int)grid.getNodeRadius()));
-			ent.setX(Entity.genObstacleCoordX(ent.getY(), (int)grid.getNodeRadius()));
+			ent.setX(Main.findGameBox("game").genObstacleCoordX(ent.getX()));
+			ent.setY(Main.findGameBox("game").genObstacleCoordY(ent.getY()));
 		}
 		entities.add(ent);
 		
@@ -148,6 +148,19 @@ public class GameBox {
 	
 	public void addComponent(Component comp){
 		components.add(comp);
+	}
+	
+	public float genObstacleCoordX(float x){
+		System.out.println("gen obstacleX");
+		int xInt = (int) x;
+		xInt = (int)(xInt/(grid.getNodeRadius()*2)) * (int)(grid.getNodeRadius()*2);
+		return xInt;
+	}
+	
+	public float genObstacleCoordY(float y){
+		int yInt = (int) y;
+		yInt = (int)(yInt/(grid.getNodeRadius()*2)) * (int)(grid.getNodeRadius()*2);
+		return yInt;
 	}
 	
 	public Array<Entity> getEntities(){

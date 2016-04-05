@@ -114,7 +114,7 @@ public class Goo extends Entity{
 	
 	private Color genColor(int c){
 		switch(c){
-		case 0: return Color.BLACK; 
+		case 0: return Color.BLACK;
 		case 1: return Color.RED; 
 		case 2: return Color.GREEN; 
 		case 3: return Color.BLUE; 

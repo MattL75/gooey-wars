@@ -59,7 +59,7 @@ public class Testing extends Component{
 		game.addEntity(geyser);
 		
 		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
-		environment.addChild(new Obstacle(5, 400));
+		environment.addChild(new Obstacle(40, 400));
 		game.addEntity(environment);
 	}
 
