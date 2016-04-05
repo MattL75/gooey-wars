@@ -171,9 +171,16 @@ public class Goo extends Entity{
 		
 	}
 	
+	public void annihilate(Goo goo){
+		Vector2 overlap = super.collide(goo);
+		
+	}
+	
 	public void destroy(){
 		
 	}
+	
+	
 	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
@@ -205,7 +212,9 @@ public class Goo extends Entity{
 	}
 
 	public void setColor(Color color) {
+		
 		this.color = color;
+		createSprite();
 	}
 
 	public int getColorInt() {
@@ -214,8 +223,15 @@ public class Goo extends Entity{
 
 	public void setColorInt(int colorInt) {
 		this.colorInt = colorInt;
+		if(isSelected){
+			color = genColorSelected(colorInt);
+			createSprite();
+		} else {
+			color = genColor(colorInt);
+			createSprite();
+		}
 	}
-
+	
 	public GooProperty getProperty() {
 		return property;
 	}
