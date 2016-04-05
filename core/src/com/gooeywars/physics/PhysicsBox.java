@@ -74,6 +74,36 @@ public class PhysicsBox {
 	
 	
 	private Vector2 checkCollisions(Entity ent, int index){
+		/*Array<Collider> entColliders = ent.getColliders();
+		Entity testingEnt = null;
+		Vector2 testResult;
+		Collider coll1 = null;
+		Collider coll2 = null;
+		for(int i = 0; i < entColliders.size; i++){
+			coll1 = entColliders.get(i);
+			for(int j = 0; j < entColliders.size; j++){
+				if(j != index){
+					testingEnt = entities.get(j);
+					for(int k = 0; k < testingEnt.getColliders().size; k++){
+						coll2 = testingEnt.getColliders().get(k);
+						testResult = coll1.collide(coll2);
+						if(testResult.len2() > 0){
+							return testResult;
+						}
+					}
+				}
+			}
+		}
+		return new Vector2();*/
+		
+		//Vector2 largest = new Vector2();
+		
+		/*for(int i = 0; i < entities.size; i++){
+			if(i != index){
+				for(int)
+			}
+		}*/
+		
 		Vector2 testResult;
 		Vector2 largest = new Vector2();
 		

@@ -31,7 +31,6 @@ public class Collider {
 	}
 	
 	public Vector2 collide(Collider coll){
-		
 		return polygon.collide(coll.getPolygon());
 	}
 	

@@ -125,13 +125,17 @@ public class Entity {
 	
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
+		Vector2 temp = new Vector2();
 		Array<Collider> otherColls = other.getColliders();
 		
 		/*if(otherColls != null){
 			if(otherColls.size > 0){*/
 				for(int i = 0; i < colliders.size; i++){
 					for(int j = 0; j < otherColls.size; j++){
-						displacement = colliders.get(i).collide(otherColls.get(j));
+						temp = colliders.get(i).collide(other.getColliders().get(j));
+						if(temp.len2() > displacement.len2()){
+							displacement = temp.cpy();
+						}
 					}
 				}
 			/*}

@@ -28,19 +28,20 @@ public class Polygon{
 	
 	public Vector2 collide(Polygon other){
 		
-		if(other instanceof Circle){
-			Circle circle = (Circle) other;
+		return collidePolygon(other);
+
+		/*if(other instanceof Circle){
+			/*Circle circle = (Circle) other;
 			
 			return collideCircle(circle);
 			
 		} else {
-			return collidePolygon(other);
 			
-		}
+		}*/
 	}
 	
 	//TODO implement circle collision for displacement vector
-	public Vector2 collideCircle(Circle other){
+	/*public Vector2 collideCircle(Circle other){
 		
 		Vector2 center = new Vector2(other.getX()+other.getR(),other.getY()+other.getR());
 		float squareRadius = other.getR() * other.getR();
@@ -53,7 +54,7 @@ public class Polygon{
 			}
 		}
 		return new Vector2();
-	}
+	}*/
 	
 	public Vector2 collidePolygon(Polygon other) {
 		int count = vertices.size;

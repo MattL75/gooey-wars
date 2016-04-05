@@ -62,7 +62,7 @@ public class Goo extends Entity{
 		
 		setX(x);
 		setY(y);
-		radius = mass/10;
+		radius = Math.round(mass/10);
 		setWidth((radius+1)*2.0f);
 		setHeight((radius+1)*2.0f);
 		
@@ -99,8 +99,8 @@ public class Goo extends Entity{
 	private void createColliders(){
 		Polygon poly = new Polygon();
 		for(int i = 0; i < sideCount; i++){
-			float x = (float) (Math.cos(Math.PI *2* i/sideCount + Math.PI/sideCount))*radius+radius;
-			float y = (float) (Math.sin(Math.PI *2* i/sideCount + Math.PI/sideCount))*radius+radius;
+			float x = (float) (Math.cos(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius+1)+radius+1;
+			float y = (float) (Math.sin(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius+1)+radius+1;
 			poly.addVertice(x, y);
 		}
 		
@@ -134,9 +134,25 @@ public class Goo extends Entity{
 	
 	@Override
 	public Vector2 collide(Entity other){
+		System.out.println("Calling goo collide");
 		Vector2 displacement = new Vector2();
+		if(other instanceof Goo){
+			Goo goo = (Goo) other;
+			if(owner != goo.getOwner()){
+					
+			} else {
+				displacement = super.collide(other);
+			}
+			
+		} else if(other instanceof Geyser) {
+			
+		} else if(other instanceof Environment || other instanceof Obstacle){
+			displacement = super.collide(other);
+		}
+		
+		return displacement;
 		//System.out.println("Goo");
-		return super.collide(other);
+		
 	}
 	
 	public void split(Vector2 dirVect){
@@ -152,6 +168,10 @@ public class Goo extends Entity{
 	}
 	
 	public void toggleAttackMode(){
+		
+	}
+	
+	public void destroy(){
 		
 	}
 	
@@ -186,6 +206,14 @@ public class Goo extends Entity{
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public int getColorInt() {
+		return colorInt;
+	}
+
+	public void setColorInt(int colorInt) {
+		this.colorInt = colorInt;
 	}
 
 	public GooProperty getProperty() {

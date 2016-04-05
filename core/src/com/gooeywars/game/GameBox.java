@@ -128,9 +128,9 @@ public class GameBox {
 		}
 		entities.add(ent);
 		
-		if(physicsEnabled){
-			physics.addEntity(ent);
-		}
+		
+		physics.addEntity(ent);
+		
 	}
 	
 	public void removeEntity(int id){
