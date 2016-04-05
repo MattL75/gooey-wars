@@ -134,12 +134,13 @@ public class Goo extends Entity{
 	
 	@Override
 	public Vector2 collide(Entity other){
-		System.out.println("Calling goo collide");
 		Vector2 displacement = new Vector2();
+		
 		if(other instanceof Goo){
 			Goo goo = (Goo) other;
+			
 			if(owner != goo.getOwner()){
-					
+				annihilate(goo);
 			} else {
 				displacement = super.collide(other);
 			}
@@ -173,6 +174,17 @@ public class Goo extends Entity{
 	
 	public void annihilate(Goo goo){
 		Vector2 overlap = super.collide(goo);
+		if(overlap.len2() > 0){
+			if(getMass() > 10){
+				setMass((int)(getMass() - 1));
+				radius = Math.round(getMass()/10);
+				createSprite();
+				createColliders();
+			}
+		}
+		
+		
+		System.out.println(getMass());
 		
 	}
 	
