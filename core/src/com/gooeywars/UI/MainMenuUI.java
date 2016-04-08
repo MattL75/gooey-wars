@@ -11,12 +11,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
 import com.gooeywars.gameState.GameState;
@@ -27,6 +29,9 @@ public class MainMenuUI implements Screen {
 	Skin skin;
 	SpriteBatch batch = new SpriteBatch();
 	BitmapFont bfont;
+	Array<Image> clouds;
+	Texture cloudTex = new Texture("assets/textures/interface/menu/cloud.png");
+	boolean isAnim = false;
 	
 	public MainMenuUI() {
 		GooeyWars.setCurrentBox(GooeyWars.getMenu());
@@ -44,18 +49,11 @@ public class MainMenuUI implements Screen {
 	public void create() {
 		batch = new SpriteBatch();
 		Gdx.input.setInputProcessor(stage);
-
+		
 		//Background
 		Image background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_w_logo.jpg")));
 		background.setAlign(2);
 		stage.addActor(background);
-		
-		/*/Logo processing (NOW INCLUDED IN BACKGROUND)
-		float scale = 0.8f;
-		Image logoImage = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/main_logo.png")));
-		logoImage.setScale(scale);
-		logoImage.setPosition((Gdx.graphics.getWidth() - (logoImage.getWidth() * scale)) / 2.0f, (Gdx.graphics.getHeight() - (logoImage.getHeight() * scale)) / 2.0f + Gdx.graphics.getWidth() / 6);
-		stage.addActor(logoImage);/*/
 		
 		skin = new Skin();
 		// Generate a 1x1 white texture and store it in the skin named "white".
@@ -143,6 +141,63 @@ public class MainMenuUI implements Screen {
 				Gdx.app.exit();
 			}
 		});
+		
+		if (isAnim) {
+			cloudOverlay();
+		}
+	}
+	
+	public void cloudOverlay() {
+		float scale = 0.5f;
+		clouds = new Array<Image>();
+		
+		for (int i = 0; i < Gdx.graphics.getWidth() / (cloudTex.getWidth() * scale * scale); i++) {
+			for (int j = 0; j < Gdx.graphics.getHeight() / (cloudTex.getHeight() * scale * scale); j++) {
+				//Actor
+				Image temp = new Image(cloudTex);
+				temp.setScale(scale);
+				if (i == 0) {
+					temp.setX(-40);
+				} else {
+					temp.setX(i * temp.getWidth() * scale * scale);
+				}
+				temp.setY(j * temp.getHeight() * scale * scale);
+				clouds.add(temp);
+				stage.addActor(temp);
+			}
+		}
+		
+		Image image = new Image(new Texture("assets/textures/interface/menu/try.png"));
+		image.setAlign(2);
+		stage.addActor(image);
+		
+		//Wait for reading of message	
+		MoveToAction imageDown = new MoveToAction();
+		imageDown.setX(imageDown.getX());
+		imageDown.setY(-700);
+		imageDown.setDuration(2);
+		image.addAction(imageDown);
+		
+		for (int i = 0; i < clouds.size; i++) {
+			/*/if (clouds.get(i).getX() < (Gdx.graphics.getWidth() - clouds.get(i).getWidth()) / 2) {
+				MoveToAction move = new MoveToAction();
+				move.setX(-400);
+				move.setY(clouds.get(i).getY());
+				move.setDuration(3);
+				clouds.get(i).addAction(move);
+			} else {
+				MoveToAction move = new MoveToAction();
+				move.setX(Gdx.graphics.getWidth() + 300);
+				move.setY(clouds.get(i).getY());
+				move.setDuration(3);
+				clouds.get(i).addAction(move);
+			}/*/
+			MoveToAction move = new MoveToAction();
+			move.setX(clouds.get(i).getX());
+			move.setY(-400);
+			move.setDuration(3);
+			clouds.get(i).addAction(move);
+		}
 	}
 	
 	//Method resets the buttons (i.e. not checked)
@@ -194,6 +249,7 @@ public class MainMenuUI implements Screen {
 		stage.dispose();
 		skin.dispose();
 		bfont.dispose();
+		cloudTex.dispose();
 	}
 	
 	public static void setFocus() {

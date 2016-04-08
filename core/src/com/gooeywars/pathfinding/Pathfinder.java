@@ -1,8 +1,9 @@
 package com.gooeywars.pathfinding;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.entities.Entity;
+import com.gooeywars.game.Main;
 
 public class Pathfinder {
 	private Array<Node> closed = new Array<Node>();
@@ -23,7 +24,14 @@ public class Pathfinder {
 	}
 	
 	public void setupObstacles() {
-		//sets walkable to false on obstacle nodes
+		Array<Entity> ent = Main.findGameBox("game").getEntities();
+		for (int i = 0; i < ent.size; i++) {
+			System.out.print(ent.get(i).getType());
+			if (ent.get(i).getType() == Entity.OBSTACLE) {
+				grid.nodeFromWorldPoint(new Vector2(ent.get(i).getX(), ent.get(i).getY())).setWalkable(false);
+				System.out.println(grid.nodeFromWorldPoint(new Vector2(ent.get(i).getX(), ent.get(i).getY())).isWalkable());
+			}
+		}
 	}
 
 	public Array<Node> findPath(Vector2 iniPos, Vector2 endPos) {
@@ -31,9 +39,7 @@ public class Pathfinder {
 			return new Array<Node>();
 		}
 		Node initialNode = grid.nodeFromWorldPoint(iniPos);
-		System.out.println("Initial: " + initialNode.getWorldPos().x + " " + initialNode.getWorldPos().y);
 		Node endNode = grid.nodeFromWorldPoint(endPos);
-		System.out.println("End: " + endNode.getWorldPos().x + " " + endNode.getWorldPos().y);
 		
 		open.add(initialNode);
 		
