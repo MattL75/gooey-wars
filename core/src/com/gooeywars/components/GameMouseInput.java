@@ -54,7 +54,7 @@ public class GameMouseInput extends Component{
 		}
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			
+			//for loop of selected goos, 
 		}
 		
 	}

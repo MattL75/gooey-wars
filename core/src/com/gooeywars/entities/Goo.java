@@ -135,10 +135,12 @@ public class Goo extends Entity{
 	@Override
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
+		
 		if(other instanceof Goo){
 			Goo goo = (Goo) other;
+			
 			if(owner != goo.getOwner()){
-					
+				annihilate(goo);
 			} else {
 				displacement = super.collide(other);
 			}
@@ -170,9 +172,27 @@ public class Goo extends Entity{
 		
 	}
 	
+	public void annihilate(Goo goo){
+		Vector2 overlap = super.collide(goo);
+		if(overlap.len2() > 0){
+			if(getMass() > 10){
+				setMass((int)(getMass() - 1));
+				radius = Math.round(getMass()/10);
+				createSprite();
+				createColliders();
+			}
+		}
+		
+		
+		System.out.println(getMass());
+		
+	}
+	
 	public void destroy(){
 		
 	}
+	
+	
 	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
@@ -204,7 +224,9 @@ public class Goo extends Entity{
 	}
 
 	public void setColor(Color color) {
+		
 		this.color = color;
+		createSprite();
 	}
 
 	public int getColorInt() {
@@ -213,8 +235,15 @@ public class Goo extends Entity{
 
 	public void setColorInt(int colorInt) {
 		this.colorInt = colorInt;
+		if(isSelected){
+			color = genColorSelected(colorInt);
+			createSprite();
+		} else {
+			color = genColor(colorInt);
+			createSprite();
+		}
 	}
-
+	
 	public GooProperty getProperty() {
 		return property;
 	}
