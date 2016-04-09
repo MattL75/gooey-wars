@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Polygon;
 
@@ -25,11 +26,11 @@ public class Goo extends Entity{
 	private int sideCount = 8;
 	
 	public Goo(){
-		createGoo(0, 0, 100, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
+		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
 	}
 	
 	public Goo(float x, float y){
-		createGoo(x, y, 100, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
+		createGoo(x, y, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
 	}
 	
 	public Goo(float x, float y, int mass){
@@ -62,7 +63,7 @@ public class Goo extends Entity{
 		
 		setX(x);
 		setY(y);
-		radius = Math.round(mass/10);
+		radius = Math.round(mass/2);
 		setWidth((radius+1)*2.0f);
 		setHeight((radius+1)*2.0f);
 		
@@ -82,8 +83,8 @@ public class Goo extends Entity{
 	}
 	
 	private void createSprite(){
+		getSprite().getTexture().dispose();
 		Pixmap pix = new Pixmap((int)getWidth(), (int)getWidth(), Format.RGBA8888);
-		
 		pix.setColor(color);
 		
 		pix.fillCircle(radius, radius, radius);
@@ -97,6 +98,7 @@ public class Goo extends Entity{
 	}
 	
 	private void createColliders(){
+		clearColliders();
 		Polygon poly = new Polygon();
 		for(int i = 0; i < sideCount; i++){
 			float x = (float) (Math.cos(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius+1)+radius+1;
@@ -136,19 +138,26 @@ public class Goo extends Entity{
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
 		
-		if(other instanceof Goo){
-			Goo goo = (Goo) other;
-			
-			if(owner != goo.getOwner()){
-				annihilate(goo);
-			} else {
+		Vector2 overlap = super.collide(other);
+		//float len2 = 
+		
+		if(overlap.len2() > 0){
+			if(other instanceof Goo){
+				Goo goo = (Goo) other;
+				
+				if(owner != goo.getOwner()){
+					annihilate(overlap);
+					goo.annihilate(overlap);
+					
+				} else {
+					displacement = super.collide(other);
+				}
+				
+			} else if(other instanceof Geyser) {
+				
+			} else if(other instanceof Environment || other instanceof Obstacle){
 				displacement = super.collide(other);
 			}
-			
-		} else if(other instanceof Geyser) {
-			
-		} else if(other instanceof Environment || other instanceof Obstacle){
-			displacement = super.collide(other);
 		}
 		
 		return displacement;
@@ -172,14 +181,30 @@ public class Goo extends Entity{
 		
 	}
 	
-	public void annihilate(Goo goo){
-		Vector2 overlap = super.collide(goo);
-		if(overlap.len2() > 0){
+	public void annihilate(Vector2 overlap){
+		float len = overlap.len();
+		float radiusVar;
+		float initRad;
+		
+		if(len > 0){
 			if(getMass() > 10){
-				setMass((int)(getMass() - 1));
-				radius = Math.round(getMass()/10);
+				setMass((int)(getMass() - len*2));
+				initRad = radius;
+				radius = Math.round(getMass()/2);
+				radiusVar = initRad - radius;
+				setWidth(radius*2);
+				setHeight(radius*2);
+				setX(getX()+radiusVar);
+				setY(getY()+radiusVar);
 				createSprite();
 				createColliders();
+				
+				/*goo.setMass((int)(goo.getMass() - 1));
+				goo.setRadius(Math.round(goo.getMass()/2));
+				goo.createSprite();
+				goo.createColliders();*/
+			} else {
+				destroy();
 			}
 		}
 		
@@ -189,10 +214,10 @@ public class Goo extends Entity{
 	}
 	
 	public void destroy(){
-		
+		Main.findGameBox("game").removeEntity(getId());
+		getSprite().getTexture().dispose();
+		clearColliders();
 	}
-	
-	
 	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override

@@ -134,8 +134,20 @@ public class GameBox {
 	}
 	
 	public void removeEntity(int id){
-		entities.get(id).dispose();
-		entities.removeIndex(id);
+		for(int i = 0; i < entities.size; i++){
+			if(entities.get(i).getId() == id){
+				entities.get(i).dispose();
+				entities.removeIndex(i);
+				return;
+			}
+			for(int j = 0; j < entities.get(i).getChildren().size; j++){
+				if(entities.get(i).getChildren().get(j).getId() == id){
+					entities.get(i).removeChild(j);
+				}
+			}
+		}
+		/*entities.get(id).dispose();
+		entities.removeIndex(id);*/
 	}
 	
 	public void clearEntities(){

@@ -8,7 +8,7 @@ import com.gooeywars.util.shape.Polygon;
 public class PhysicsBox {
 	private Array<Entity> entities;
 	
-	public static float pixelsPerMeter = 100;
+	public static float pixelsPerMeter = 10;
 	
 	public PhysicsBox(){
 		entities = new Array<Entity>();

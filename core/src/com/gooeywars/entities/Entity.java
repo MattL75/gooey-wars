@@ -36,6 +36,8 @@ public class Entity {
 	private int id;
 	private Array<Entity> children;
 	
+	public static int entityCount;
+	
 	private boolean isObstacle;
 
 	public Entity(){
@@ -75,6 +77,7 @@ public class Entity {
 	}
 	
 	private void initEntity(Sprite sprite, Array<Collider> colliders, float x, float y, boolean physicsEnabled, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+		id = entityCount++;
 		this.x = x;
 		this.y = y;
 		this.colliders = colliders;
@@ -141,6 +144,13 @@ public class Entity {
 			/*}
 		}*/
 		return displacement;
+	}
+	
+	public void clearColliders(){
+		for(int i = 0; i < colliders.size; i++){
+			colliders.get(i).dispose();
+		}
+		colliders.clear();
 	}
 	
 	public void setX(float x){
@@ -325,6 +335,11 @@ public class Entity {
 		}
 		
 		return data;
+	}
+
+	public void removeChild(int idChild) {
+		children.get(idChild).getSprite().getTexture().dispose();
+		children.removeIndex(idChild);
 	}
 	
 	

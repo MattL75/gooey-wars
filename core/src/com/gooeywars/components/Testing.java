@@ -38,7 +38,7 @@ public class Testing extends Component{
 		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				Goo goo = new Goo(i*30,j*30 + 200,100);
+				Goo goo = new Goo(i*60,j*60 + 400,40);
 				goo.setOwner(1);
 				game.addEntity(goo);
 			}
@@ -47,7 +47,7 @@ public class Testing extends Component{
 		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				Goo goo = new Goo(i*30+200,j*30 + 200,100);
+				Goo goo = new Goo(i*60+400,j*60 + 400,40);
 				goo.setColorInt(1);
 				goo.setOwner(2);
 				game.addEntity(goo);
@@ -69,7 +69,7 @@ public class Testing extends Component{
 		Geyser geyser = new Geyser(700,700);
 		game.addEntity(geyser);
 		
-		Environment environment = new Environment(500, 500,Color.LIGHT_GRAY);
+		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
 		environment.addChild(new Obstacle(40, 400));
 		game.addEntity(environment);
 	}
