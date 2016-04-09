@@ -1,5 +1,6 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Geyser extends Entity{
@@ -29,7 +30,7 @@ public class Geyser extends Entity{
 		setX(x);
 		setY(y);
 		property = new GeyserProperty(prop);
-		setSprite(new Sprite(property.getTexture()));
+		setSprite(new Sprite(new Texture(property.getPix())));
 		setType(Entity.GEYSER);
 	}
 	
