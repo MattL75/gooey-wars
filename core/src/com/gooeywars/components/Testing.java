@@ -53,18 +53,18 @@ public class Testing extends Component{
 				game.addEntity(goo);
 			}
 		}
-		//Path testing
+		
 		Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
-		Array<Node> path = finder.findPath(new Vector2(220, 100), new Vector2(1220, 600));
+		Array<Node> path = finder.findPath(new Vector2(40, 0), new Vector2(40, 600));
 		Pixmap pix = new Pixmap(20, 20, Format.RGB888);
 		pix.setColor(Color.RED);
 		pix.fill();
 		Texture tex = new Texture(pix);
 		pix.dispose();
 		for (int i = 0; i < path.size; i++) {
-			System.out.println(path.get(i).getWorldPos().x + " " + path.get(i).getWorldPos().y);
 			game.addEntity(new Entity(new Sprite(tex), path.get(i).getWorldPos().x, path.get(i).getWorldPos().y));
 		}
+
 		
 		Geyser geyser = new Geyser(700,700);
 		game.addEntity(geyser);

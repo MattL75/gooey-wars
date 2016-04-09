@@ -52,15 +52,6 @@ public class GameUI implements Screen {
 		//Font setting
 		skin.add("font", new BitmapFont());
 		
-		//Text button style settings
-		TextButtonStyle txtStyle = new TextButtonStyle();
-		txtStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		txtStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		txtStyle.checked = skin.newDrawable("white", Color.BLUE);
-		txtStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		txtStyle.font = skin.getFont("font");
-		skin.add("style", txtStyle);
-		
 		//Table creation
 		table = new Table();
 		table.debug();

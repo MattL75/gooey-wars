@@ -1,8 +1,9 @@
 package com.gooeywars.pathfinding;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.entities.Entity;
+import com.gooeywars.game.Main;
 
 public class Pathfinder {
 	private Array<Node> closed = new Array<Node>();
@@ -22,8 +23,23 @@ public class Pathfinder {
 		return false;
 	}
 	
+	//Will's mom algorithm (cause its big and cute)
 	public void setupObstacles() {
-		//sets walkable to false on obstacle nodes
+		Array<Entity> ent = Main.findGameBox("game").getEntities();
+		for (int i = 0; i < ent.size; i++) {
+			System.out.print(ent.get(i).getType());
+			if (ent.get(i).getType() == Entity.ENVIRONMENT) {
+				for (int j = 0; j < ent.get(i).getChildren().size; j++) {
+					if (ent.get(i).getChildren().get(j).getType() == Entity.OBSTACLE) {
+						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius * 2)) {
+							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius * 2)) {
+								grid.nodeFromWorldPoint(new Vector2(k, h)).setWalkable(false);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public Array<Node> findPath(Vector2 iniPos, Vector2 endPos) {
@@ -31,9 +47,7 @@ public class Pathfinder {
 			return new Array<Node>();
 		}
 		Node initialNode = grid.nodeFromWorldPoint(iniPos);
-		System.out.println("Initial: " + initialNode.getWorldPos().x + " " + initialNode.getWorldPos().y);
 		Node endNode = grid.nodeFromWorldPoint(endPos);
-		System.out.println("End: " + endNode.getWorldPos().x + " " + endNode.getWorldPos().y);
 		
 		open.add(initialNode);
 		
