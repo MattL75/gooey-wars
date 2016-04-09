@@ -52,6 +52,7 @@ public class MainMenuUI implements Screen {
 		
 		//Background
 		Image background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_w_logo.jpg")));
+		
 		background.setAlign(2);
 		stage.addActor(background);
 		
