@@ -31,6 +31,7 @@ public class MainMenuUI implements Screen {
 	BitmapFont bfont;
 	Array<Image> clouds;
 	Texture cloudTex = new Texture("assets/textures/interface/menu/cloud.png");
+	Image background;
 	boolean isAnim = false;
 	
 	public MainMenuUI() {
@@ -51,8 +52,10 @@ public class MainMenuUI implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		
 		//Background
-		Image background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_w_logo.jpg")));
-		
+		background = new Image(new Texture(Gdx.files.local("assets/textures/interface/menu/bg_w_logo.jpg")));
+		//background.sizeBy(background.getWidth() - Gdx.graphics.getWidth(), background.getHeight() - Gdx.graphics.getHeight());
+		background.setWidth(Gdx.graphics.getWidth());
+		background.setHeight(Gdx.graphics.getHeight());
 		background.setAlign(2);
 		stage.addActor(background);
 		
@@ -131,6 +134,7 @@ public class MainMenuUI implements Screen {
 		gameStateButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				GameState state = new GameState("save1.txt");
+				state.save();
 				state.load();
 				gameStateButton.setChecked(false);
 			}
