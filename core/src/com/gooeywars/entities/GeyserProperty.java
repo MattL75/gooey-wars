@@ -1,6 +1,7 @@
 package com.gooeywars.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
 public class GeyserProperty {
@@ -10,9 +11,9 @@ public class GeyserProperty {
 	
 	public boolean isCarbon;
 	
-	private Texture texture;
+	private Pixmap pix;
 	
-	private static Texture waterTexture;
+	private static Pixmap waterPix;
 	
 	private int propInt;
 	
@@ -30,26 +31,26 @@ public class GeyserProperty {
 		switch(prop){
 		case 0: 
 			isCarbon = true;
-			texture = waterTexture;
+			pix = waterPix;
 		}
 	}
 	
 
 	public static void loadTextures(){
-		waterTexture = new Texture(Gdx.files.local("assets/textures/geyser/water_geyser.jpg"));
+		waterPix = new Pixmap(Gdx.files.local("assets/textures/geyser/water_geyser.jpg"));
 	}
 
-	public static Texture getWaterTexture() {
-		return waterTexture;
+	public static Pixmap getWaterPix() {
+		return waterPix;
 
 	}
 
-	public static void setWaterTexture(Texture waterTexture) {
-		GeyserProperty.waterTexture = waterTexture;
+	public static void setWaterPix(Pixmap waterPix) {
+		GeyserProperty.waterPix = waterPix;
 	}
 
-	public Texture getTexture() {
-		return texture;
+	public Pixmap getPix() {
+		return pix;
 	}
 
 	

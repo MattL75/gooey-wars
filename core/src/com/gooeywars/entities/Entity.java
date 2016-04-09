@@ -104,8 +104,6 @@ public class Entity {
 	
 	public void draw(SpriteBatch batch){
 		sprite.draw(batch);
-		
-		
 	}
 	
 	public void update(){
