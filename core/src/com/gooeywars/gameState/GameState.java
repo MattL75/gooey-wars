@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Geyser;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
@@ -60,6 +61,15 @@ public class GameState {
 				file.writeString("+", true);
 			}
 			file.writeString(s, true);
+			
+			//Condition to get obstacles from environments
+			if (entities.get(i).getType() == Entity.ENVIRONMENT) {
+				for (int j = 0; j < entities.get(i).getChildren().size; j++) {
+					file.writeString("+", true);
+					String o = entities.get(i).getChildren().get(j).getSaveData();
+					file.writeString(o, true);
+				}
+			}
 		}
 	}
 	
@@ -99,8 +109,8 @@ public class GameState {
 				floatArray[j] = Float.parseFloat(secStringArray[j]);
 			}
 			
-			//Build entity if type is 0
-			if (floatArray[1] == 0) {
+			//Build entity
+			if (floatArray[1] == Entity.ENTITY) {
 				Entity entTemp;
 				if (floatArray[4] == 1) {
 					Vector2 f = new Vector2(floatArray[5], floatArray[6]);
@@ -114,12 +124,22 @@ public class GameState {
 				box.addEntity(entTemp);
 			}
 			
-			//Build goo if type is 1
-			if (floatArray[1] == 1) {
+			//Build goo
+			if (floatArray[1] == Entity.GOO) {
 				Vector2 f = new Vector2(floatArray[5], floatArray[6]);
 				Vector2 v = new Vector2(floatArray[7], floatArray[8]);
 				Vector2 a = new Vector2(floatArray[9], floatArray[10]);
 				box.addEntity(new Goo(floatArray[2], floatArray[3], (int)floatArray[11], f, v, a, (int)floatArray[12], (int)floatArray[13], (int)floatArray[14], (int)floatArray[15], (int)floatArray[16]));
+			}
+			
+			//Build geyser
+			if (floatArray[1] == Entity.GEYSER) {
+				box.addEntity(new Geyser(floatArray[2], floatArray[3], (int)floatArray[6]));
+			}
+			
+			//Build environment
+			if (floatArray[1] == Entity.ENVIRONMENT) {
+				//TODO how to pass obstacles
 			}
 		}
 	}
