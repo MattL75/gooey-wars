@@ -54,11 +54,19 @@ public class Testing extends Component{
 			}
 		}
 		
+		Geyser geyser = new Geyser(700,700);
+		game.addEntity(geyser);
+		
+		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
+		environment.addChild(new Obstacle(40, 400));
+		environment.addChild(new Obstacle(0, 400));
+		environment.addChild(new Obstacle(110, 400));
+		game.addEntity(environment);
 		
 		//Pathfind testing
-		/*Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
+		Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
 
-		Array<Node> path = finder.findPath(new Vector2(40, 0), new Vector2(40, 600));
+		Array<Node> path = finder.findPath(new Vector2(40, 0), new Vector2(60, 600));
 		Pixmap pix = new Pixmap(20, 20, Format.RGB888);
 		pix.setColor(Color.RED);
 		pix.fill();
@@ -67,15 +75,10 @@ public class Testing extends Component{
 		for (int i = 0; i < path.size; i++) {
 			game.addEntity(new Entity(new Sprite(tex), path.get(i).getWorldPos().x, path.get(i).getWorldPos().y));
 
-		}*/
+		}
 
 		
-		Geyser geyser = new Geyser(700,700);
-		game.addEntity(geyser);
 		
-		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
-		environment.addChild(new Obstacle(40, 400));
-		game.addEntity(environment);
 	}
 
 	@Override
