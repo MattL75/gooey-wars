@@ -18,19 +18,19 @@ public class Obstacle extends Entity{
 	
 	
 	public Obstacle(){
-		createObstacle(0,0,0,0,50,50);
+		createObstacle(0,0,0,0,40,40);
 	}
 	
 	public Obstacle(int x, int y){
-		createObstacle(x,y,0,0,50,50);
+		createObstacle(x,y,0,0,40,40);
 	}
 	
 	public Obstacle(int x, int y, int color){
-		createObstacle(x,y,color,0,50,50);
+		createObstacle(x,y,color,0,40,40);
 	}
 	
 	public Obstacle(int x, int y, int color, int type){
-		createObstacle(x,y,color,type,50,50);
+		createObstacle(x,y,color,type,40,40);
 	}
 	
 	public Obstacle(int x, int y, int color, int type, float width, float height){

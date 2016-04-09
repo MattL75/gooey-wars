@@ -29,7 +29,7 @@ public class PhysicsBox {
 			
 			if(entities.get(i).getPhysicsEnabled()){
 				tempForce = entities.get(i).getForce();
-				entities.get(i).setAcceleration(new Vector2(tempForce.scl(1/(float)entities.get(i).getMass())));
+				entities.get(i).setAcceleration(new Vector2(tempForce.scl(1f/30f)));//(float)entities.get(i).getMass())));
 			}
 			
 		}

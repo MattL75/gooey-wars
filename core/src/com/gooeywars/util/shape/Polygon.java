@@ -256,6 +256,7 @@ public class Polygon{
 	
 	public void dispose(){
 		sprite.getTexture().dispose();
+		
 	}
 	
 	private int getHeight(){

@@ -2,10 +2,14 @@ package com.gooeywars.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Array;
+import com.gooeywars.physics.Collider;
+import com.gooeywars.util.shape.Square;
 
 public class Geyser extends Entity{
 	private GeyserProperty property;
 	private int propInt;
+	private boolean occupied;
 	
 	public Geyser(){
 		genGeyser(0,0,0);
@@ -29,15 +33,37 @@ public class Geyser extends Entity{
 		setPhysicsEnabled(false);
 		setX(x);
 		setY(y);
+		setWidth(50);
+		setHeight(50);
 		property = new GeyserProperty(prop);
 		setSprite(new Sprite(new Texture(property.getPix())));
 		setType(Entity.GEYSER);
+		genCollider();
+	}
+	
+	public void genCollider(){
+		Square square = new Square((int)getWidth(), (int)getX(), (int)getY());
+		Collider coll = new Collider(square);
+		coll.setDrawable(true);
+		Array<Collider> colls = new Array<Collider>();
+		colls.add(coll);
+		setColliders(colls);
 	}
 	
 	
+	public boolean isOccupied() {
+		return occupied;
+	}
+
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
+
 	public String getSaveData(){
 		String data = super.getSaveData();
 		data+= "," + propInt;
 		return data;
 	}
+	
+	
 }

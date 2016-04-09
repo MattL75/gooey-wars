@@ -147,10 +147,11 @@ public class Goo extends Entity{
 				Goo goo = (Goo) other;
 				
 				if(owner != goo.getOwner()){
-					if(len2 > getMass() * getMass() || len2 > goo.getMass() * goo.getMass()){
-						annihilate(getMass());
-						goo.annihilate(goo.getMass());
+					if(len2 > (getMass() * getMass()) || len2 > (goo.getMass() * goo.getMass())){
+						annihilate(goo.getMass());
+						goo.annihilate(getMass());
 					} else {
+						
 						annihilate(len);
 						goo.annihilate(len);
 					}
@@ -162,6 +163,18 @@ public class Goo extends Entity{
 				}
 				
 			} else if(other instanceof Geyser) {
+				Geyser geyser = (Geyser) other;
+				if(!geyser.isOccupied()){
+					float gCenterX = geyser.getX() + geyser.getWidth()/2;
+					float gCenterY = geyser.getY() + geyser.getHeight()/2;
+					float gooCenterX = getX() + getWidth()/2;
+					float gooCenterY = getY() + getHeight()/2;
+					Vector2 force = new Vector2(gCenterX -gooCenterX, gCenterY - gooCenterY);
+					force.scl(20);
+					addForce(force);
+				} else {
+					
+				}
 				
 			} else if(other instanceof Environment || other instanceof Obstacle){
 				displacement = super.collide(other);
@@ -195,7 +208,7 @@ public class Goo extends Entity{
 		float initRad;
 		
 		if(len > 0){
-			if(getMass() > 5){
+			if(getMass() > 4){
 				setMass((int)(getMass() - len));
 				initRad = radius;
 				radius = Math.round(getMass());
@@ -206,18 +219,10 @@ public class Goo extends Entity{
 				setY(getY()+radiusVar);
 				createSprite();
 				createColliders();
-				
-				/*goo.setMass((int)(goo.getMass() - 1));
-				goo.setRadius(Math.round(goo.getMass()/2));
-				goo.createSprite();
-				goo.createColliders();*/
 			} else {
 				destroy();
 			}
 		}
-		
-		
-		System.out.println(getMass());
 		
 	}
 	

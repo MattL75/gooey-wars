@@ -36,9 +36,18 @@ public class Testing extends Component{
 		
 		game = Main.findGameBox("game");
 		
+		Geyser geyser = new Geyser(700,700);
+		game.addEntity(geyser);
+		
+		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
+		environment.addChild(new Obstacle(40, 400));
+		environment.addChild(new Obstacle(0, 400));
+		environment.addChild(new Obstacle(130, 400));
+		game.addEntity(environment);
+		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				Goo goo = new Goo(i*60,j*60 + 400,20);
+				Goo goo = new Goo(i*60,j*60 + 400,4);
 				goo.setOwner(1);
 				game.addEntity(goo);
 			}
@@ -54,14 +63,7 @@ public class Testing extends Component{
 			}
 		}
 		
-		Geyser geyser = new Geyser(700,700);
-		game.addEntity(geyser);
 		
-		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
-		environment.addChild(new Obstacle(40, 400));
-		environment.addChild(new Obstacle(0, 400));
-		environment.addChild(new Obstacle(110, 400));
-		game.addEntity(environment);
 		
 		//Pathfind testing
 		Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
