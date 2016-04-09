@@ -63,7 +63,7 @@ public class Goo extends Entity{
 		
 		setX(x);
 		setY(y);
-		radius = Math.round(mass/2);
+		radius = Math.round(mass);
 		setWidth((radius+1)*2.0f);
 		setHeight((radius+1)*2.0f);
 		
@@ -139,15 +139,23 @@ public class Goo extends Entity{
 		Vector2 displacement = new Vector2();
 		
 		Vector2 overlap = super.collide(other);
-		//float len2 = 
+		float len2 = overlap.len2();
+		float len = overlap.len();
 		
 		if(overlap.len2() > 0){
 			if(other instanceof Goo){
 				Goo goo = (Goo) other;
 				
 				if(owner != goo.getOwner()){
-					annihilate(overlap);
-					goo.annihilate(overlap);
+					if(len2 > getMass() * getMass() || len2 > goo.getMass() * goo.getMass()){
+						annihilate(getMass());
+						goo.annihilate(goo.getMass());
+					} else {
+						annihilate(len);
+						goo.annihilate(len);
+					}
+					
+					
 					
 				} else {
 					displacement = super.collide(other);
@@ -181,16 +189,16 @@ public class Goo extends Entity{
 		
 	}
 	
-	public void annihilate(Vector2 overlap){
-		float len = overlap.len();
+	public void annihilate(float overlap){
+		float len = overlap;
 		float radiusVar;
 		float initRad;
 		
 		if(len > 0){
-			if(getMass() > 10){
-				setMass((int)(getMass() - len*2));
+			if(getMass() > 5){
+				setMass((int)(getMass() - len));
 				initRad = radius;
-				radius = Math.round(getMass()/2);
+				radius = Math.round(getMass());
 				radiusVar = initRad - radius;
 				setWidth(radius*2);
 				setHeight(radius*2);
