@@ -54,9 +54,15 @@ public class GameMouseInput extends Component{
 		}
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			//for loop of selected goos, 
+			Array<Entity> ar = Main.findGameBox("game").getEntities();
+			for (int i = 0; i < ar.size; i++) {
+				if (ar.get(i).getType() == Entity.GOO) {
+					Goo goo = (Goo) ar.get(i);
+					if (goo.isSelected()) {
+						//do stuff
+					}
+				}
+			}
 		}
-		
 	}
-
 }
