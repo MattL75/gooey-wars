@@ -17,6 +17,8 @@ public class Entity {
 	public static final int ENVIRONMENT = 3;
 	public static final int OBSTACLE = 4;
 	
+	private float velocityFactor;
+	
 	private Sprite sprite;
 	
 	
@@ -77,6 +79,7 @@ public class Entity {
 	}
 	
 	private void initEntity(Sprite sprite, Array<Collider> colliders, float x, float y, boolean physicsEnabled, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
+		velocityFactor = 1f;
 		id = entityCount++;
 		this.x = x;
 		this.y = y;
@@ -319,6 +322,14 @@ public class Entity {
 
 	
 	
+	public float getVelocityFactor() {
+		return velocityFactor;
+	}
+
+	public void setVelocityFactor(float velocityFactor) {
+		this.velocityFactor = velocityFactor;
+	}
+
 	//id,type,x,y,physicsEnabled,force.x,force.y,velocity.x,velocity.y,acceleration.x,acceleration.y,mass
 	//The textureType is 0 when the texture has a file path. It is 1 when the texture is automatically generated.
 	public String getSaveData(){

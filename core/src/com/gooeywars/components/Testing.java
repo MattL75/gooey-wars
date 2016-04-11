@@ -41,21 +41,25 @@ public class Testing extends Component{
 		
 		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
 		environment.addChild(new Obstacle(40, 400));
-		environment.addChild(new Obstacle(0, 400));
-		environment.addChild(new Obstacle(130, 400));
+		//environment.addChild(new Obstacle(0, 400));
+		environment.addChild(new Obstacle(120, 400));
+		environment.addChild(new Obstacle(80,400));
+		environment.addChild(new Obstacle(120,440));
+		environment.addChild(new Obstacle(120,480));
+
 		game.addEntity(environment);
 		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				Goo goo = new Goo(i*60,j*60 + 400,4);
+				Goo goo = new Goo(i*60,j*60 + 400,10);
 				goo.setOwner(1);
 				game.addEntity(goo);
 			}
 		}
 		
 		
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 3; j++){
+		for(int i = 0; i < 1; i++){
+			for(int j = 0; j < 1; j++){
 				Goo goo = new Goo(i*60+400,j*60 + 400,20);
 				goo.setColorInt(1);
 				goo.setOwner(2);
@@ -68,7 +72,7 @@ public class Testing extends Component{
 		//Pathfind testing
 		Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
 
-		Array<Node> path = finder.findPath(new Vector2(40, 0), new Vector2(60, 600));
+		Array<Node> path = finder.findPath(new Vector2(40, 0), new Vector2(60, 450));
 		Pixmap pix = new Pixmap(20, 20, Format.RGB888);
 		pix.setColor(Color.RED);
 		pix.fill();

@@ -12,7 +12,7 @@ import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Polygon;
 
 public class Goo extends Entity{
-	private int radius;
+	private float radius;
 	private int owner;
 	private Color color; 
 	private int colorInt;
@@ -24,6 +24,8 @@ public class Goo extends Entity{
 	private int element2;
 	
 	private int sideCount = 8;
+	
+	public static final int SMALLEST_MASS = 5;
 	
 	public Goo(){
 		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
@@ -63,11 +65,11 @@ public class Goo extends Entity{
 		
 		setX(x);
 		setY(y);
-		radius = Math.round(mass);
+		radius = Math.round(mass)/2;
 		setWidth((radius+1)*2.0f);
 		setHeight((radius+1)*2.0f);
 		
-		setMass(mass);
+		
 		setForce(force);
 		setVelocity(velocity);
 		setAcceleration(acceleration);
@@ -75,8 +77,10 @@ public class Goo extends Entity{
 		property = new GooProperty(prop);
 		this.color = genColor(color);
 		this.owner = owner;
-		
+		super.setMass(mass);
 		setType(Entity.GOO);
+		
+		setVelocityFactor(property.getVelocityFactor());
 		
 		createSprite();
 		createColliders();
@@ -85,9 +89,10 @@ public class Goo extends Entity{
 	private void createSprite(){
 		getSprite().getTexture().dispose();
 		Pixmap pix = new Pixmap((int)getWidth(), (int)getWidth(), Format.RGBA8888);
+		
 		pix.setColor(color);
 		
-		pix.fillCircle(radius, radius, radius);
+		pix.fillCircle((int)radius, (int)radius, (int)radius);
 		
 		Texture texture = new Texture(pix);
 		pix.dispose();
@@ -101,8 +106,8 @@ public class Goo extends Entity{
 		clearColliders();
 		Polygon poly = new Polygon();
 		for(int i = 0; i < sideCount; i++){
-			float x = (float) (Math.cos(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius+1)+radius+1;
-			float y = (float) (Math.sin(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius+1)+radius+1;
+			float x = (float) (Math.cos(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius)+radius;
+			float y = (float) (Math.sin(Math.PI *2* i/sideCount + Math.PI/sideCount))*(radius)+radius;
 			poly.addVertice(x, y);
 		}
 		
@@ -113,6 +118,33 @@ public class Goo extends Entity{
 		
 		setColliders(colls);
 	}
+	
+	public void changeMass(int massVar){
+		
+		float radiusVar; 
+		float initRad;
+		
+		super.setMass((getMass()+massVar));
+		radiusVar = ((massVar))/2f;
+		float width = (radius+radiusVar) * 2;
+		float height = (radius+radiusVar) * 2;
+		radius = (radius+radiusVar);
+		
+		if(getMass() > SMALLEST_MASS){
+			
+			
+			
+			setWidth(width);
+			setHeight(height);
+			setX(getX()-radiusVar*1f);
+			setY(getY()-radiusVar*1f);
+			createSprite();
+			createColliders();
+		} else {
+			destroy();
+		}
+	}
+	
 	
 	private Color genColor(int c){
 		switch(c){
@@ -134,6 +166,10 @@ public class Goo extends Entity{
 		}
 	}
 	
+	boolean isFree = true;
+	boolean connected = false;
+	boolean wasMining = false;
+	
 	@Override
 	public Vector2 collide(Entity other){
 		Vector2 displacement = new Vector2();
@@ -142,7 +178,9 @@ public class Goo extends Entity{
 		float len2 = overlap.len2();
 		float len = overlap.len();
 		
+		
 		if(overlap.len2() > 0){
+			
 			if(other instanceof Goo){
 				Goo goo = (Goo) other;
 				
@@ -164,21 +202,48 @@ public class Goo extends Entity{
 				
 			} else if(other instanceof Geyser) {
 				Geyser geyser = (Geyser) other;
-				if(!geyser.isOccupied()){
-					float gCenterX = geyser.getX() + geyser.getWidth()/2;
-					float gCenterY = geyser.getY() + geyser.getHeight()/2;
-					float gooCenterX = getX() + getWidth()/2;
-					float gooCenterY = getY() + getHeight()/2;
-					Vector2 force = new Vector2(gCenterX -gooCenterX, gCenterY - gooCenterY);
-					force.scl(20);
+				
+				
+				float gCenterX = geyser.getX() + geyser.getWidth() / 2;
+				float gCenterY = geyser.getY() + geyser.getHeight() / 2;
+				float gooCenterX = getX() + getWidth() / 2;
+				float gooCenterY = getY() + getHeight() / 2;
+				Vector2 force = new Vector2();
+				
+				force = new Vector2(25 * (gCenterX - gooCenterX), 25 * (gCenterY - gooCenterY));
+				
+				if(Math.abs((gCenterX - gooCenterX)) < 10 && Math.abs((gCenterY - gooCenterY)) < 10 && !isFree){
+					setX(gCenterX - getWidth()/2);
+					setY(gCenterY - getHeight()/2);
+					stopEntity();
+					isFree = true;
+					connected = true;
+					geyser.mine(this);
+					wasMining = true;
+					System.out.println("Mining");
+					
+				} else if(!isFree){
 					addForce(force);
-				} else {
 					
 				}
+				
+				
+				
 				
 			} else if(other instanceof Environment || other instanceof Obstacle){
 				displacement = super.collide(other);
 			}
+			
+		} else if(other instanceof Geyser){
+
+			((Geyser) other).stopMining(this);
+			wasMining = false;
+
+			isFree = false;
+
+			connected = false;
+
+			//System.out.println("stopping");
 		}
 		
 		return displacement;
@@ -186,8 +251,18 @@ public class Goo extends Entity{
 		
 	}
 	
-	public void split(Vector2 dirVect){
-		
+	public boolean split(Vector2 dirVect){
+		if(getMass() > SMALLEST_MASS * 2){
+			System.out.println(radius);
+			System.out.println(getMass());
+			Goo brother = new Goo(this.getX()+ getWidth(), this.getY()+getWidth()/4, this.getMass()/2, this.getForce().cpy(), this.getVelocity().cpy(), getAcceleration().cpy().add(dirVect.cpy().scl(-10000)), this.getOwner(), propInt, colorInt, element1, element2);
+			brother.addForce(dirVect.cpy().scl(10000));
+			Main.findGameBox("game").addEntity(brother);
+			setMass(getMass()/2);
+			addForce(dirVect.cpy().scl(-10000));
+			return true;
+		}
+		return false;
 	}
 	
 	public void merge(Goo other){
@@ -208,20 +283,7 @@ public class Goo extends Entity{
 		float initRad;
 		
 		if(len > 0){
-			if(getMass() > 4){
-				setMass((int)(getMass() - len));
-				initRad = radius;
-				radius = Math.round(getMass());
-				radiusVar = initRad - radius;
-				setWidth(radius*2);
-				setHeight(radius*2);
-				setX(getX()+radiusVar);
-				setY(getY()+radiusVar);
-				createSprite();
-				createColliders();
-			} else {
-				destroy();
-			}
+			changeMass((int)(-1 * len));
 		}
 		
 	}
@@ -232,6 +294,8 @@ public class Goo extends Entity{
 		clearColliders();
 	}
 	
+	
+	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
 	public String getSaveData(){
@@ -240,11 +304,11 @@ public class Goo extends Entity{
 		return data;
 	}
 
-	public int getRadius() {
+	public float getRadius() {
 		return radius;
 	}
 
-	public void setRadius(int radius) {
+	public void setRadius(float radius) {
 		this.radius = radius;
 		createSprite();
 	}
@@ -304,5 +368,10 @@ public class Goo extends Entity{
 			color = genColor(colorInt);
 			createSprite();
 		}
+	}
+	
+	@Override
+	public void setMass(int mass) {
+		changeMass(mass - getMass());
 	}
 }
