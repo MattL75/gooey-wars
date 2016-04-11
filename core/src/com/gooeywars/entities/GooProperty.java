@@ -9,7 +9,7 @@ public class GooProperty {
 	public static final int PINK = 5;
 	
 	
-	
+	private float velocityFactor;
 	private float damage;
 	private float defence;
 	
@@ -40,7 +40,7 @@ public class GooProperty {
 	}
 	
 	public GooProperty(int prop){
-		
+		genGooProp(prop);
 	}
 	
 	private void genGooProp(int prop){
@@ -49,6 +49,7 @@ public class GooProperty {
 		switch(prop){
 		case 0:
 			//Default Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 1;
 			solidified = false;
@@ -58,6 +59,7 @@ public class GooProperty {
 			break;
 		case 1:
 			//Steel Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 2;
 			solidified = true;
@@ -67,6 +69,7 @@ public class GooProperty {
 			break;
 		case 2:
 			//Fire proof
+			velocityFactor = 1;
 			damage = 1;
 			defence = 1;
 			solidified = false;
@@ -76,6 +79,7 @@ public class GooProperty {
 			break;
 		case 3:
 			//Explosive Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 1;
 			solidified = false;
@@ -85,6 +89,7 @@ public class GooProperty {
 			break;
 		case 4:
 			//Nuclear Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 1;
 			solidified = false;
@@ -94,6 +99,7 @@ public class GooProperty {
 			break;
 		case 5:
 			//Calcified_Steel Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 2;
 			solidified = true;
@@ -103,6 +109,7 @@ public class GooProperty {
 			break;
 		case 6:
 			//C4 Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 1;
 			solidified = false;
@@ -112,6 +119,7 @@ public class GooProperty {
 			break;
 		case 7:
 			//Nuclear Bomb Goo
+			velocityFactor = 1;
 			damage = 1;
 			defence = 1;
 			solidified = false;
@@ -125,6 +133,14 @@ public class GooProperty {
 	
 	public int getPropInt() {
 		return propInt;
+	}
+	
+	public float getVelocityFactor() {
+		return velocityFactor;
+	}
+
+	public void setVelocityFactor(float velocityFactor) {
+		this.velocityFactor = velocityFactor;
 	}
 
 	public float getDamage() {
