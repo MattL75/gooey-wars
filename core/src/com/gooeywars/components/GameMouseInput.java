@@ -2,17 +2,23 @@ package com.gooeywars.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.Main;
+import com.gooeywars.pathfinding.MoveHandler;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Square;
 
 public class GameMouseInput extends Component{
 	Array<Entity> entities;
 	Collider mouseTip;
+	MoveHandler mover;
+	
+	boolean rightClickedReleased;
+	
 	public GameMouseInput() {
 		create();
 	}
@@ -21,6 +27,7 @@ public class GameMouseInput extends Component{
 	public void create() {
 		//entities = Main.findGameBox("game").getEntities();
 		mouseTip = new Collider(new Square(10,0,0));
+		mover = new MoveHandler();
 	}
 
 	@Override
@@ -54,15 +61,21 @@ public class GameMouseInput extends Component{
 		}
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			Array<Entity> ar = Main.findGameBox("game").getEntities();
-			for (int i = 0; i < ar.size; i++) {
-				if (ar.get(i).getType() == Entity.GOO) {
-					Goo goo = (Goo) ar.get(i);
-					if (goo.isSelected()) {
-						//do stuff
+			if(rightClickedReleased){
+				Array<Entity> ar = Main.findGameBox("game").getEntities();
+				for (int i = 0; i < ar.size; i++) {
+					if (ar.get(i).getType() == Entity.GOO) {
+						Goo goo = (Goo) ar.get(i);
+						if (goo.isSelected()) {
+							mover.move(goo, new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
+						}
 					}
 				}
 			}
+			rightClickedReleased = false;
+			
+		} else {
+			rightClickedReleased = true;
 		}
 	}
 }

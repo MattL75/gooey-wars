@@ -13,7 +13,7 @@ public class GameKeyInput extends Component{
 	Array<Entity> entities;
 	static Entity currentEnt;
 	
-	boolean spacePressed;
+	
 	boolean spaceReleased;
 	
 	public GameKeyInput() {
