@@ -49,8 +49,6 @@ class moveCalc implements Runnable {
 		pathNode = finder.findPath(initialPos, finalPos);
 		path = new Array<Vector2>();
 		System.out.println(pathNode.size);
-		Vector2 initNodePos;
-		Vector2 finalNodePos;
 		
 		Vector2 currentDestination;
 		boolean destinationReached = false;
