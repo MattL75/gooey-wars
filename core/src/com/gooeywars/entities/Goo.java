@@ -115,7 +115,7 @@ public class Goo extends Entity{
 		}
 		
 		Collider coll = new Collider(poly);
-		coll.setDrawable(false);
+		coll.setDrawable(true);
 		Array<Collider> colls = new Array<Collider>();
 		colls.add(coll);
 		
