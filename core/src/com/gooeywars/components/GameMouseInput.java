@@ -17,7 +17,13 @@ public class GameMouseInput extends Component{
 	Collider mouseTip;
 	MoveHandler mover;
 	
+	Array<Goo> selectedGoo;
+	
 	boolean rightClickedReleased;
+	boolean rightClickedPressed;
+	
+	boolean leftClickedReleased;
+	boolean leftClickedPressed;
 	
 	public GameMouseInput() {
 		create();
@@ -27,7 +33,7 @@ public class GameMouseInput extends Component{
 	public void create() {
 		//entities = Main.findGameBox("game").getEntities();
 		mouseTip = new Collider(new Square(10,0,0));
-		mover = new MoveHandler();
+		mover = Main.findGameBox("game").getMover();
 	}
 
 	@Override
@@ -35,29 +41,32 @@ public class GameMouseInput extends Component{
 		entities = Main.findGameBox("game").getEntities();
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			//Loop checks if an entity is clicked
-			
-			for (int i = 0; i < entities.size; i++) {
-				
-				Entity x = entities.get(i);
-				//Checks if clicked entity is goo or entity type
-				if (x.getType() == 0 || x.getType() == 1) {
-					
-					//Checks for same position XY
-					if(x.getColliders().size > 0){
+			if (leftClickedReleased) {
+				for (int i = 0; i < entities.size; i++) {
+					Entity ent = entities.get(i);
+					if (ent instanceof Goo) {
+						Goo goo = (Goo) ent;
 						mouseTip.setX(Gdx.input.getX());
 						mouseTip.setY(Gdx.graphics.getHeight() - Gdx.input.getY());
-						//Doesn't return a boolean anymore. We'll have to reimplement it.
-						if (x.getColliders().get(0).collide(mouseTip).len2() > 0) {
-							GameKeyInput.currentEnt = x;
-							if(x instanceof Goo){
-								Goo goo = (Goo) x;
-								goo.setSelected(true);
+						if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
+							GameKeyInput.currentEnt = goo;
+
+							goo.setSelected(true);
+							for (int j = 0; j < entities.size; j++) {
+								if (entities.get(j) instanceof Goo) {
+									if (j != i) {
+										((Goo) entities.get(j)).setSelected(false);
+									}
+								}
 							}
 							break;
 						}
 					}
 				}
 			}
+			leftClickedReleased = false;
+		} else { 
+			leftClickedReleased = true;
 		}
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
@@ -67,7 +76,8 @@ public class GameMouseInput extends Component{
 					if (ar.get(i).getType() == Entity.GOO) {
 						Goo goo = (Goo) ar.get(i);
 						if (goo.isSelected()) {
-							mover.move(goo, new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));
+							mover.cancel(goo);
+							mover.move(goo, new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));	
 						}
 					}
 				}

@@ -70,7 +70,7 @@ public class Testing extends Component{
 		
 		
 		//Pathfind testing
-		Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
+		/*Pathfinder finder = new Pathfinder(Main.findGameBox("game").getGrid());
 
 		Array<Node> path = finder.findPath(new Vector2(40, 0), new Vector2(60, 450));
 		Pixmap pix = new Pixmap(20, 20, Format.RGB888);
@@ -81,7 +81,7 @@ public class Testing extends Component{
 		for (int i = 0; i < path.size; i++) {
 			game.addEntity(new Entity(new Sprite(tex), path.get(i).getWorldPos().x, path.get(i).getWorldPos().y));
 
-		}
+		}*/
 
 		
 		

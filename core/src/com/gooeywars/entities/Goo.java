@@ -1,5 +1,7 @@
 package com.gooeywars.entities;
 
+import java.util.concurrent.Future;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -19,6 +21,7 @@ public class Goo extends Entity{
 	private GooProperty property;
 	private int propInt;
 	private boolean isSelected;
+	private boolean isMerging;
 	
 	private int element1;
 	private int element2;
@@ -197,7 +200,11 @@ public class Goo extends Entity{
 					
 					
 				} else {
-					displacement = super.collide(other);
+					if(isMerging && goo.isMerging()){
+						join(goo);
+					} else {
+						displacement = overlap.cpy();
+					}
 				}
 				
 			} else if(other instanceof Geyser) {
@@ -223,15 +230,10 @@ public class Goo extends Entity{
 					System.out.println("Mining");
 					
 				} else if(!isFree){
-					addForce(force);
-					
+					addForce(force);	
 				}
-				
-				
-				
-				
 			} else if(other instanceof Environment || other instanceof Obstacle){
-				displacement = super.collide(other);
+				displacement = overlap.cpy();
 			}
 			
 		} else if(other instanceof Geyser){
@@ -265,8 +267,21 @@ public class Goo extends Entity{
 		return false;
 	}
 	
-	public void merge(Goo other){
+	public void merge(Array<Goo> mergingGoos){
+		float totalX = 0;
+		float totalY = 0;
+		for(int i = 0; i < mergingGoos.size; i++){
+			mergingGoos.get(i).setMerging(true);
+			totalX += mergingGoos.get(i).getX();
+			totalY += mergingGoos.get(i).getY();	
+		}
 		
+		Vector2 joinPoint = new Vector2(totalX/mergingGoos.size, totalY/mergingGoos.size);
+		
+		for(int i = 0; i < mergingGoos.size; i++){
+			Main.findGameBox("game").getMover().cancel(mergingGoos.get(i));
+			Main.findGameBox("game").getMover().move(mergingGoos.get(i), joinPoint);
+		}
 	}
 	
 	public void build(Array<Vector2> path){
@@ -275,6 +290,11 @@ public class Goo extends Entity{
 	
 	public void toggleAttackMode(){
 		
+	}
+	
+	public void join(Goo other){
+		setMass(getMass() + other.getMass());
+		other.destroy();
 	}
 	
 	public void annihilate(float overlap){
@@ -293,8 +313,6 @@ public class Goo extends Entity{
 		getSprite().getTexture().dispose();
 		clearColliders();
 	}
-	
-	
 	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
@@ -373,5 +391,13 @@ public class Goo extends Entity{
 	@Override
 	public void setMass(int mass) {
 		changeMass(mass - getMass());
+	}
+
+	public boolean isMerging() {
+		return isMerging;
+	}
+
+	public void setMerging(boolean isMerging) {
+		this.isMerging = isMerging;
 	}
 }

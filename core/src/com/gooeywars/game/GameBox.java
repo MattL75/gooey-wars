@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.exception.TagSameException;
 import com.gooeywars.pathfinding.Grid;
+import com.gooeywars.pathfinding.MoveHandler;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.physics.PhysicsBox;
 
@@ -32,6 +32,8 @@ public class GameBox {
 	private Color background;
 	
 	private Grid grid;
+	
+	private MoveHandler mover;
 	
 	public GameBox(){
 		Main.gameBoxes.add(this);
@@ -59,6 +61,7 @@ public class GameBox {
 		components = new Array<Component>();
 		batch = new SpriteBatch();
 		background = Color.WHITE;
+		
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();
@@ -234,5 +237,14 @@ public class GameBox {
 
 	public void setGrid(Grid grid) {
 		this.grid = grid;
+		mover = new MoveHandler(grid);
+	}
+
+	public MoveHandler getMover() {
+		return mover;
+	}
+
+	public void setMover(MoveHandler mover) {
+		this.mover = mover;
 	}
 }
