@@ -9,21 +9,15 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.game.GooeyWars;
@@ -69,102 +63,99 @@ public class GameUI implements Screen {
 		table.left();
 		stage.addActor(table);
 		
-		//Group stuff
-		Group group = new Group();
-		
 		//Minimap
 		Image minMap = new Image(skin.newDrawable("white", Color.WHITE));
-		minMap.setWidth(Gdx.graphics.getWidth() / 4);
-		minMap.setHeight(Gdx.graphics.getHeight() / 4);
-		minMap.setAlign(Align.bottomLeft);
-		group.addActor(minMap);
 		
-		/*/Bottom right
+		//Bottom right
 		Image botBar = new Image(skin.newDrawable("white", Color.WHITE));
 		botBar.setWidth(Gdx.graphics.getWidth() - minMap.getImageWidth());
 		botBar.setHeight(60);
 		botBar.setAlign(Align.bottomLeft);
-		group.addActor(botBar);/*/
 		
-		//Bottom right bar and buttons
-		VerticalGroup vert = new VerticalGroup();
-		HorizontalGroup botButtons = new HorizontalGroup();
-		HorizontalGroup botBar = new HorizontalGroup();
-		
-		float size = 40.0f;
+		float size = 80.0f;
 		//MergeButton
 		Button btMerge = new Button(skin.newDrawable("white", Color.WHITE));
 		Image mergeUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/merge_button_regular.png")));
 		Image mergeHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/merge_button_hover.png")));
 		Image mergeDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/merge_button_click.png")));
-		mergeUp.setSize(size, size);
-		mergeHover.setSize(size, size);
-		mergeDown.setSize(size, size);
+		btMerge.setWidth(80);
+		btMerge.setHeight(80);
+		btMerge.setX(Gdx.graphics.getWidth() - 570);
+		btMerge.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle mergeStyle = new ButtonStyle();
 		mergeStyle.over = mergeHover.getDrawable();
 		mergeStyle.up = mergeUp.getDrawable();
 		mergeStyle.down = mergeDown.getDrawable();
 		btMerge.setStyle(mergeStyle);
-		botButtons.addActor(btMerge);
 		
 		//SplitButton
 		Button btSplit = new Button(skin.newDrawable("white", Color.WHITE));
 		Image splitUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/split_button_regular.png")));
 		Image splitHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/split_button_hover.png")));
 		Image splitDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/split_button_click.png")));
-		splitUp.setSize(size, size);
-		splitHover.setSize(size, size);
-		splitDown.setSize(size, size);
+		btSplit.setWidth(80);
+		btSplit.setHeight(80);
+		btSplit.setX(Gdx.graphics.getWidth() - 570 - size);
+		btSplit.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle splitStyle = new ButtonStyle();
 		splitStyle.over = splitHover.getDrawable();
 		splitStyle.up = splitUp.getDrawable();
 		splitStyle.down = splitDown.getDrawable();
 		btSplit.setStyle(splitStyle);
-		botButtons.addActor(btSplit);
 		
 		//AttackButton
 		Button btAttack = new Button(skin.newDrawable("white", Color.WHITE));
 		Image attackUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/attack_button_regular.png")));
 		Image attackHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/attack_button_hover.png")));
 		Image attackDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/attack_button_click.png")));
-		attackUp.setSize(size, size);
-		attackHover.setSize(size, size);
-		attackDown.setSize(size, size);
+		btAttack.setWidth(80);
+		btAttack.setHeight(80);
+		btAttack.setX(Gdx.graphics.getWidth() - 570 - 2 * size);
+		btAttack.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle attackStyle = new ButtonStyle();
 		attackStyle.over = attackHover.getDrawable();
 		attackStyle.up = attackUp.getDrawable();
 		attackStyle.down = attackDown.getDrawable();
 		btAttack.setStyle(attackStyle);
-		botButtons.addActor(btAttack);
 		
 		//BuildButton
 		Button btBuild = new Button(skin.newDrawable("white", Color.WHITE));
 		Image buildUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/build_button_regular.png")));
 		Image buildHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/build_button_hover.png")));
 		Image buildDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/build_button_click.png")));
-		buildUp.setSize(size, size);
-		buildHover.setSize(size, size);
-		buildDown.setSize(size, size);
+		btBuild.setWidth(80);
+		btBuild.setHeight(80);
+		btBuild.setX(Gdx.graphics.getWidth() - 570 - 3 * size);
+		btBuild.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle buildStyle = new ButtonStyle();
 		buildStyle.over = buildHover.getDrawable();
 		buildStyle.up = buildUp.getDrawable();
 		buildStyle.down = buildDown.getDrawable();
 		btBuild.setStyle(buildStyle);
-		botButtons.addActor(btBuild);
 		
-		botButtons.setX(400);
-		botButtons.setY(300);
-		stage.addActor(botButtons);
+		//Table settings
+		//table.add(group).align(Align.bottomLeft);
+		table.add(minMap).width(Gdx.graphics.getWidth() / 4).height(Gdx.graphics.getHeight() / 4).align(Align.bottomLeft);
 		
-		table.add(group).expand().fill();
-		table.add(btMerge).width(80).height(80).align(Align.bottomRight);
-		table.add(btSplit).width(80).height(80).align(Align.bottomRight);
-		table.add(btAttack).width(80).height(80).align(Align.bottomRight);
-		table.add(btBuild).width(80).height(80).align(Align.bottomRight);
+		Group group = new Group();
+		group.addActor(botBar);
+		group.addActor(btMerge);
+		group.addActor(btSplit);
+		group.addActor(btAttack);
+		group.addActor(btBuild);
+		
+		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
+		
+		/*/table.add(btMerge).width(80).height(80).align(Align.topRight);
+		table.add(btSplit).width(80).height(80).align(Align.topRight);
+		table.add(btAttack).width(80).height(80).align(Align.topRight);
+		table.add(btBuild).width(80).height(80).align(Align.topRight);
+		
+		table.add(botBar).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).height(60).align(Align.bottomLeft);/*/
 
 		//table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(Gdx.graphics.getWidth() / 6).prefHeight(Gdx.graphics.getHeight() / 5);
 		//table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(1000).prefHeight(100).align(Align.bottom);
