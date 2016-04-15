@@ -94,10 +94,6 @@ public class GameMouseInput extends Component{
 			leftClickedPressed = false;
 		}
 		
-		System.out.println("Up:    " + onUpLeft);
-		System.out.println("Down:  " + onDownLeft);
-		System.out.println("Click: " + onClickLeft);
-		System.out.println("Dragged" + getOnDraggedLeft());
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
 			onUpRight = false;
@@ -185,11 +181,15 @@ public class GameMouseInput extends Component{
 			
 			for(int i = 0; i < entities.size; i++){
 				for(int j = 0; j < selectedGoo.size; j++){
+					System.out.println("J: " + j);
 					if(entities.get(i).getId() == selectedGoo.get(j).getId()){
+						System.out.println("Reaching end");
 						break;
 					}
 					if(j == selectedGoo.size -1){
+						
 						if(entities.get(i) instanceof Goo){
+							
 							((Goo)entities.get(i)).setSelected(false);
 						}
 					}
