@@ -61,13 +61,18 @@ public class Geyser extends Entity{
 	}
 	
 	public void mine(Goo goo){
-		System.out.println("starting");
+		if(property.element != goo.getElement1()){
+			goo.setElement2(goo.getElement1());
+			goo.setElement1(property.element);
+		}
+	
+		
 		timer.clear();
 		timer.scheduleTask(new mineTask(goo), 0f, 0.1f);
 		timer.start();
 	}
 	
-	public void miningUpdate(){
+	/*public void miningUpdate(){
 		float gCenterX = getX() + getWidth() / 2;
 		float gCenterY = getY() + getHeight() / 2;
 		float gooCenterX = miningGoo.getX() + miningGoo.getWidth() / 2;
@@ -88,10 +93,11 @@ public class Geyser extends Entity{
 			}
 		}
 	}
-	
+	*/
 	public void stopMining(){
 		timer.stop();
 		timer.clear();
+		
 	}
 	
 	public boolean isOccupied() {

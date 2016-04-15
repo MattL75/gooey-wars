@@ -20,10 +20,12 @@ public class Polygon{
 	
 	public Polygon(){
 		vertices = new Array<Vector2>();
+		sprite = new Sprite(new Texture(new Pixmap(0, 0, Format.RGBA4444)));
 	}
 	
 	public Polygon(Array<Vector2> vertices){
 		this.vertices = vertices;
+		sprite = new Sprite(new Texture(new Pixmap(0, 0, Format.RGBA4444)));
 	}
 	
 	public Vector2 collide(Polygon other){
@@ -236,6 +238,7 @@ public class Polygon{
 	}
 	
 	public void genSprite(){
+		sprite.getTexture().dispose();
 		Pixmap pix = new Pixmap(getWidth(), getHeight(), Format.RGBA8888);
 		
 		pix.setColor(Color.BLUE);
