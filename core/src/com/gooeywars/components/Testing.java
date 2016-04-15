@@ -43,7 +43,7 @@ public class Testing extends Component{
 		game.addEntity(new Geyser(700,400,2));
 
 		
-		Environment environment = new Environment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),Color.LIGHT_GRAY);
+		Environment environment = new Environment(game.size.x, game.size.x,Color.LIGHT_GRAY);
 		environment.addChild(new Obstacle(40, 400));
 		//environment.addChild(new Obstacle(0, 400));
 		environment.addChild(new Obstacle(120, 400));

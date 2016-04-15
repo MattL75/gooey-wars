@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.exception.TagSameException;
@@ -35,6 +36,8 @@ public class GameBox {
 	
 	private MoveHandler mover;
 	
+	public Vector2 size;
+	
 	public GameBox(){
 		Main.gameBoxes.add(this);
 		physicsEnabled = false;
@@ -62,6 +65,8 @@ public class GameBox {
 		batch = new SpriteBatch();
 		background = Color.WHITE;
 		
+		size.x = Gdx.graphics.getWidth();
+		size.y = Gdx.graphics.getHeight();
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();

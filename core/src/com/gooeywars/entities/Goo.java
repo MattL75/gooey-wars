@@ -1,7 +1,5 @@
 package com.gooeywars.entities;
 
-import java.util.concurrent.Future;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.game.Main;
+import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Polygon;
 
@@ -22,6 +21,8 @@ public class Goo extends Entity{
 	private int propInt;
 	private boolean isSelected;
 	private boolean isMerging;
+	
+	private Grid grid;
 	
 	private int element1;
 	private int element2;
@@ -132,6 +133,8 @@ public class Goo extends Entity{
 		float width = (radius+radiusVar) * 2;
 		float height = (radius+radiusVar) * 2;
 		radius = (radius+radiusVar);
+		
+		genGrid();
 		
 		if(getMass() > SMALLEST_MASS){
 			
@@ -428,5 +431,17 @@ public class Goo extends Entity{
 
 	public void setElement2(int element2) {
 		this.element2 = element2;
+	}
+
+	public Grid getGrid() {
+		return grid;
+	}
+
+	public void setGrid(Grid grid) {
+		this.grid = grid;
+	}
+	
+	private void genGrid(){
+		grid = new Grid(Main.findGameBox("game").size,radius);
 	}
 }
