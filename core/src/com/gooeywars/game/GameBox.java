@@ -65,6 +65,8 @@ public class GameBox {
 		batch = new SpriteBatch();
 		background = Color.WHITE;
 		
+		size = new Vector2();
+		
 		size.x = Gdx.graphics.getWidth();
 		size.y = Gdx.graphics.getHeight();
 		

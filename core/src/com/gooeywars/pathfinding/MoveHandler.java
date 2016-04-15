@@ -56,7 +56,7 @@ class moveCalc implements Runnable  {
 	public void run() {
 		initialPos = new Vector2(goo.getX(), goo.getY());
 		
-		pathNode = finder.findPath(initialPos, finalPos, new Grid(new Vector2(), 10));
+		pathNode = finder.findPath(initialPos, finalPos, goo.getGrid());
 		path = new Array<Vector2>();
 		System.out.println(pathNode.size);
 		
@@ -98,14 +98,14 @@ class moveCalc implements Runnable  {
 					if(isCanceled){
 						break;
 					}
-					goo.setVelocity(new Vector2(finalPos.x - (goo.getX()), finalPos.y - (goo.getY())));
+					goo.setVelocity(new Vector2(finalPos.x - (goo.getX()+goo.getWidth()/2), finalPos.y - (goo.getY()+goo.getHeight()/2)));
 					try {
 						Thread.sleep(1);
 					} catch (InterruptedException e) {
 						
 						e.printStackTrace();
 					}
-					if(Math.abs(goo.getX() - finalPos.x) < 1 && Math.abs(goo.getY() - finalPos.y) < 1){
+					if(Math.abs(goo.getX()+goo.getWidth()/2 - finalPos.x) < 1 && Math.abs(goo.getY() + goo.getHeight()/2 - finalPos.y) < 1){
 						destinationReached = true;
 					}
 				}

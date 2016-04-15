@@ -31,6 +31,9 @@ public class Goo extends Entity{
 	
 	public static final int SMALLEST_MASS = 5;
 	
+	private Geyser miningGeyser;
+	private boolean started;
+	
 	public Goo(){
 		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
 	}
@@ -60,6 +63,7 @@ public class Goo extends Entity{
 	}
 	
 	public void createGoo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color, int element1, int element2){
+		System.out.println(getMass());
 		setPhysicsEnabled(true);
 		colorInt = color;
 		propInt = prop;
@@ -69,10 +73,8 @@ public class Goo extends Entity{
 		
 		setX(x);
 		setY(y);
-		radius = Math.round(mass)/2;
-		setWidth((radius+1)*2.0f);
-		setHeight((radius+1)*2.0f);
 		
+		miningGeyser = new Geyser();
 		
 		setForce(force);
 		setVelocity(velocity);
@@ -81,7 +83,7 @@ public class Goo extends Entity{
 		property = new GooProperty(prop);
 		this.color = genColor(color);
 		this.owner = owner;
-		super.setMass(mass);
+		setMass(mass);
 		setType(Entity.GOO);
 		
 		setVelocityFactor(property.getVelocityFactor());
@@ -172,6 +174,7 @@ public class Goo extends Entity{
 		}
 	}
 	
+	boolean mining;
 	
 	@Override
 	public Vector2 collide(Entity other){
@@ -203,7 +206,7 @@ public class Goo extends Entity{
 					if(isMerging && goo.isMerging()){
 						join(goo);
 					} else {
-						displacement = overlap.cpy();
+						//displacement = overlap.cpy();
 					}
 				}
 				
@@ -216,14 +219,10 @@ public class Goo extends Entity{
 			}
 			
 		} else if(other instanceof Geyser){			
-			if(started){
-				stopMining();
-			}
-			//System.out.println("stopping");
+			stopMining((Geyser) other);
 		}
 		
 		return displacement;
-		//System.out.println("Goo");
 		
 	}
 	
@@ -288,15 +287,29 @@ public class Goo extends Entity{
 		clearColliders();
 	}
 	
-	boolean started;
-	boolean grabbed;
-	Geyser miningGeyser;
-	
 	public void mine(Geyser geyser){
+		if(!started){
+			miningGeyser = geyser;
+			geyser.mine(this);
+			started = true;
+		}
+	}
+	
+	public void stopMining(Geyser geyser){
+		if(miningGeyser.getId() == geyser.getId()){
+			System.out.println("stopping");
+			miningGeyser.stopMining();
+			started = false;
+		}
+	}
+	
+	
+	/*public void mine(Geyser geyser){
 		System.out.println(started);
+		mining = true;
 		if(!started){
 			/*goo.setElement2(goo.getElement1());
-			goo.setElement1(property.element);*/
+			goo.setElement1(property.element);
 			miningGeyser = geyser;
 			geyser.mine(this);
 			started = true;
@@ -324,11 +337,12 @@ public class Goo extends Entity{
 	}
 	
 	public void stopMining(){
+		mining = false;
 		grabbed = false;
 		started = false;
 		miningGeyser.stopMining();
 		
-	}
+	}*/
 	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
