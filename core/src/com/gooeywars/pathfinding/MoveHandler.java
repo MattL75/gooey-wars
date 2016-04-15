@@ -56,7 +56,7 @@ class moveCalc implements Runnable  {
 	public void run() {
 		initialPos = new Vector2(goo.getX(), goo.getY());
 		
-		pathNode = finder.findPath(initialPos, finalPos);
+		pathNode = finder.findPath(initialPos, finalPos, new Grid(new Vector2(), 10));
 		path = new Array<Vector2>();
 		System.out.println(pathNode.size);
 		
