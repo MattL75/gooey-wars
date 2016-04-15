@@ -2,6 +2,7 @@ package com.gooeywars.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -14,7 +15,9 @@ public class Geyser extends Entity{
 	private boolean occupied;
 	private Timer timer;
 	
-	private int minedById;
+	private Goo miningGoo;
+	private boolean grabbedGoo;
+	private boolean started;
 	
 	public Geyser(){
 		genGeyser(0,0,0);
@@ -43,6 +46,7 @@ public class Geyser extends Entity{
 		setHeight(50);
 		property = new GeyserProperty(prop);
 		setSprite(new Sprite(new Texture(property.getPix())));
+		getSprite().setSize(50, 50);
 		setType(Entity.GEYSER);
 		genCollider();
 	}
@@ -57,21 +61,37 @@ public class Geyser extends Entity{
 	}
 	
 	public void mine(Goo goo){
-		System.out.println("Mine");
-		minedById = goo.getId();
+		System.out.println("starting");
 		timer.clear();
 		timer.scheduleTask(new mineTask(goo), 0f, 0.1f);
 		timer.start();
-		
-		
 	}
 	
-	public void stopMining(Goo goo){
-		if(goo.getId() == minedById){
-			timer.stop();
-			timer.clear();
-		}
+	public void miningUpdate(){
+		float gCenterX = getX() + getWidth() / 2;
+		float gCenterY = getY() + getHeight() / 2;
+		float gooCenterX = miningGoo.getX() + miningGoo.getWidth() / 2;
+		float gooCenterY = miningGoo.getY() + miningGoo.getHeight() / 2;
+		Vector2 force = new Vector2();
 		
+		force = new Vector2(25 * (gCenterX - gooCenterX), 25 * (gCenterY - gooCenterY));
+		
+		
+		if(!grabbedGoo){
+			System.out.println("not grabbed yet");
+			if(Math.abs(miningGoo.getX() - getX()) < 10 && Math.abs(miningGoo.getY() - getY()) < 10){
+				miningGoo.setX(getX()- miningGoo.getWidth()/2);
+				miningGoo.setY(getY() - miningGoo.getHeight()/2);
+				grabbedGoo = true;
+			} else {
+				miningGoo.addForce(force);
+			}
+		}
+	}
+	
+	public void stopMining(){
+		timer.stop();
+		timer.clear();
 	}
 	
 	public boolean isOccupied() {
@@ -101,8 +121,6 @@ class mineTask extends Task{
 	@Override
 	public void run() {
 		goo.setMass(goo.getMass()+1);
-		System.out.println("mining");
-		System.out.println(goo.getMass());
 	}
 	
 }

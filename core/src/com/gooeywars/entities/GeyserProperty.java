@@ -2,13 +2,13 @@ package com.gooeywars.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class GeyserProperty {
 	public static final float WATER = 0;
 	public static final float CARBON = 1;
 	public static final float IRON = 2;
 	
+	int element;
 	
 	public boolean isWater;
 	public boolean isCarbon;
@@ -16,9 +16,9 @@ public class GeyserProperty {
 	
 	private Pixmap pix;
 	
-	private static Pixmap waterPix;
-	private static Pixmap carbonPix;
-	private static Pixmap ironPix;
+	public static Pixmap waterPix;
+	public  static Pixmap carbonPix;
+	public static Pixmap ironPix;
 	
 	private int propInt;
 	
@@ -39,18 +39,21 @@ public class GeyserProperty {
 			isCarbon = false;
 			isIron = false;
 			pix = waterPix;
+			element = 0;
 			break;
 		case 1: 
 			isWater = false;
 			isCarbon = true;
 			isIron = false;
 			pix = carbonPix;
+			element = 1;
 			break;
 		case 2: 
 			isWater = false;
 			isCarbon = false;
 			isIron = true;
 			pix = ironPix;
+			element = 2;
 			break;
 		}
 	}
@@ -58,15 +61,8 @@ public class GeyserProperty {
 
 	public static void loadTextures(){
 		waterPix = new Pixmap(Gdx.files.local("assets/textures/geyser/water_geyser.jpg"));
-		
-	}
-
-	public static Pixmap getWaterPix() {
-		return waterPix;
-	}
-
-	public static void setWaterPix(Pixmap waterPix) {
-		GeyserProperty.waterPix = waterPix;
+		carbonPix = new Pixmap(Gdx.files.local("assets/textures/geyser/carbon_geyser.png"));
+		ironPix = new Pixmap(Gdx.files.local("assets/textures/geyser/iron_geyser.png"));
 	}
 
 	public Pixmap getPix() {

@@ -47,7 +47,7 @@ public class GooeyWars extends Main{
 		viewport = new ScreenViewport(camera);
 		
 		MainMenuUI menuUI = new MainMenuUI(viewport);
-		GameUI gameUI = new GameUI(viewport);
+		GameUI gameUI = new GameUI(/*viewport*/);
 		//gameUI.dispose();
 		menu = new GameBox(false, menuUI, camera);
 		menu.setTag("menu");

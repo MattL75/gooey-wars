@@ -169,9 +169,6 @@ public class Goo extends Entity{
 		}
 	}
 	
-	boolean isFree = true;
-	boolean connected = false;
-	boolean wasMining = false;
 	
 	@Override
 	public Vector2 collide(Entity other){
@@ -209,42 +206,16 @@ public class Goo extends Entity{
 				
 			} else if(other instanceof Geyser) {
 				Geyser geyser = (Geyser) other;
+				mine(geyser);
 				
-				
-				float gCenterX = geyser.getX() + geyser.getWidth() / 2;
-				float gCenterY = geyser.getY() + geyser.getHeight() / 2;
-				float gooCenterX = getX() + getWidth() / 2;
-				float gooCenterY = getY() + getHeight() / 2;
-				Vector2 force = new Vector2();
-				
-				force = new Vector2(25 * (gCenterX - gooCenterX), 25 * (gCenterY - gooCenterY));
-				
-				if(Math.abs((gCenterX - gooCenterX)) < 10 && Math.abs((gCenterY - gooCenterY)) < 10 && !isFree){
-					setX(gCenterX - getWidth()/2);
-					setY(gCenterY - getHeight()/2);
-					stopEntity();
-					isFree = true;
-					connected = true;
-					geyser.mine(this);
-					wasMining = true;
-					System.out.println("Mining");
-					
-				} else if(!isFree){
-					addForce(force);	
-				}
 			} else if(other instanceof Environment || other instanceof Obstacle){
 				displacement = overlap.cpy();
 			}
 			
-		} else if(other instanceof Geyser){
-
-			((Geyser) other).stopMining(this);
-			wasMining = false;
-
-			isFree = false;
-
-			connected = false;
-
+		} else if(other instanceof Geyser){			
+			if(started){
+				stopMining();
+			}
 			//System.out.println("stopping");
 		}
 		
@@ -312,6 +283,48 @@ public class Goo extends Entity{
 		Main.findGameBox("game").removeEntity(getId());
 		getSprite().getTexture().dispose();
 		clearColliders();
+	}
+	
+	boolean started;
+	boolean grabbed;
+	Geyser miningGeyser;
+	
+	public void mine(Geyser geyser){
+		System.out.println(started);
+		if(!started){
+			/*goo.setElement2(goo.getElement1());
+			goo.setElement1(property.element);*/
+			miningGeyser = geyser;
+			geyser.mine(this);
+			started = true;
+		} else {
+			float gCenterX = geyser.getX() + geyser.getWidth() / 2;
+			float gCenterY = geyser.getY() + geyser.getHeight() / 2;
+			float gooCenterX = getX() + getWidth() / 2;
+			float gooCenterY = getY() + getHeight() / 2;
+			Vector2 force = new Vector2();
+			
+			force = new Vector2(25 * (gCenterX - gooCenterX), 25 * (gCenterY - gooCenterY));
+			
+			
+			if(!grabbed){
+				System.out.println("not grabbed yet");
+				if(Math.abs(getX() - geyser.getX()) < 10 && Math.abs(getY() - geyser.getY()) < 10){
+					setX(geyser.getX()- getWidth()/2);
+					setY(geyser.getY() - getHeight()/2);
+					grabbed = true;
+				} else {
+					addForce(force);
+				}
+			}
+		}
+	}
+	
+	public void stopMining(){
+		grabbed = false;
+		started = false;
+		miningGeyser.stopMining();
+		
 	}
 	
 	//super.getSaveData,owner,colorInt,propInt
@@ -399,5 +412,21 @@ public class Goo extends Entity{
 
 	public void setMerging(boolean isMerging) {
 		this.isMerging = isMerging;
+	}
+
+	public int getElement1() {
+		return element1;
+	}
+
+	public void setElement1(int element1) {
+		this.element1 = element1;
+	}
+
+	public int getElement2() {
+		return element2;
+	}
+
+	public void setElement2(int element2) {
+		this.element2 = element2;
 	}
 }
