@@ -10,12 +10,14 @@ import com.gooeywars.game.Component;
 import com.gooeywars.game.Main;
 import com.gooeywars.pathfinding.MoveHandler;
 import com.gooeywars.physics.Collider;
+import com.gooeywars.util.shape.Rectangle;
 import com.gooeywars.util.shape.Square;
 
 public class GameMouseInput extends Component{
 	Array<Entity> entities;
 	Collider mouseTip;
 	MoveHandler mover;
+	Collider rectangleSelector;
 	
 	Array<Goo> selectedGoo;
 	
@@ -25,16 +27,27 @@ public class GameMouseInput extends Component{
 	boolean leftClickedReleased;
 	boolean leftClickedPressed;
 	
-	int xInitial;
-	int yInitial;
+	int xInitialLeft;
+	int yInitialLeft;
 	
-	int xFinal;
-	int yFinal;
+	int xFinalLeft;
+	int yFinalLeft;
+	
+	int xInitialRight;
+	int yInitialRight;
+	
+	int xFinalRight;
+	int yFinalRight;
 	
 	boolean onClickLeft;
 	boolean onDownLeft;
 	boolean onUpLeft;
 	boolean onDraggedLeft;
+	
+	boolean onClickRight;
+	boolean onDownRight;
+	boolean onUpRight;
+	boolean onDraggedRight;
 	
 	public GameMouseInput() {
 		create();
@@ -45,6 +58,10 @@ public class GameMouseInput extends Component{
 		//entities = Main.findGameBox("game").getEntities();
 		mouseTip = new Collider(new Square(10,0,0));
 		mover = Main.findGameBox("game").getMover();
+		Rectangle rec = new Rectangle(0,0,0,0);
+		rectangleSelector = new Collider(rec);
+		selectedGoo = new Array<Goo>();
+		
 	}
 
 	@Override
@@ -54,107 +71,162 @@ public class GameMouseInput extends Component{
 			onClickLeft = true;
 			if(!leftClickedPressed){
 				onDownLeft = true;
+				xInitialLeft = Gdx.input.getX();
+				yInitialLeft = Gdx.graphics.getHeight() - Gdx.input.getY();
 			} else {
 				onDownLeft = false;
+				xFinalLeft = Gdx.input.getX();
+				yFinalLeft = Gdx.graphics.getHeight() - Gdx.input.getY();
 			}
 			leftClickedPressed = true;
 			
 		} else {
 			if(onClickLeft == true){
 				onUpLeft = true;
+			} else { 
+				onUpLeft = false;
+				xInitialLeft = 0;
+				yInitialLeft = 0;
+				xFinalLeft = 0;
+				yFinalLeft = 0;
 			}
 			onClickLeft = false;
 			leftClickedPressed = false;
 		}
-		System.out.println(onUpLeft);
-		System.out.println(onDownLeft);
-		System.out.println(onClickLeft);
-		/*entities = Main.findGameBox("game").getEntities();
-		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-			//Loop checks if an entity is clicked
-			if (leftClickedReleased) {
-				for (int i = 0; i < entities.size; i++) {
-					Entity ent = entities.get(i);
-					if (ent instanceof Goo) {
-						Goo goo = (Goo) ent;
-						mouseTip.setX(Gdx.input.getX());
-						mouseTip.setY(Gdx.graphics.getHeight() - Gdx.input.getY());
-						if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
-							GameKeyInput.currentEnt = goo;
-
-							goo.setSelected(true);
-							for (int j = 0; j < entities.size; j++) {
-								if (entities.get(j) instanceof Goo) {
-									if (j != i) {
-										((Goo) entities.get(j)).setSelected(false);
-									}
-								}
-							}
-							break;
-						}
-					}
-				}
-			}
-			leftClickedReleased = false;
-		} else { 
-			leftClickedReleased = true;
-		}
 		
-		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			buttonPressed(1);
-			if(rightClickedReleased){
-				Array<Entity> ar = Main.findGameBox("game").getEntities();
-				for (int i = 0; i < ar.size; i++) {
-					if (ar.get(i).getType() == Entity.GOO) {
-						Goo goo = (Goo) ar.get(i);
-						if (goo.isSelected()) {
-							mover.cancel(goo);
-							mover.move(goo, new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));	
-						}
-					}
-				}
+		System.out.println("Up:    " + onUpLeft);
+		System.out.println("Down:  " + onDownLeft);
+		System.out.println("Click: " + onClickLeft);
+		System.out.println("Dragged" + getOnDraggedLeft());
+		
+		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
+			onUpRight = false;
+			onClickRight = true;
+			if(!rightClickedPressed){
+				onDownRight = true;
+				xInitialRight = Gdx.input.getX();
+				yInitialRight = Gdx.graphics.getHeight() - Gdx.input.getY();
+			} else {
+				onDownRight = false;
+				xFinalRight = Gdx.input.getX();
+				yFinalRight = Gdx.graphics.getHeight() - Gdx.input.getY();
 			}
-			rightClickedReleased = false;
+			rightClickedPressed = true;
 			
 		} else {
-			buttonReleased(1);
-			rightClickedReleased = true;
-		}*/
-	}
-	
-	/*private void buttonPressed(int mouseButton){
-		if(mouseButton == 0){
-			leftClickedPressed = true;
-		} else { 
-			rightClickedPressed = true;
-		}
-		xInitial = Gdx.input.getX();
-		yInitial = Gdx.input.getY();
-	}
-	
-	private void buttonReleased(int mouseButton){
-		if(mouseButton == 0){
-			leftClickedPressed = false;
-		} else { 
+			if(onClickRight == true){
+				onUpRight = true;
+			} else { 
+				onUpRight = false;
+				xInitialRight = 0;
+				yInitialRight = 0;
+				xFinalRight = 0;
+				yFinalRight = 0;
+			}
+			onClickRight = false;
 			rightClickedPressed = false;
 		}
-		xFinal = Gdx.input.getX();
-		yFinal = Gdx.input.getY();
+		
+		entities = Main.findGameBox("game").getEntities();
+		
+		if(onDownLeft){
+			for (int i = 0; i < entities.size; i++) {
+				Entity ent = entities.get(i);
+				if (ent instanceof Goo) {
+					Goo goo = (Goo) ent;
+					mouseTip.setX(Gdx.input.getX());
+					mouseTip.setY(Gdx.graphics.getHeight() - Gdx.input.getY());
+					if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
+						GameKeyInput.currentEnt = goo;
+
+						goo.setSelected(true);
+						for (int j = 0; j < entities.size; j++) {
+							if (entities.get(j) instanceof Goo) {
+								if (j != i) {
+									((Goo) entities.get(j)).setSelected(false);
+								}
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
+		
+		if(onDownRight){
+			Array<Entity> ar = Main.findGameBox("game").getEntities();
+			for (int i = 0; i < ar.size; i++) {
+				if (ar.get(i).getType() == Entity.GOO) {
+					Goo goo = (Goo) ar.get(i);
+					if (goo.isSelected()) {
+						mover.cancel(goo);
+						mover.move(goo, new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));	
+					}
+				}
+			}
+		}
+		
+		if(onUpLeft){
+			Rectangle rec = new Rectangle(xInitialLeft,yInitialLeft,xFinalLeft-xInitialLeft,yFinalLeft-yInitialLeft);
+			rectangleSelector = new Collider(rec);
+			for (int i = 0; i < entities.size; i++) {
+				Entity ent = entities.get(i);
+				if (ent instanceof Goo) {
+					Goo goo = (Goo) ent;
+					
+					if (goo.getColliders().get(0).collide(rectangleSelector).len2() > 0) {
+						selectedGoo.add(goo);
+
+						goo.setSelected(true);
+						
+					}
+				}
+			}
+			
+			for(int i = 0; i < entities.size; i++){
+				for(int j = 0; j < selectedGoo.size; j++){
+					if(entities.get(i).getId() == selectedGoo.get(j).getId()){
+						break;
+					}
+					if(j == selectedGoo.size -1){
+						if(entities.get(i) instanceof Goo){
+							((Goo)entities.get(i)).setSelected(false);
+						}
+					}
+				}
+			}
+		}
 	}
 	
-	public Vector2 getOnDragged(){
-		return new Vector2(xFinal - xInitial, yFinal - yInitial);
-	}*/
+	public Vector2 getOnDraggedLeft(){
+		return new Vector2(xFinalLeft - xInitialLeft, yFinalLeft - yInitialLeft);
+	}
 	
-	public boolean getOnDown(){
+	public boolean getOnDownLeft(){
 		return onDownLeft;
 	}
 	
-	public boolean getOnUp(){
+	public boolean getOnUpLeft(){
 		return onUpLeft;
 	}
 	
-	public boolean getOnClicked(){
+	public boolean getOnClickedLeft(){
 		return onClickLeft;
+	}
+	
+	public Vector2 getOnDraggedRight(){
+		return new Vector2(xFinalRight - xInitialRight, yFinalRight - yInitialRight);
+	}
+	
+	public boolean getOnDownRight(){
+		return onDownRight;
+	}
+	
+	public boolean getOnUpRight(){
+		return onUpRight;
+	}
+	
+	public boolean getOnClickedRight(){
+		return onClickRight;
 	}
 }
