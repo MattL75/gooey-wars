@@ -44,6 +44,7 @@ public class Pathfinder {
 
 	public Array<Node> findPath(Vector2 iniPos, Vector2 endPos, Grid gooGrid) {
 		grid = gooGrid;
+		setupObstacles();
 		if (!isPosOpen(endPos)) {
 			return new Array<Node>();
 		}
