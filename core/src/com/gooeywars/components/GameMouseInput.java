@@ -2,6 +2,11 @@ package com.gooeywars.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -18,6 +23,7 @@ public class GameMouseInput extends Component{
 	Collider mouseTip;
 	MoveHandler mover;
 	Collider rectangleSelector;
+	Entity rect;
 	
 	Array<Goo> selectedGoo;
 	
@@ -61,6 +67,8 @@ public class GameMouseInput extends Component{
 		Rectangle rec = new Rectangle(0,0,0,0);
 		rectangleSelector = new Collider(rec);
 		selectedGoo = new Array<Goo>();
+		rect = new Entity();
+		Main.findGameBox("game").addEntity(rect);
 		
 	}
 
@@ -72,7 +80,13 @@ public class GameMouseInput extends Component{
 			if(!leftClickedPressed){
 				onDownLeft = true;
 				xInitialLeft = Gdx.input.getX();
+				if(xFinalLeft == 0){
+					xFinalLeft = xInitialLeft;
+				}
 				yInitialLeft = Gdx.graphics.getHeight() - Gdx.input.getY();
+				if(yFinalLeft == 0){
+					yFinalLeft = yInitialLeft;
+				}
 			} else {
 				onDownLeft = false;
 				xFinalLeft = Gdx.input.getX();
@@ -94,6 +108,8 @@ public class GameMouseInput extends Component{
 			leftClickedPressed = false;
 		}
 		
+		//System.out.println(xInitialLeft);
+		//System.out.println(xFinalLeft);
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
 			onUpRight = false;
@@ -124,6 +140,22 @@ public class GameMouseInput extends Component{
 		}
 		
 		entities = Main.findGameBox("game").getEntities();
+		
+		if(onClickLeft){
+			rect.dispose();
+			rect.setX(xInitialLeft);
+			rect.setY(yInitialLeft);
+			System.out.println(xInitialLeft);
+			System.out.println(xFinalLeft);
+			//rect.getSprite().setRotation(degrees);
+			Pixmap pix = new Pixmap(Math.abs(xFinalLeft - xInitialLeft), Math.abs(yFinalLeft - yInitialLeft), Format.RGBA4444);
+			pix.setColor(Color.BLUE);
+			pix.drawRectangle(0, 0, xFinalLeft - xInitialLeft, yFinalLeft - yInitialLeft);
+			
+			Texture text = new Texture(pix);
+			pix.dispose();
+			rect.setSprite(new Sprite(text));
+		}
 		
 		if(onDownLeft){
 			for (int i = 0; i < entities.size; i++) {
@@ -163,6 +195,8 @@ public class GameMouseInput extends Component{
 		}
 		
 		if(onUpLeft){
+			rect.getSprite().getTexture().dispose();
+			rect.setSprite(new Sprite(new Texture(new Pixmap(0,0,Format.RGBA4444))));
 			Rectangle rec = new Rectangle(xInitialLeft,yInitialLeft,xFinalLeft-xInitialLeft,yFinalLeft-yInitialLeft);
 			rectangleSelector = new Collider(rec);
 			for (int i = 0; i < entities.size; i++) {
@@ -175,23 +209,8 @@ public class GameMouseInput extends Component{
 
 						goo.setSelected(true);
 						
-					}
-				}
-			}
-			
-			for(int i = 0; i < entities.size; i++){
-				for(int j = 0; j < selectedGoo.size; j++){
-					System.out.println("J: " + j);
-					if(entities.get(i).getId() == selectedGoo.get(j).getId()){
-						System.out.println("Reaching end");
-						break;
-					}
-					if(j == selectedGoo.size -1){
-						
-						if(entities.get(i) instanceof Goo){
-							
-							((Goo)entities.get(i)).setSelected(false);
-						}
+					} else {
+						goo.setSelected(false);
 					}
 				}
 			}
