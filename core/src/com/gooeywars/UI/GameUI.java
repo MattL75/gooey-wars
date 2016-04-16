@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -82,6 +85,7 @@ public class GameUI implements Screen {
 		btMerge.setHeight(80);
 		btMerge.setX(Gdx.graphics.getWidth() - 570);
 		btMerge.setY(botBar.getImageHeight() + size - 10);
+		btMerge.setProgrammaticChangeEvents(false);
 		
 		ButtonStyle mergeStyle = new ButtonStyle();
 		mergeStyle.over = mergeHover.getDrawable();
@@ -98,6 +102,7 @@ public class GameUI implements Screen {
 		btSplit.setHeight(80);
 		btSplit.setX(Gdx.graphics.getWidth() - 570 - size - 5);
 		btSplit.setY(botBar.getImageHeight() + size - 10);
+		btSplit.setProgrammaticChangeEvents(false);
 		
 		ButtonStyle splitStyle = new ButtonStyle();
 		splitStyle.over = splitHover.getDrawable();
@@ -114,6 +119,7 @@ public class GameUI implements Screen {
 		btAttack.setHeight(80);
 		btAttack.setX(Gdx.graphics.getWidth() - 570 - 2 * size - 10);
 		btAttack.setY(botBar.getImageHeight() + size - 10);
+		btAttack.setProgrammaticChangeEvents(false);
 		
 		ButtonStyle attackStyle = new ButtonStyle();
 		attackStyle.over = attackHover.getDrawable();
@@ -130,6 +136,7 @@ public class GameUI implements Screen {
 		btBuild.setHeight(80);
 		btBuild.setX(Gdx.graphics.getWidth() - 570 - 3 * size - 15);
 		btBuild.setY(botBar.getImageHeight() + size - 10);
+		btBuild.setProgrammaticChangeEvents(false);
 		
 		ButtonStyle buildStyle = new ButtonStyle();
 		buildStyle.over = buildHover.getDrawable();
@@ -149,6 +156,31 @@ public class GameUI implements Screen {
 		group.addActor(btBuild);
 		
 		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
+		
+		//Events for buttons
+		btMerge.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+
+			}
+		});
+		
+		btSplit.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+
+			}
+		});
+		
+		btAttack.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+
+			}
+		});
+		
+		btBuild.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+
+			}
+		});
 		
 	}
 	
