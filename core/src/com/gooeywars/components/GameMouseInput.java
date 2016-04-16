@@ -83,14 +83,14 @@ public class GameMouseInput extends Component{
 				if(xFinalLeft == 0){
 					xFinalLeft = xInitialLeft;
 				}
-				yInitialLeft = Gdx.graphics.getHeight() - Gdx.input.getY();
+				yInitialLeft = Gdx.graphics.getHeight() - getMouseY();
 				if(yFinalLeft == 0){
 					yFinalLeft = yInitialLeft;
 				}
 			} else {
 				onDownLeft = false;
-				xFinalLeft = Gdx.input.getX();
-				yFinalLeft = Gdx.graphics.getHeight() - Gdx.input.getY();
+				xFinalLeft = getMouseX();
+				yFinalLeft = Gdx.graphics.getHeight() - getMouseY();
 			}
 			leftClickedPressed = true;
 			
@@ -116,12 +116,12 @@ public class GameMouseInput extends Component{
 			onClickRight = true;
 			if(!rightClickedPressed){
 				onDownRight = true;
-				xInitialRight = Gdx.input.getX();
-				yInitialRight = Gdx.graphics.getHeight() - Gdx.input.getY();
+				xInitialRight = getMouseX();
+				yInitialRight = Gdx.graphics.getHeight() - getMouseY();
 			} else {
 				onDownRight = false;
-				xFinalRight = Gdx.input.getX();
-				yFinalRight = Gdx.graphics.getHeight() - Gdx.input.getY();
+				xFinalRight = getMouseX();
+				yFinalRight = Gdx.graphics.getHeight() - getMouseY();
 			}
 			rightClickedPressed = true;
 			
@@ -145,16 +145,29 @@ public class GameMouseInput extends Component{
 			rect.dispose();
 			rect.setX(xInitialLeft);
 			rect.setY(yInitialLeft);
-			System.out.println(xInitialLeft);
-			System.out.println(xFinalLeft);
-			//rect.getSprite().setRotation(degrees);
+			
 			Pixmap pix = new Pixmap(Math.abs(xFinalLeft - xInitialLeft), Math.abs(yFinalLeft - yInitialLeft), Format.RGBA4444);
 			pix.setColor(Color.BLUE);
-			pix.drawRectangle(0, 0, xFinalLeft - xInitialLeft, yFinalLeft - yInitialLeft);
+			pix.drawRectangle(0, 0, Math.abs(xFinalLeft - xInitialLeft), Math.abs(yFinalLeft - yInitialLeft));
 			
 			Texture text = new Texture(pix);
 			pix.dispose();
 			rect.setSprite(new Sprite(text));
+			if(xFinalLeft - xInitialLeft > 0 && yFinalLeft - yInitialLeft > 0){
+				
+			} else if ((xFinalLeft - xInitialLeft) < 0 && yFinalLeft - yInitialLeft > 0) {
+				rect.setX(xFinalLeft);
+			} else if ((xFinalLeft - xInitialLeft) < 0 && yFinalLeft - yInitialLeft < 0) {
+				rect.setX(xFinalLeft);
+				rect.setY(yFinalLeft);
+			} else if ((xFinalLeft - xInitialLeft) > 0 && yFinalLeft - yInitialLeft < 0) {
+				rect.setY(yFinalLeft);
+			}
+			
+			
+			
+			
+			
 		}
 		
 		if(onDownLeft){
@@ -162,8 +175,8 @@ public class GameMouseInput extends Component{
 				Entity ent = entities.get(i);
 				if (ent instanceof Goo) {
 					Goo goo = (Goo) ent;
-					mouseTip.setX(Gdx.input.getX());
-					mouseTip.setY(Gdx.graphics.getHeight() - Gdx.input.getY());
+					mouseTip.setX(getMouseX());
+					mouseTip.setY(Gdx.graphics.getHeight() - getMouseY());
 					if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
 						GameKeyInput.currentEnt = goo;
 
@@ -184,11 +197,11 @@ public class GameMouseInput extends Component{
 		if(onDownRight){
 			Array<Entity> ar = Main.findGameBox("game").getEntities();
 			for (int i = 0; i < ar.size; i++) {
-				if (ar.get(i).getType() == Entity.GOO) {
+				if (ar.get(i) instanceof Goo) {
 					Goo goo = (Goo) ar.get(i);
 					if (goo.isSelected()) {
 						mover.cancel(goo);
-						mover.move(goo, new Vector2(Gdx.input.getX(),Gdx.graphics.getHeight() - Gdx.input.getY()));	
+						mover.move(goo, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));	
 					}
 				}
 			}
@@ -210,11 +223,33 @@ public class GameMouseInput extends Component{
 						goo.setSelected(true);
 						
 					} else {
+						if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
+							GameKeyInput.currentEnt = goo;
+
+							goo.setSelected(true);
+							for (int j = 0; j < entities.size; j++) {
+								if (entities.get(j) instanceof Goo) {
+									if (j != i) {
+										((Goo) entities.get(j)).setSelected(false);
+									}
+								}
+							}
+							break;
+						}
 						goo.setSelected(false);
 					}
 				}
 			}
 		}
+	}
+	
+	public int getMouseX(){
+		
+		return Gdx.input.getX() + (int)Main.findGameBox("game").getCamera().position.x + Gdx.graphics.getWidth()/2;
+	}
+	
+	public int getMouseY(){
+		return Gdx.input.getY() - (int)Main.findGameBox("game").getCamera().position.y + Gdx.graphics.getHeight()/2;
 	}
 	
 	public Vector2 getOnDraggedLeft(){
