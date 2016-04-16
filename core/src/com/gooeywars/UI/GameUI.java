@@ -57,17 +57,17 @@ public class GameUI implements Screen {
 		
 		//Table creation
 		table = new Table();
-		table.debug();
+		//table.debug();
 		table.setFillParent(true);
 		table.bottom();
 		table.left();
 		stage.addActor(table);
 		
 		//Minimap
-		Image minMap = new Image(skin.newDrawable("white", Color.WHITE));
+		Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
 		
 		//Bottom right
-		Image botBar = new Image(skin.newDrawable("white", Color.WHITE));
+		Image botBar = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/botBar.png")));
 		botBar.setWidth(Gdx.graphics.getWidth() - minMap.getImageWidth());
 		botBar.setHeight(60);
 		botBar.setAlign(Align.bottomLeft);
@@ -96,7 +96,7 @@ public class GameUI implements Screen {
 		Image splitDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/split_button_click.png")));
 		btSplit.setWidth(80);
 		btSplit.setHeight(80);
-		btSplit.setX(Gdx.graphics.getWidth() - 570 - size);
+		btSplit.setX(Gdx.graphics.getWidth() - 570 - size - 5);
 		btSplit.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle splitStyle = new ButtonStyle();
@@ -112,7 +112,7 @@ public class GameUI implements Screen {
 		Image attackDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/attack_button_click.png")));
 		btAttack.setWidth(80);
 		btAttack.setHeight(80);
-		btAttack.setX(Gdx.graphics.getWidth() - 570 - 2 * size);
+		btAttack.setX(Gdx.graphics.getWidth() - 570 - 2 * size - 10);
 		btAttack.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle attackStyle = new ButtonStyle();
@@ -128,7 +128,7 @@ public class GameUI implements Screen {
 		Image buildDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/build_button_click.png")));
 		btBuild.setWidth(80);
 		btBuild.setHeight(80);
-		btBuild.setX(Gdx.graphics.getWidth() - 570 - 3 * size);
+		btBuild.setX(Gdx.graphics.getWidth() - 570 - 3 * size - 15);
 		btBuild.setY(botBar.getImageHeight() + size - 10);
 		
 		ButtonStyle buildStyle = new ButtonStyle();
@@ -149,16 +149,6 @@ public class GameUI implements Screen {
 		group.addActor(btBuild);
 		
 		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
-		
-		/*/table.add(btMerge).width(80).height(80).align(Align.topRight);
-		table.add(btSplit).width(80).height(80).align(Align.topRight);
-		table.add(btAttack).width(80).height(80).align(Align.topRight);
-		table.add(btBuild).width(80).height(80).align(Align.topRight);
-		
-		table.add(botBar).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).height(60).align(Align.bottomLeft);/*/
-
-		//table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(Gdx.graphics.getWidth() / 6).prefHeight(Gdx.graphics.getHeight() / 5);
-		//table.add(new Image(skin.newDrawable("white", Color.WHITE))).prefWidth(1000).prefHeight(100).align(Align.bottom);
 		
 	}
 	
