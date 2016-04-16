@@ -79,14 +79,14 @@ class moveCalc implements Runnable  {
 				if(isCanceled){
 					break;
 				}
-				goo.setVelocity(new Vector2(currentDestination.x - goo.getX(), currentDestination.y - goo.getY()));
+				goo.setVelocity(new Vector2(currentDestination.x - goo.getX(), currentDestination.y - goo.getY()).clamp(0, 20));
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					
 					e.printStackTrace();
 				}
-				if(Math.abs(goo.getX() - currentDestination.x) < 5 && Math.abs(goo.getY() - currentDestination.y) < 5){
+				if(Math.abs(goo.getX() - currentDestination.x) < 10 && Math.abs(goo.getY() - currentDestination.y) < 10){
 					destinationReached = true;
 				}
 			}
@@ -98,7 +98,7 @@ class moveCalc implements Runnable  {
 					if(isCanceled){
 						break;
 					}
-					goo.setVelocity(new Vector2(finalPos.x - (goo.getX()+goo.getWidth()/2), finalPos.y - (goo.getY()+goo.getHeight()/2)));
+					goo.setVelocity(new Vector2(finalPos.x - (goo.getX()+goo.getWidth()/2), finalPos.y - (goo.getY()+goo.getHeight()/2)).clamp(0, 20));
 					try {
 						Thread.sleep(1);
 					} catch (InterruptedException e) {

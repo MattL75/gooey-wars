@@ -62,7 +62,11 @@ public class GameKeyInput extends Component{
 			}
 		}
 		
-
+		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+			if(GameMouseInput.selectedGoo.size > 0){
+				GameMouseInput.selectedGoo.first().merge(GameMouseInput.selectedGoo);
+			}
+		}
 	}
 
 }

@@ -24,8 +24,9 @@ public class GameMouseInput extends Component{
 	MoveHandler mover;
 	Collider rectangleSelector;
 	Entity rect;
+	int player;
 	
-	Array<Goo> selectedGoo;
+	public static Array<Goo> selectedGoo;
 	
 	boolean rightClickedReleased;
 	boolean rightClickedPressed;
@@ -69,7 +70,7 @@ public class GameMouseInput extends Component{
 		selectedGoo = new Array<Goo>();
 		rect = new Entity();
 		Main.findGameBox("game").addEntity(rect);
-		
+		player = 0;
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class GameMouseInput extends Component{
 			onClickLeft = true;
 			if(!leftClickedPressed){
 				onDownLeft = true;
-				xInitialLeft = Gdx.input.getX();
+				xInitialLeft = getMouseX();
 				if(xFinalLeft == 0){
 					xFinalLeft = xInitialLeft;
 				}
@@ -175,20 +176,22 @@ public class GameMouseInput extends Component{
 				Entity ent = entities.get(i);
 				if (ent instanceof Goo) {
 					Goo goo = (Goo) ent;
-					mouseTip.setX(getMouseX());
-					mouseTip.setY(Gdx.graphics.getHeight() - getMouseY());
-					if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
-						GameKeyInput.currentEnt = goo;
+					if(goo.getOwner() == player){
+						mouseTip.setX(getMouseX());
+						mouseTip.setY(Gdx.graphics.getHeight() - getMouseY());
+						if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
+							GameKeyInput.currentEnt = goo;
 
-						goo.setSelected(true);
-						for (int j = 0; j < entities.size; j++) {
-							if (entities.get(j) instanceof Goo) {
-								if (j != i) {
-									((Goo) entities.get(j)).setSelected(false);
+							goo.setSelected(true);
+							for (int j = 0; j < entities.size; j++) {
+								if (entities.get(j) instanceof Goo) {
+									if (j != i) {
+										((Goo) entities.get(j)).setSelected(false);
+									}
 								}
 							}
+							break;
 						}
-						break;
 					}
 				}
 			}
@@ -196,12 +199,37 @@ public class GameMouseInput extends Component{
 		
 		if(onDownRight){
 			Array<Entity> ar = Main.findGameBox("game").getEntities();
+			int j = 0; 
+			
+			boolean attacking = false;
+			
+			for(int i = 0; i < entities.size; i++){
+				if(entities.get(i) instanceof Goo){
+					mouseTip.setX(getMouseX());
+					mouseTip.setY(Gdx.graphics.getHeight() - getMouseY());
+					
+					if(((Goo) entities.get(i)).getOwner() != player){
+						if (entities.get(i).getColliders().get(0).collide(mouseTip).len2() > 0) {
+							attacking = true;
+							break;
+						}
+					}
+				}
+			}
+			
 			for (int i = 0; i < ar.size; i++) {
 				if (ar.get(i) instanceof Goo) {
 					Goo goo = (Goo) ar.get(i);
 					if (goo.isSelected()) {
-						mover.cancel(goo);
-						mover.move(goo, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));	
+						if(attacking){
+							mover.cancel(goo);
+							mover.move(goo, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));
+						} else {
+							mover.cancel(goo);
+							mover.move(goo, new Vector2(getMouseX() + j * (goo.getRadius() + 30),Gdx.graphics.getHeight() - getMouseY()));
+							
+						}
+						j++;
 					}
 				}
 			}
@@ -216,27 +244,28 @@ public class GameMouseInput extends Component{
 				Entity ent = entities.get(i);
 				if (ent instanceof Goo) {
 					Goo goo = (Goo) ent;
-					
-					if (goo.getColliders().get(0).collide(rectangleSelector).len2() > 0) {
-						selectedGoo.add(goo);
-
-						goo.setSelected(true);
-						
-					} else {
-						if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
-							GameKeyInput.currentEnt = goo;
+					if(goo.getOwner() == player){
+						if (goo.getColliders().get(0).collide(rectangleSelector).len2() > 0) {
+							selectedGoo.add(goo);
 
 							goo.setSelected(true);
-							for (int j = 0; j < entities.size; j++) {
-								if (entities.get(j) instanceof Goo) {
-									if (j != i) {
-										((Goo) entities.get(j)).setSelected(false);
+							
+						} else {
+							if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
+								GameKeyInput.currentEnt = goo;
+
+								goo.setSelected(true);
+								for (int j = 0; j < entities.size; j++) {
+									if (entities.get(j) instanceof Goo) {
+										if (j != i) {
+											((Goo) entities.get(j)).setSelected(false);
+										}
 									}
 								}
+								break;
 							}
-							break;
+							goo.setSelected(false);
 						}
-						goo.setSelected(false);
 					}
 				}
 			}
@@ -244,12 +273,11 @@ public class GameMouseInput extends Component{
 	}
 	
 	public int getMouseX(){
-		
-		return Gdx.input.getX() + (int)Main.findGameBox("game").getCamera().position.x + Gdx.graphics.getWidth()/2;
+		return Gdx.input.getX() + ((int)Main.findGameBox("game").getCamera().position.x - Gdx.graphics.getWidth()/2);
 	}
 	
 	public int getMouseY(){
-		return Gdx.input.getY() - (int)Main.findGameBox("game").getCamera().position.y + Gdx.graphics.getHeight()/2;
+		return Gdx.input.getY() - ((int)Main.findGameBox("game").getCamera().position.y - Gdx.graphics.getHeight()/2);
 	}
 	
 	public Vector2 getOnDraggedLeft(){

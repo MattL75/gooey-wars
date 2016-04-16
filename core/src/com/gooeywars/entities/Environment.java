@@ -77,7 +77,7 @@ public class Environment extends Entity{
 		setWidth(width);
 		setHeight(height);
 		
-		leftRec  = new Rectangle(-100,0,100,height);
+		leftRec  = new Rectangle(-100,-100,100,height+200);
 		Collider coll1 = new Collider(leftRec);
 		coll1.setDrawable(true);
 		addCollider(coll1);
