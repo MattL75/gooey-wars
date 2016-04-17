@@ -181,12 +181,14 @@ public class GameMouseInput extends Component{
 						mouseTip.setY(Gdx.graphics.getHeight() - getMouseY());
 						if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
 							GameKeyInput.currentEnt = goo;
-
+							selectedGoo.clear();
+							selectedGoo.add(goo);
 							goo.setSelected(true);
 							for (int j = 0; j < entities.size; j++) {
 								if (entities.get(j) instanceof Goo) {
 									if (j != i) {
 										((Goo) entities.get(j)).setSelected(false);
+										
 									}
 								}
 							}
@@ -236,6 +238,7 @@ public class GameMouseInput extends Component{
 		}
 		
 		if(onUpLeft){
+			selectedGoo.clear();
 			rect.getSprite().getTexture().dispose();
 			rect.setSprite(new Sprite(new Texture(new Pixmap(0,0,Format.RGBA4444))));
 			Rectangle rec = new Rectangle(xInitialLeft,yInitialLeft,xFinalLeft-xInitialLeft,yFinalLeft-yInitialLeft);
@@ -262,9 +265,11 @@ public class GameMouseInput extends Component{
 										}
 									}
 								}
+								
 								break;
 							}
 							goo.setSelected(false);
+							
 						}
 					}
 				}
