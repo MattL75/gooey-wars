@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,7 +23,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.game.GooeyWars;
 import com.gooeywars.game.Main;
 
@@ -160,13 +164,29 @@ public class GameUI implements Screen {
 		//Events for buttons
 		btMerge.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-
+				Array<Entity> ent = Main.findGameBox("game").getEntities();
+				Array<Goo> m = new Array<Goo>();
+				for (int i = 0; i < ent.size; i++) {
+					if (ent.get(i) instanceof Goo) {
+						if (((Goo)ent.get(i)).isSelected()) {
+							m.add((Goo)ent.get(i));
+						}
+					}
+				}
+				m.get(0).merge(m);
 			}
 		});
 		
 		btSplit.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-
+				Array<Entity> ent = Main.findGameBox("game").getEntities();
+				for (int i = 0; i < ent.size; i++) {
+					if (ent.get(i) instanceof Goo) {
+						if (((Goo)ent.get(i)).isSelected()) {
+							((Goo)ent.get(i)).split(new Vector2(1, 0));
+						}
+					}
+				}
 			}
 		});
 		
