@@ -14,14 +14,14 @@ public class MoveHandler {
 	Future<?> future;
 	Array<moveCalc> runningThreads;
 	Grid grid;
-	public MoveHandler(Grid grid){
+	public MoveHandler(){
 		executor = Executors.newCachedThreadPool();
 		runningThreads = new Array<moveCalc>();
-		this.grid = grid;
+		
 	}
 	
 	public void move(Goo goo, Vector2 finalPos){
-		moveCalc calc = new moveCalc(goo, finalPos, grid);
+		moveCalc calc = new moveCalc(goo, finalPos, goo.getGrid());
 		runningThreads.add(calc);
 		future = executor.submit(calc);
 	}
@@ -75,8 +75,8 @@ class moveCalc implements Runnable  {
 	@Override
 	public void run() {
 		initialPos = new Vector2(goo.getX(), goo.getY());
-		
 		pathNode = finder.findPath(initialPos, finalPos, goo.getGrid());
+		
 		//path = new Array<Vector2>();
 	//	System.out.println(pathNode.size);
 		
@@ -93,9 +93,9 @@ class moveCalc implements Runnable  {
 			if(goo.getMass() < Goo.SMALLEST_MASS){
 				break;
 			}
-			float radius = goo.getGrid().getNodeRadius() + 1;
+			float radius = goo.getGrid().getNodeRadius() -1;
 			
-			currentDestination = new Vector2(pathNode.get(i+1).getWorldPos().x , pathNode.get(i+1).getWorldPos().y );
+			currentDestination = new Vector2(pathNode.get(i+1).getWorldPos().x , pathNode.get(i+1).getWorldPos().y);
 		//	System.out.println("Going to " + i + "...");
 			while(!destinationReached){
 				if(isCanceled){

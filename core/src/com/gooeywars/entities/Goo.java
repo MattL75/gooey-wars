@@ -135,7 +135,7 @@ public class Goo extends Entity{
 		float width = (radius+radiusVar) * 2;
 		float height = (radius+radiusVar) * 2;
 		radius = (radius+radiusVar);
-		
+		System.out.println(radius);
 		genGrid();
 		
 		if(getMass() > SMALLEST_MASS){

@@ -60,6 +60,7 @@ public class GameBox {
 	}
 	
 	private void create(){
+		mover = new MoveHandler();
 		entities = new Array<Entity>();
 		components = new Array<Component>();
 		batch = new SpriteBatch();
@@ -245,7 +246,7 @@ public class GameBox {
 
 	public void setGrid(Grid grid) {
 		this.grid = grid;
-		mover = new MoveHandler(grid);
+		//mover = new MoveHandler();
 	}
 
 	public MoveHandler getMover() {
