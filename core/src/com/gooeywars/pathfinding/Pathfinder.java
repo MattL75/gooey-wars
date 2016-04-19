@@ -27,12 +27,11 @@ public class Pathfinder {
 	public void setupObstacles() {
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
 		for (int i = 0; i < ent.size; i++) {
-			//System.out.print(ent.get(i).getType());
 			if (ent.get(i).getType() == Entity.ENVIRONMENT) {
 				for (int j = 0; j < ent.get(i).getChildren().size; j++) {
 					if (ent.get(i).getChildren().get(j).getType() == Entity.OBSTACLE) {
-						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius * 2)) {
-							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius * 2)) {
+						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius)) {
+							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius)) {
 								grid.nodeFromWorldPoint(new Vector2(k, h)).setWalkable(false);
 							}
 						}
