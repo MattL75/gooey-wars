@@ -93,9 +93,9 @@ class moveCalc implements Runnable  {
 			if(goo.getMass() < Goo.SMALLEST_MASS){
 				break;
 			}
-			float radius = goo.getGrid().getNodeRadius() -1;
+			float radius = goo.getGrid().getNodeRadius() + 1;
 			
-			currentDestination = new Vector2(pathNode.get(i+1).getWorldPos().x , pathNode.get(i+1).getWorldPos().y);
+			currentDestination = new Vector2(pathNode.get(i+1).getWorldPos().x, pathNode.get(i+1).getWorldPos().y );
 		//	System.out.println("Going to " + i + "...");
 			while(!destinationReached){
 				if(isCanceled){
@@ -135,7 +135,7 @@ class moveCalc implements Runnable  {
 			}
 		}
 		
-	//	System.out.println("Destination reached!");
+		System.out.println("Destination reached!");
 		
 		goo.setMerging(false);
 		
