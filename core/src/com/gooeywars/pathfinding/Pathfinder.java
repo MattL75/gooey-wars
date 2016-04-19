@@ -30,7 +30,6 @@ public class Pathfinder {
 			if (ent.get(i).getType() == Entity.ENVIRONMENT) {
 				for (int j = 0; j < ent.get(i).getChildren().size; j++) {
 					if (ent.get(i).getChildren().get(j).getType() == Entity.OBSTACLE) {
-						grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).setWalkable(false);
 						//System.out.println(ent.get(i).getChildren().get(j).getX() +" AY "+ ent.get(i).getChildren().get(j).getY());
 						//System.out.println(grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).getWorldPos().x + " YA " + grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).getWorldPos().y);
 						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius * 2)) {
@@ -50,6 +49,7 @@ public class Pathfinder {
 		if (!isPosOpen(endPos)) {
 			return new Array<Node>();
 		}
+
 		Node initialNode = grid.nodeFromWorldPoint(iniPos);
 		Node endNode = grid.nodeFromWorldPoint(endPos);
 		
