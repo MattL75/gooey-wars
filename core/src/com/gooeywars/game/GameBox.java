@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Goo;
+import com.gooeywars.entities.Obstacle;
 import com.gooeywars.exception.TagSameException;
 import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.pathfinding.MoveHandler;
@@ -82,6 +83,7 @@ public class GameBox {
 	}
 	
 	public void update(){
+		
 		for(int i = 0; i < components.size; i++){
 			components.get(i).update();
 		}
@@ -107,11 +109,15 @@ public class GameBox {
 		
 		
 		for(int i = 0; i < entities.size; i++){
+			
 			Array<Entity> children = entities.get(i).getChildren();
 			entities.get(i).draw(batch);
 			
 			for(int j = 0; j < children.size;j++){
 				children.get(j).draw(batch);
+				/*if(children.get(j) instanceof Obstacle){
+					System.out.println("Obstacle x" + children.get(j).getX());
+				}*/
 			}
 			if(entities.get(i) instanceof Goo){
 				Grid grid = ((Goo) entities.get(i)).getGrid();
@@ -126,7 +132,7 @@ public class GameBox {
 				pix2.drawRectangle(0, 0, pix.getWidth(),pix.getHeight());
 				Texture closed = new Texture(pix2);
 				pix2.dispose();
-				
+				//System.out.println(grid.nodeRadius);
 				for(int j = 0; j < grid.nodeGrid.size; j++){
 					for(int k = 0; k < grid.nodeGrid.get(j).size; k++){
 						if(grid.nodeGrid.get(j).get(k).isWalkable()){
@@ -170,10 +176,10 @@ public class GameBox {
 	}
 	
 	public void addEntity(Entity ent){
-		if(ent.isObstacle()){
+	/*	if(ent.isObstacle()){
 			ent.setX(Main.findGameBox("game").genObstacleCoordX(ent.getX()));
 			ent.setY(Main.findGameBox("game").genObstacleCoordY(ent.getY()));
-		}
+		}*/
 		entities.add(ent);
 		
 		
@@ -211,7 +217,7 @@ public class GameBox {
 		components.add(comp);
 	}
 	
-	public float genObstacleCoordX(float x){
+	/*public float genObstacleCoordX(float x){
 		System.out.println("gen obstacleX");
 		int xInt = (int) x;
 		xInt = (int)(xInt/(grid.getNodeRadius()*2)) * (int)(grid.getNodeRadius()*2);
@@ -222,7 +228,7 @@ public class GameBox {
 		int yInt = (int) y;
 		yInt = (int)(yInt/(grid.getNodeRadius()*2)) * (int)(grid.getNodeRadius()*2);
 		return yInt;
-	}
+	}*/
 	
 	public Array<Entity> getEntities(){
 		return entities;

@@ -46,7 +46,11 @@ public class Testing extends Component{
 		Environment environment = new Environment(game.size.x, game.size.x,Color.LIGHT_GRAY);
 		
 		
-		environment.addChild(new Obstacle(80,500));
+		//environment.addChild(new Obstacle(0,0));
+		Obstacle obstacle = new Obstacle(10,10);
+		obstacle.getColliders().get(0).getPolygon().getX();
+		environment.addChild(obstacle);
+
 		environment.addChild(new Obstacle(120,500));
 		environment.addChild(new Obstacle(160,500));
 		environment.addChild(new Obstacle(200,500));
@@ -77,7 +81,10 @@ public class Testing extends Component{
 		
 		
 		game.addEntity(environment);
-		
+		Goo goo  = new Goo(15, 500, 20);
+		goo.setOwner(0);
+		game.addEntity(goo);
+		/*
 		for(int i = 0; i < 1; i++){
 			for(int j = 0; j < 1; j++){
 				Goo goo = new Goo(i*60,j*60 + 400,20);
