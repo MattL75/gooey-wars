@@ -30,8 +30,8 @@ public class Pathfinder {
 			if (ent.get(i).getType() == Entity.ENVIRONMENT) {
 				for (int j = 0; j < ent.get(i).getChildren().size; j++) {
 					if (ent.get(i).getChildren().get(j).getType() == Entity.OBSTACLE) {
-						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius)) {
-							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius)) {
+						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius * 2)) {
+							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius * 2)) {
 								grid.nodeFromWorldPoint(new Vector2(k, h)).setWalkable(false);
 							}
 						}
