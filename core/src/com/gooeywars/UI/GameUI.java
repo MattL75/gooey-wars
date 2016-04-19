@@ -148,6 +148,23 @@ public class GameUI implements Screen {
 		buildStyle.down = buildDown.getDrawable();
 		btBuild.setStyle(buildStyle);
 		
+		//React button
+		Button btReact = new Button(skin.newDrawable("white", Color.WHITE));
+		Image reactUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/react_button_regular.png")));
+		Image reactHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/react_button_hover.png")));
+		Image reactDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/react_button_click.png")));
+		btReact.setWidth(80);
+		btReact.setHeight(80);
+		btReact.setX(0);
+		btReact.setY(botBar.getImageHeight() + size - 10);
+		btReact.setProgrammaticChangeEvents(false);
+		
+		ButtonStyle reactStyle = new ButtonStyle();
+		reactStyle.over = reactHover.getDrawable();
+		reactStyle.up = reactUp.getDrawable();
+		reactStyle.down = reactDown.getDrawable();
+		btReact.setStyle(reactStyle);
+		
 		//Table settings
 		//table.add(group).align(Align.bottomLeft);
 		table.add(minMap).width(Gdx.graphics.getWidth() / 4).height(Gdx.graphics.getHeight() / 4).align(Align.bottomLeft);
@@ -158,6 +175,7 @@ public class GameUI implements Screen {
 		group.addActor(btSplit);
 		group.addActor(btAttack);
 		group.addActor(btBuild);
+		group.addActor(btReact);
 		
 		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
 		
@@ -172,6 +190,9 @@ public class GameUI implements Screen {
 							m.add((Goo)ent.get(i));
 						}
 					}
+				}
+				if (m.size == 0){
+					return;
 				}
 				m.get(0).merge(m);
 			}

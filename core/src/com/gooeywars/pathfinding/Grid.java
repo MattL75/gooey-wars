@@ -57,8 +57,30 @@ public class Grid {
 		return NodeAr;
 	}
 	
+	//Problem here
 	public Node nodeFromWorldPoint(Vector2 vec) {
-		float percentX = (vec.x) / worldSize.x;
+		int nodeX = 0, nodeY = 0;
+		int coX = 0, coY = 0;
+		for (nodeX = 0; nodeX <= vec.x; nodeX += nodeRadius * 2) {
+			for (nodeY = 0; nodeY <= vec.y; nodeY += nodeRadius * 2) {
+				
+			}
+		}
+		nodeX = Math.round(nodeX - nodeRadius * 2);
+		nodeY = Math.round(nodeY - nodeRadius * 2);
+		System.out.println(nodeX + " " + nodeY);
+		
+		for (int i = 0; i < nodeGrid.size; i++) {
+			for (int j = 0; j < nodeGrid.get(i).size; j++) {
+				if (nodeGrid.get(i).get(j).getWorldPos().x == nodeX && nodeGrid.get(i).get(j).getWorldPos().y == nodeY) {
+					coX = i;
+					coY = j;
+				}
+			}
+		}
+		return nodeGrid.get(coX).get(coY);
+		
+		/*/float percentX = (vec.x) / worldSize.x;
 		float percentY = (vec.y) / worldSize.y;
 		
 		percentX = Math.min(Math.max(percentX, 0), 1);
@@ -66,7 +88,7 @@ public class Grid {
 		
 		int x = Math.round((gridSizeX - 1) * percentX);
 		int y = Math.round((gridSizeY - 1) * percentY);
-		return nodeGrid.get(x).get(y);
+		return nodeGrid.get(x).get(y);/*/
 	}
 	
 	public float getNodeRadius() {

@@ -23,15 +23,18 @@ public class Pathfinder {
 		return false;
 	}
 	
-	//Will's mom algorithm (cause its big and cute)
+	//Will's mom algorithm (cause its big and simply beautiful)
 	public void setupObstacles() {
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
 		for (int i = 0; i < ent.size; i++) {
 			if (ent.get(i).getType() == Entity.ENVIRONMENT) {
 				for (int j = 0; j < ent.get(i).getChildren().size; j++) {
 					if (ent.get(i).getChildren().get(j).getType() == Entity.OBSTACLE) {
-						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += 1) {
-							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += 1) {
+						grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).setWalkable(false);
+						//System.out.println(ent.get(i).getChildren().get(j).getX() +" AY "+ ent.get(i).getChildren().get(j).getY());
+						//System.out.println(grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).getWorldPos().x + " YA " + grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).getWorldPos().y);
+						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius * 2)) {
+							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius * 2)) {
 								grid.nodeFromWorldPoint(new Vector2(k, h)).setWalkable(false);
 							}
 						}
