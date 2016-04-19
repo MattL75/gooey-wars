@@ -27,11 +27,31 @@ public class MoveHandler {
 	}
 	
 	
+	
+	
 	public void cancel(Goo goo){
 		for(int i = 0; i < runningThreads.size; i++){
 			if(runningThreads.get(i).goo.getId() == goo.getId()){
 				runningThreads.get(i).cancel();
 			}
+		}
+	}
+	
+	public void merge(Array<Goo> mergingGoos){
+		System.out.println(mergingGoos.size);
+		float totalX = 0;
+		float totalY = 0;
+		for(int i = 0; i < mergingGoos.size; i++){
+			mergingGoos.get(i).setMerging(true);
+			totalX += mergingGoos.get(i).getX();
+			totalY += mergingGoos.get(i).getY();	
+		}
+		
+		Vector2 joinPoint = new Vector2(totalX/mergingGoos.size, totalY/mergingGoos.size);
+		
+		for(int i = 0; i < mergingGoos.size; i++){
+			Main.findGameBox("game").getMover().cancel(mergingGoos.get(i));
+			Main.findGameBox("game").getMover().move(mergingGoos.get(i), joinPoint);
 		}
 	}
 }
@@ -57,24 +77,26 @@ class moveCalc implements Runnable  {
 		initialPos = new Vector2(goo.getX(), goo.getY());
 		
 		pathNode = finder.findPath(initialPos, finalPos, goo.getGrid());
-		path = new Array<Vector2>();
-		System.out.println(pathNode.size);
+		//path = new Array<Vector2>();
+	//	System.out.println(pathNode.size);
 		
 		Vector2 currentDestination;
 		boolean destinationReached = false;
-		System.out.println("Moving...");
+		//System.out.println("Moving...");
 		for(int i = 0; i < pathNode.size - 1; i++){
 			
 			if(isCanceled){
-				System.out.println("Is canceling");
+				//System.out.println("Is canceling");
 				break;
 			}
 			
 			if(goo.getMass() < Goo.SMALLEST_MASS){
 				break;
 			}
-			currentDestination = pathNode.get(i+1).getWorldPos();
-			System.out.println("Going to " + i + "...");
+			float radius = goo.getGrid().getNodeRadius() + 1;
+			
+			currentDestination = new Vector2(pathNode.get(i+1).getWorldPos().x , pathNode.get(i+1).getWorldPos().y );
+		//	System.out.println("Going to " + i + "...");
 			while(!destinationReached){
 				if(isCanceled){
 					break;
@@ -93,7 +115,7 @@ class moveCalc implements Runnable  {
 			destinationReached = false;
 			
 			if(i == pathNode.size - 2){
-				System.out.println("final node");
+		//		System.out.println("final node");
 				while(!destinationReached){
 					if(isCanceled){
 						break;
@@ -113,9 +135,9 @@ class moveCalc implements Runnable  {
 			}
 		}
 		
-		System.out.println("Destination reached!");
+	//	System.out.println("Destination reached!");
 		
-		
+		goo.setMerging(false);
 		
 		//Do moveVector in the form of physics
 	}

@@ -44,13 +44,38 @@ public class Testing extends Component{
 
 		
 		Environment environment = new Environment(game.size.x, game.size.x,Color.LIGHT_GRAY);
-		environment.addChild(new Obstacle(40, 400));
-		//environment.addChild(new Obstacle(0, 400));
-		environment.addChild(new Obstacle(120, 400));
-		environment.addChild(new Obstacle(80,400));
-		environment.addChild(new Obstacle(120,440));
-		environment.addChild(new Obstacle(120,480));
+		
+		
+		environment.addChild(new Obstacle(80,500));
+		environment.addChild(new Obstacle(120,500));
+		environment.addChild(new Obstacle(160,500));
+		environment.addChild(new Obstacle(200,500));
+		environment.addChild(new Obstacle(240,500));
+		
+		environment.addChild(new Obstacle(240,500));
+		environment.addChild(new Obstacle(240,540));
+		environment.addChild(new Obstacle(240,580));
+		environment.addChild(new Obstacle(240,620));
+		environment.addChild(new Obstacle(240,660));
+		environment.addChild(new Obstacle(240,700));
 
+		environment.addChild(new Obstacle(80,700));
+		environment.addChild(new Obstacle(120,700));
+		environment.addChild(new Obstacle(160,700));
+		environment.addChild(new Obstacle(200,700));
+		
+		
+		environment.addChild(new Obstacle(80,580));
+		environment.addChild(new Obstacle(80,620));
+		environment.addChild(new Obstacle(80,660));
+		environment.addChild(new Obstacle(80,700));
+		
+		environment.addChild(new Obstacle(120,580));
+		environment.addChild(new Obstacle(160,580));
+		
+		environment.addChild(new Obstacle(160,620));
+		
+		
 		game.addEntity(environment);
 		
 		for(int i = 0; i < 3; i++){

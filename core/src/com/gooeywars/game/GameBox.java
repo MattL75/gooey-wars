@@ -148,6 +148,7 @@ public class GameBox {
 			if(entities.get(i).getId() == id){
 				entities.get(i).dispose();
 				entities.removeIndex(i);
+				entities.shrink();
 				return;
 			}
 			for(int j = 0; j < entities.get(i).getChildren().size; j++){

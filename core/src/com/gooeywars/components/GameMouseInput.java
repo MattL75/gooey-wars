@@ -257,6 +257,7 @@ public class GameMouseInput extends Component{
 							if (goo.getColliders().get(0).collide(mouseTip).len2() > 0) {
 								GameKeyInput.currentEnt = goo;
 
+								selectedGoo.add(goo);
 								goo.setSelected(true);
 								for (int j = 0; j < entities.size; j++) {
 									if (entities.get(j) instanceof Goo) {

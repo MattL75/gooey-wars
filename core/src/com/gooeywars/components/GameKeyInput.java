@@ -14,7 +14,7 @@ public class GameKeyInput extends Component{
 	Array<Entity> entities;
 	static Entity currentEnt;
 	float camSpeed;
-	
+	Array<Goo> merging;
 	
 	boolean spaceReleased;
 	
@@ -27,10 +27,12 @@ public class GameKeyInput extends Component{
 		entities = Main.findGameBox("game").getEntities();
 		currentEnt = entities.first();
 		camSpeed = 5f;
+		merging = new Array<Goo>();
 	}
 
 	@Override
 	public void update() {
+		
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			Main.findGameBox("game").getCamera().position.add(new Vector3(0, camSpeed, 0));
 		}
@@ -63,9 +65,22 @@ public class GameKeyInput extends Component{
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+			merging.clear();
+			for(int i = 0; i <entities.size; i++){
+				if(entities.get(i) instanceof Goo){
+					if(((Goo) entities.get(i)).isSelected()){
+						merging.add((Goo) entities.get(i));
+					}
+				}
+			}
+			
+			if(merging.size > 0){
+				Main.findGameBox("game").getMover().merge(merging);
+			}
+			/*
 			if(GameMouseInput.selectedGoo.size > 0){
 				GameMouseInput.selectedGoo.first().merge(GameMouseInput.selectedGoo);
-			}
+			}*/
 		}
 	}
 

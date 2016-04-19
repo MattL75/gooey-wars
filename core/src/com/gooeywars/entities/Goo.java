@@ -241,6 +241,7 @@ public class Goo extends Entity{
 	}
 	
 	public void merge(Array<Goo> mergingGoos){
+		
 		float totalX = 0;
 		float totalY = 0;
 		for(int i = 0; i < mergingGoos.size; i++){
