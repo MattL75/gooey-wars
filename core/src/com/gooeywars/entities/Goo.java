@@ -63,7 +63,6 @@ public class Goo extends Entity{
 	}
 	
 	public void createGoo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int prop, int owner, int color, int element1, int element2){
-		System.out.println(getMass());
 		setPhysicsEnabled(true);
 		colorInt = color;
 		propInt = prop;
@@ -135,13 +134,10 @@ public class Goo extends Entity{
 		float width = (radius+radiusVar) * 2;
 		float height = (radius+radiusVar) * 2;
 		radius = (radius+radiusVar);
-		System.out.println(radius);
+		
 		genGrid();
 		
 		if(getMass() > SMALLEST_MASS){
-			
-			System.out.println(width);
-			System.out.println(height);
 			
 			setWidth(width);
 			setHeight(height);
@@ -229,8 +225,6 @@ public class Goo extends Entity{
 	
 	public boolean split(Vector2 dirVect){
 		if(getMass() > SMALLEST_MASS * 2){
-			System.out.println(radius);
-			System.out.println(getMass());
 			Goo brother = new Goo(this.getX()+ getWidth(), this.getY()+getWidth()/4, this.getMass()/2, this.getForce().cpy(), this.getVelocity().cpy(), getAcceleration().cpy().add(dirVect.cpy().scl(-10000)), this.getOwner(), propInt, colorInt, element1, element2);
 			brother.addForce(dirVect.cpy().scl(10000));
 			Main.findGameBox("game").addEntity(brother);

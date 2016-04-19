@@ -102,7 +102,6 @@ public class Environment extends Entity{
 	}
 	
 	public void addChild(Entity child){
-		System.out.println(child.getX());
 		getChildren().add(child);
 	}
 	
