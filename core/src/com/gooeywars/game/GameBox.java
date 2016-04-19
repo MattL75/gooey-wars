@@ -5,10 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.exception.TagSameException;
 import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.pathfinding.MoveHandler;
@@ -107,6 +112,38 @@ public class GameBox {
 			
 			for(int j = 0; j < children.size;j++){
 				children.get(j).draw(batch);
+			}
+			if(entities.get(i) instanceof Goo){
+				Grid grid = ((Goo) entities.get(i)).getGrid();
+				Pixmap pix = new Pixmap((int)grid.nodeRadius * 2, (int)grid.nodeRadius * 2, Format.RGBA4444);
+				pix.setColor(Color.GREEN);
+				pix.drawRectangle(0, 0, pix.getWidth(),pix.getHeight());
+				Texture open = new Texture(pix);
+				pix.dispose();
+				
+				Pixmap pix2 = new Pixmap((int)grid.nodeRadius * 2, (int)grid.nodeRadius * 2, Format.RGBA4444);
+				pix2.setColor(Color.RED);
+				pix2.drawRectangle(0, 0, pix.getWidth(),pix.getHeight());
+				Texture closed = new Texture(pix2);
+				pix2.dispose();
+				
+				for(int j = 0; j < grid.nodeGrid.size; j++){
+					for(int k = 0; k < grid.nodeGrid.get(j).size; k++){
+						if(grid.nodeGrid.get(j).get(k).isWalkable()){
+							Sprite sprite = new Sprite(open);
+							sprite.setX(j*2*grid.nodeRadius);
+							sprite.setY(k*2*grid.nodeRadius);
+							sprite.draw(batch);
+						} else {
+							Sprite sprite = new Sprite(closed);
+							sprite.setX(j*2*grid.nodeRadius);
+							sprite.setY(k*2*grid.nodeRadius);
+							sprite.draw(batch);
+						}
+						
+					}
+				}
+				open.dispose();
 			}
 		}
 		

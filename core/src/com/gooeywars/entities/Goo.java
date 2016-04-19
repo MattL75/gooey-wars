@@ -140,7 +140,8 @@ public class Goo extends Entity{
 		
 		if(getMass() > SMALLEST_MASS){
 			
-			
+			System.out.println(width);
+			System.out.println(height);
 			
 			setWidth(width);
 			setHeight(height);
@@ -298,7 +299,7 @@ public class Goo extends Entity{
 	
 	public void stopMining(Geyser geyser){
 		if(miningGeyser.getId() == geyser.getId()){
-			System.out.println("stopping");
+			//System.out.println("stopping");
 			miningGeyser.stopMining();
 			started = false;
 		}
@@ -457,6 +458,6 @@ public class Goo extends Entity{
 	}
 	
 	private void genGrid(){
-		grid = new Grid(Main.findGameBox("game").size, radius);
+		grid = new Grid(Main.findGameBox("game").size, radius+1);
 	}
 }
