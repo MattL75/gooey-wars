@@ -458,6 +458,6 @@ public class Goo extends Entity{
 	}
 	
 	private void genGrid(){
-		grid = new Grid(Main.findGameBox("game").size, radius+1);
+		grid = new Grid(Main.findGameBox("game").size, radius);
 	}
 }
