@@ -23,6 +23,11 @@ public class Pathfinder {
 		return false;
 	}
 	
+	//BUG LIST
+	//AFTER SPLITTING ALL OBSTACLES ARE GONE
+	//SOMETIMES FUCKS UP UPON RESIZE
+	//GRID IS ONLY THE SIZE OF THE SCREEN, MAKE IT SIZE OF WORLD
+	
 	//Will's mom algorithm (cause its big and simply beautiful)
 	public void setupObstacles() {
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
@@ -32,8 +37,8 @@ public class Pathfinder {
 					if (ent.get(i).getChildren().get(j).getType() == Entity.OBSTACLE) {
 						//System.out.println(ent.get(i).getChildren().get(j).getX() +" AY "+ ent.get(i).getChildren().get(j).getY());
 						//System.out.println(grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).getWorldPos().x + " YA " + grid.nodeFromWorldPoint(new Vector2(ent.get(i).getChildren().get(j).getX(), ent.get(i).getChildren().get(j).getY())).getWorldPos().y);
-						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius * 2)) {
-							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius * 2)) {
+						for (float k = ent.get(i).getChildren().get(j).getX(); k < ent.get(i).getChildren().get(j).getX() + ent.get(i).getChildren().get(j).getWidth(); k += (grid.nodeRadius)) {
+							for (float h = ent.get(i).getChildren().get(j).getY(); h < ent.get(i).getChildren().get(j).getY() + ent.get(i).getChildren().get(j).getHeight(); h += (grid.nodeRadius)) {
 								grid.nodeFromWorldPoint(new Vector2(k, h)).setWalkable(false);
 							}
 						}
