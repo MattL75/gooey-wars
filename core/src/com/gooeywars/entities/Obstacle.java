@@ -79,7 +79,7 @@ public class Obstacle extends Entity{
 	
 	@Override
 	public String getSaveData(){
-		String data  = super.getSaveData() + "," + colorInt + "," + typeObstacle;
+		String data  = getX() + "," + getY() + "," + colorInt + "," + typeObstacle;
 		return data;
 	}
 }
