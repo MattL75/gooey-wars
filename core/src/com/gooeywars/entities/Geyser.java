@@ -19,6 +19,8 @@ public class Geyser extends Entity{
 	private boolean grabbedGoo;
 	private boolean started;
 	
+	private boolean isMining;
+	
 	public Geyser(){
 		genGeyser(0,0,0);
 	}
@@ -61,6 +63,34 @@ public class Geyser extends Entity{
 	}
 	
 	public void mine(Goo goo){
+		if(!isMining){
+			if(property.element != goo.getElement1()){
+				goo.setElement2(goo.getElement1());
+				goo.setElement1(property.element);
+			}
+			isMining = true;
+			miningGoo = goo;
+		
+			timer.scheduleTask(new mineTask(goo), 0f, 0.1f);
+			timer.start();
+		}
+		
+	}
+	
+	public void stopMining(Goo goo){
+		if(miningGoo != null){
+			if(goo.getId() == miningGoo.getId()){
+				isMining = false;
+				miningGoo = null;
+				timer.stop();
+				timer.clear();
+			}	
+		}
+		
+	}
+	
+	
+	/*public void mine(Goo goo){
 		if(property.element != goo.getElement1()){
 			goo.setElement2(goo.getElement1());
 			goo.setElement1(property.element);
@@ -94,19 +124,13 @@ public class Geyser extends Entity{
 		}
 	}
 	*/
-	public void stopMining(){
+	/*public void stopMining(){
 		timer.stop();
 		timer.clear();
 		
-	}
+	}*/
 	
-	public boolean isOccupied() {
-		return occupied;
-	}
-
-	public void setOccupied(boolean occupied) {
-		this.occupied = occupied;
-	}
+	
 
 	public String getSaveData(){
 		String data = super.getSaveData();

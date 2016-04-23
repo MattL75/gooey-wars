@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
 
 public class Entity {
@@ -41,7 +42,9 @@ public class Entity {
 	public static int entityCount;
 	
 	private boolean isObstacle;
-
+	
+	public boolean isToBeDestroyed;
+	
 	public Entity(){
 		initEntity(new Sprite(new Texture(new Pixmap(1,1,Format.RGBA8888))), new Array<Collider>(), 0, 0, false, 0, null, null, null);
 	}
@@ -110,6 +113,15 @@ public class Entity {
 	}
 	
 	public void update(){
+		checkDestroy();
+	}
+	
+	public void checkDestroy(){
+		if(isToBeDestroyed){
+			Main.findGameBox("game").removeEntity(getId());
+			getSprite().getTexture().dispose();
+			clearColliders();
+		}
 	}
 	
 	public void dispose(){

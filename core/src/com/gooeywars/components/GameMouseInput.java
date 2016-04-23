@@ -13,7 +13,6 @@ import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.Main;
-import com.gooeywars.pathfinding.MoveHandler;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.util.shape.Rectangle;
 import com.gooeywars.util.shape.Square;

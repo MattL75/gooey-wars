@@ -14,6 +14,7 @@ import com.gooeywars.UI.MainMenuUI;
 import com.gooeywars.components.Friction;
 import com.gooeywars.components.GameKeyInput;
 import com.gooeywars.components.GameMouseInput;
+import com.gooeywars.components.MoveHandler;
 import com.gooeywars.components.Testing;
 import com.gooeywars.entities.GeyserProperty;
 import com.gooeywars.pathfinding.Grid;
@@ -35,7 +36,6 @@ public class GooeyWars extends Main{
 	
 	@Override
 	public void create() {
-		
 		GeyserProperty.loadTextures();
 		
 		DisplayMode displayMode = Gdx.graphics.getDisplayMode();
@@ -58,6 +58,7 @@ public class GooeyWars extends Main{
 		
 		game.setGrid(new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10));
 		
+		game.addComponent(new MoveHandler());
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());

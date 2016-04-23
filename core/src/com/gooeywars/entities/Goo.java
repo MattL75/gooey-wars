@@ -34,6 +34,8 @@ public class Goo extends Entity{
 	private Geyser miningGeyser;
 	private boolean started;
 	
+
+	
 	public Goo(){
 		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
 	}
@@ -209,14 +211,14 @@ public class Goo extends Entity{
 				
 			} else if(other instanceof Geyser) {
 				Geyser geyser = (Geyser) other;
-				mine(geyser);
+				geyser.mine(this);
 				
 			} else if(other instanceof Environment || other instanceof Obstacle){
 				displacement = overlap.cpy();
 			}
 			
 		} else if(other instanceof Geyser){			
-			stopMining((Geyser) other);
+			((Geyser) other).stopMining(this);
 		}
 		
 		return displacement;
@@ -236,7 +238,6 @@ public class Goo extends Entity{
 	}
 	
 	public void merge(Array<Goo> mergingGoos){
-		
 		float totalX = 0;
 		float totalY = 0;
 		for(int i = 0; i < mergingGoos.size; i++){
@@ -283,21 +284,23 @@ public class Goo extends Entity{
 		clearColliders();
 	}
 	
-	public void mine(Geyser geyser){
+	
+	
+	/*public void mine(Geyser geyser){
 		if(!started){
 			miningGeyser = geyser;
 			geyser.mine(this);
 			started = true;
 		}
-	}
+	}*/
 	
-	public void stopMining(Geyser geyser){
+	/*public void stopMining(Geyser geyser){
 		if(miningGeyser.getId() == geyser.getId()){
 			//System.out.println("stopping");
 			miningGeyser.stopMining();
 			started = false;
 		}
-	}
+	}*/
 	
 	
 	/*public void mine(Geyser geyser){

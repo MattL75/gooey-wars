@@ -5,19 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.components.MoveHandler;
 import com.gooeywars.entities.Entity;
-import com.gooeywars.entities.Goo;
-import com.gooeywars.entities.Obstacle;
 import com.gooeywars.exception.TagSameException;
 import com.gooeywars.pathfinding.Grid;
-import com.gooeywars.pathfinding.MoveHandler;
 import com.gooeywars.physics.Collider;
 import com.gooeywars.physics.PhysicsBox;
 
@@ -88,6 +82,10 @@ public class GameBox {
 			components.get(i).update();
 		}
 		
+		for(int i = 0; i < entities.size; i++){
+			entities.get(i).update();
+		}
+		
 		if(physicsEnabled){
 			physics.update(Gdx.graphics.getDeltaTime());
 		}
@@ -119,7 +117,7 @@ public class GameBox {
 					System.out.println("Obstacle x" + children.get(j).getX());
 				}*/
 			}
-			if(entities.get(i) instanceof Goo){
+			/*if(entities.get(i) instanceof Goo){
 				Grid grid = ((Goo) entities.get(i)).getGrid();
 				Pixmap pix = new Pixmap((int)grid.nodeRadius * 2, (int)grid.nodeRadius * 2, Format.RGBA4444);
 				pix.setColor(Color.GREEN);
@@ -150,7 +148,7 @@ public class GameBox {
 					}
 				}
 				open.dispose();
-			}
+			}*/
 		}
 		
 		for(int i = 0; i < entities.size; i++){

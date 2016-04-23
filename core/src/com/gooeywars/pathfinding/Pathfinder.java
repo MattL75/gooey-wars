@@ -11,9 +11,8 @@ public class Pathfinder {
 	private Grid grid;
 	//Grid grid = new Grid(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), 10);
 	
-	public Pathfinder(Grid grid) {
-		this.grid = grid;
-		setupObstacles();
+	public Pathfinder() {
+		
 	}
 	
 	private boolean isPosOpen(Vector2 endPos) {

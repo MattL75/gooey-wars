@@ -21,21 +21,11 @@ public class MoveHandler {
 	}
 	
 	public void move(Goo goo, Vector2 finalPos){
-		moveCalc calc = new moveCalc(goo, finalPos, goo.getGrid());
+		moveCalc calc = new moveCalc(goo, finalPos, goo.getGrid(), false, null);
+		executor.execute(calc);
 		runningThreads.add(calc);
-		future = executor.submit(calc);
 	}
 	
-	
-	
-	
-	public void cancel(Goo goo){
-		for(int i = 0; i < runningThreads.size; i++){
-			if(runningThreads.get(i).goo.getId() == goo.getId()){
-				runningThreads.get(i).cancel();
-			}
-		}
-	}
 	
 	public void merge(Array<Goo> mergingGoos){
 		System.out.println(mergingGoos.size);
@@ -48,12 +38,25 @@ public class MoveHandler {
 		}
 		
 		Vector2 joinPoint = new Vector2(totalX/mergingGoos.size, totalY/mergingGoos.size);
-		
+		Goo finalGoo = new Goo(joinPoint.x, joinPoint.y,0);
+		Main.findGameBox("game").addEntity(finalGoo);
+
 		for(int i = 0; i < mergingGoos.size; i++){
-			Main.findGameBox("game").getMover().cancel(mergingGoos.get(i));
-			Main.findGameBox("game").getMover().move(mergingGoos.get(i), joinPoint);
+			moveCalc merge = new moveCalc(mergingGoos.get(i), joinPoint,mergingGoos.get(i).getGrid(), true, finalGoo);
+			executor.execute(merge);
+			runningThreads.add(merge);
 		}
 	}
+	
+	public void cancel(Goo goo){
+		for(int i = 0; i < runningThreads.size; i++){
+			if(runningThreads.get(i).goo.getId() == goo.getId()){
+				runningThreads.get(i).cancel();
+			}
+		}
+	}
+	
+	
 }
 
 class moveCalc implements Runnable  {
@@ -65,15 +68,27 @@ class moveCalc implements Runnable  {
 	
 	public Goo goo;
 	Pathfinder finder;
+	boolean isMerging;
+	Goo merging;
 	
-	public  moveCalc(Goo goo, Vector2 finalPos, Grid grid) {
+	public  moveCalc(Goo goo, Vector2 finalPos, Grid grid, boolean isMerging, Goo merging) {
 		this.finalPos = finalPos;
 		this.goo = goo;
-		finder = new Pathfinder(grid);
+		//finder = new Pathfinder(grid);
+		this.isMerging = isMerging;
+		this.merging = merging;
 	}
 	
 	@Override
 	public void run() {
+		if(!isMerging){
+			move();
+		} else {
+			merge();
+		}
+	}
+	
+	public void move(){
 		initialPos = new Vector2(goo.getX(), goo.getY());
 		pathNode = finder.findPath(initialPos, finalPos, goo.getGrid());
 		
@@ -142,7 +157,15 @@ class moveCalc implements Runnable  {
 		//Do moveVector in the form of physics
 	}
 	
+	public void merge(){
+		move();
+		merging.changeMass(goo.getMass());
+		goo.isToBeDestroyed = true;;
+	}
+	
 	public void cancel(){
 		isCanceled = true;
 	}
+	
+	
 }
