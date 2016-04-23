@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Environment;
 import com.gooeywars.entities.Geyser;
 import com.gooeywars.entities.Goo;
+import com.gooeywars.entities.Obstacle;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
 import com.gooeywars.physics.Collider;
@@ -90,6 +92,7 @@ public class GameState {
 		
 		String[] secStringArray;
 		float[] floatArray;
+		int enviroIndex;
 		
 		//Goes through elements of mainStringArray, parses everything to floats
 		for (int i = 0; i < mainStringArray.length; i++) {
@@ -139,7 +142,12 @@ public class GameState {
 			
 			//Build environment
 			if (floatArray[1] == Entity.ENVIRONMENT) {
-				//TODO how to pass obstacles
+				float numOb = floatArray[6];
+				Environment e = new Environment();
+				for (int j = 7; j < 7 + numOb * 4; j += 4) {
+					Obstacle ob = new Obstacle((int)floatArray[j], (int)floatArray[j + 1], (int)floatArray[j + 2], (int)floatArray[j + 3]);
+				}
+				box.addEntity(new Environment());
 			}
 		}
 	}

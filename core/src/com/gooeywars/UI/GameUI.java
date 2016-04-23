@@ -155,7 +155,7 @@ public class GameUI implements Screen {
 		Image reactDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/react_button_click.png")));
 		btReact.setWidth(80);
 		btReact.setHeight(80);
-		btReact.setX(0);
+		btReact.setX(220);
 		btReact.setY(botBar.getImageHeight() + size - 10);
 		btReact.setProgrammaticChangeEvents(false);
 		
@@ -164,6 +164,32 @@ public class GameUI implements Screen {
 		reactStyle.up = reactUp.getDrawable();
 		reactStyle.down = reactDown.getDrawable();
 		btReact.setStyle(reactStyle);
+		
+		//Inventory button 1
+		Button btInv1 = new Button(skin.newDrawable("white", Color.WHITE));
+		Image inv1Up = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/basicInventory.png")));
+		btInv1.setWidth(80);
+		btInv1.setHeight(80);
+		btInv1.setX(20);
+		btInv1.setY(botBar.getImageHeight() + size - 10);
+		btInv1.setProgrammaticChangeEvents(false);
+		
+		ButtonStyle btInvStyle = new ButtonStyle();
+		btInvStyle.up = inv1Up.getDrawable();
+		btInv1.setStyle(btInvStyle);
+
+		//Inventory button 2
+		Button btInv2 = new Button(skin.newDrawable("white", Color.WHITE));
+		Image inv2Up = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/basicInventory.png")));
+		btInv2.setWidth(80);
+		btInv2.setHeight(80);
+		btInv2.setX(120);
+		btInv2.setY(botBar.getImageHeight() + size - 10);
+		btInv2.setProgrammaticChangeEvents(false);
+		
+		ButtonStyle btInv2Style = new ButtonStyle();
+		btInv2Style.up = inv2Up.getDrawable();
+		btInv2.setStyle(btInv2Style);
 		
 		//Table settings
 		//table.add(group).align(Align.bottomLeft);
@@ -176,6 +202,8 @@ public class GameUI implements Screen {
 		group.addActor(btAttack);
 		group.addActor(btBuild);
 		group.addActor(btReact);
+		group.addActor(btInv1);
+		group.addActor(btInv2);
 		
 		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
 		

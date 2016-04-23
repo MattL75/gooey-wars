@@ -23,9 +23,7 @@ public class Pathfinder {
 	}
 	
 	//BUG LIST
-	//AFTER SPLITTING ALL OBSTACLES ARE GONE
 	//SOMETIMES FUCKS UP UPON RESIZE
-	//GRID IS ONLY THE SIZE OF THE SCREEN, MAKE IT SIZE OF WORLD
 	
 	//Will's mom algorithm (cause its big and simply beautiful)
 	public void setupObstacles() {
