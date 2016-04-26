@@ -21,9 +21,9 @@ public class MoveHandler {
 	}
 	
 	public void move(Goo goo, Vector2 finalPos){
-		moveCalc calc = new moveCalc(goo, finalPos, goo.getGrid(), false, null);
+		/*moveCalc calc = new moveCalc(goo, finalPos, goo.getGrid(), false, null);
 		executor.execute(calc);
-		runningThreads.add(calc);
+		runningThreads.add(calc);*/
 	}
 	
 	

@@ -12,6 +12,7 @@ public class MoveHandler extends Component{
 	Array<Goo> movingGoos;
 	Array<Array<Node>> paths;
 	Pathfinder finder;
+	Array<Integer> reached;
 	
 	
 	@Override
@@ -20,6 +21,7 @@ public class MoveHandler extends Component{
 		finder = new Pathfinder();
 		paths = new Array<Array<Node>>();
 		movingGoos = new Array<Goo>();
+		reached = new Array<Integer>();
 	}
 
 	@Override
@@ -27,6 +29,7 @@ public class MoveHandler extends Component{
 		for(int i = 0; i < movingGoos.size; i++){
 			displaceGoo(i);
 		}
+		//allReachedCancel();
 	}
 	
 	public void displaceGoo(int index){
@@ -34,7 +37,10 @@ public class MoveHandler extends Component{
 		Array<Node> path = paths.get(index);
 		Goo goo = movingGoos.get(index);
 		
+<<<<<<< HEAD
 		//System.out.println(path == null);
+=======
+>>>>>>> cb89a923bd34ec634342c772980291b06220433c
 		if(path == null || path.size < 1){
 			return;
 		}
@@ -68,7 +74,6 @@ public class MoveHandler extends Component{
 	
 	public void move(Goo goo, Vector2 finalPos){
 		Array<Node> path = PathfinderStatic.findPath(new Vector2(goo.getX(), goo.getY()), finalPos, goo.getGrid());
-		System.out.println("Is goo null: " + (path == null));
 		movingGoos.add(goo);
 		paths.add(path);
 	}
@@ -77,8 +82,7 @@ public class MoveHandler extends Component{
 		System.out.println("Canceling goo " + goo.getId());
 		for(int i = 0; i < movingGoos.size; i++){
 			if(movingGoos.get(i).getId() == goo.getId()){
-				movingGoos.removeIndex(i);
-				paths.removeIndex(i);
+				destinationReached(i);
 				break;
 			}
 		}
