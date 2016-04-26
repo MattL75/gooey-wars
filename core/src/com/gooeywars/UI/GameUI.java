@@ -217,6 +217,11 @@ public class GameUI implements Screen {
 		hz.setY(30);
 		hz.setX(250);
 		
+		/*/Minimap
+		Minimap map = new Minimap(480, 270);
+		map.addActor(minMap);
+		table.add(map);/*/
+		
 		Group group = new Group();
 		group.addActor(botBar);
 		group.addActor(btMerge);
