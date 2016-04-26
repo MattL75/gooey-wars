@@ -38,6 +38,8 @@ public class MoveHandler extends Component{
 		Array<Node> path = paths.get(index);
 		Goo goo = movingGoos.get(index);
 		
+		//System.out.println(path == null);
+		
 		if(path == null || path.size < 1){
 			return;
 		}
@@ -49,30 +51,20 @@ public class MoveHandler extends Component{
 		if(Math.abs(destination.x - goo.getX()) < 10 && Math.abs(destination.y - goo.getY()) < 10){
 			if(path.size > 0){
 				path.removeIndex(0);
+				path.shrink();
 				if(path.size < 1){
 					destinationReached(index);
 				}
 			} else {
 				destinationReached(index);
 			}
+			
 		}
-	}
-	
-	public void allReachedCancel(){
-		for(int i = 0; i < reached.size; i++){
-			int index = reached.get(i);
-			movingGoos.get(index).stopEntity();
-			movingGoos.removeIndex(index);
-			paths.removeIndex(index);
-		}
-		reached.clear();
 	}
 	
 	public void destinationReached(int index){
-		movingGoos.get(index).stopEntity();
 		movingGoos.removeIndex(index);
 		paths.removeIndex(index);
-		//reached.add(index);
 	}
 	
 	public void merge(Array<Goo> mergingGoos){

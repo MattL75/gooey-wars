@@ -2,7 +2,6 @@ package com.gooeywars.gameState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -12,7 +11,6 @@ import com.gooeywars.entities.Goo;
 import com.gooeywars.entities.Obstacle;
 import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
-import com.gooeywars.physics.Collider;
 
 public class GameState {
 	private FileHandle file;
@@ -92,7 +90,6 @@ public class GameState {
 		
 		String[] secStringArray;
 		float[] floatArray;
-		int enviroIndex;
 		
 		//Goes through elements of mainStringArray, parses everything to floats
 		for (int i = 0; i < mainStringArray.length; i++) {
@@ -112,7 +109,7 @@ public class GameState {
 				floatArray[j] = Float.parseFloat(secStringArray[j]);
 			}
 			
-			//Build entity
+			/*/Build entity
 			if (floatArray[1] == Entity.ENTITY) {
 				Entity entTemp;
 				if (floatArray[4] == 1) {
@@ -125,7 +122,7 @@ public class GameState {
 					entTemp = new Entity(new Sprite(), new Array<Collider>(), floatArray[2], floatArray[3], false);
 				}
 				box.addEntity(entTemp);
-			}
+			}/*/
 			
 			//Build goo
 			if (floatArray[1] == Entity.GOO) {
@@ -142,12 +139,13 @@ public class GameState {
 			
 			//Build environment
 			if (floatArray[1] == Entity.ENVIRONMENT) {
-				float numOb = floatArray[6];
-				Environment e = new Environment();
-				for (int j = 7; j < 7 + numOb * 4; j += 4) {
+				float numOb = floatArray[8];
+				Environment e = new Environment(floatArray[6], floatArray[7]);
+				for (int j = 9; j < 9 + numOb * 4; j += 4) {
 					Obstacle ob = new Obstacle((int)floatArray[j], (int)floatArray[j + 1], (int)floatArray[j + 2], (int)floatArray[j + 3]);
+					e.addChild(ob);
 				}
-				box.addEntity(new Environment());
+				box.addEntity(e);
 			}
 		}
 	}

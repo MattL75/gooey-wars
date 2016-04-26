@@ -15,13 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -35,6 +37,10 @@ public class GameUI implements Screen {
 	static Stage stage;
 	SpriteBatch batch;
 	Table table;
+	Label totalMass;
+	Label massPerGoo;
+	Label numGoo;
+	BitmapFont ft;
 	
 	public GameUI() {
 		stage = new Stage();
@@ -195,6 +201,27 @@ public class GameUI implements Screen {
 		//table.add(group).align(Align.bottomLeft);
 		table.add(minMap).width(Gdx.graphics.getWidth() / 4).height(Gdx.graphics.getHeight() / 4).align(Align.bottomLeft);
 		
+		//Text for group of bot bar
+		HorizontalGroup hz = new HorizontalGroup();
+		
+		BitmapFont ft = new BitmapFont();
+		ft.getData().scale(1.5f);
+		LabelStyle ls = new LabelStyle(ft, Color.BLACK);
+		
+		totalMass = new Label("Total mass: ", ls);
+		massPerGoo = new Label("Mass per goo: ", ls);
+		numGoo = new Label("Number of goo: ", ls);
+		hz.addActor(totalMass);
+		hz.addActor(numGoo);
+		hz.addActor(massPerGoo);
+		hz.setY(30);
+		hz.setX(250);
+		
+		/*/Minimap
+		Minimap map = new Minimap(480, 270);
+		map.addActor(minMap);
+		table.add(map);/*/
+		
 		Group group = new Group();
 		group.addActor(botBar);
 		group.addActor(btMerge);
@@ -204,6 +231,7 @@ public class GameUI implements Screen {
 		group.addActor(btReact);
 		group.addActor(btInv1);
 		group.addActor(btInv2);
+		group.addActor(hz);
 		
 		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
 		
@@ -262,6 +290,24 @@ public class GameUI implements Screen {
 	public void render(float delta) {
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		
+		//Total mass calculations
+		String s1 = "Total mass: ";
+		String s2 = "Number of goo: ";
+		String s3 = "Mass per goo: ";
+		
+		int totalMassNum = 0;
+		int numGooNum = 0;
+		Array<Entity> ent = Main.findGameBox("game").getEntities();
+		for (int i = 0; i < ent.size; i++) {
+			if (ent.get(i).getType() == Entity.GOO) {
+				totalMassNum += ent.get(i).getMass();
+				numGooNum++;
+			}
+		}
+		totalMass.setText(s1 + totalMassNum + "      ");
+		numGoo.setText(s2 + numGooNum + "      ");
+		massPerGoo.setText(s3 + (totalMassNum / numGooNum));
+		
 		//Event for escape key
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
         	GooeyWars.setCurrentBox(GooeyWars.getMenu());
@@ -303,6 +349,7 @@ public class GameUI implements Screen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+		ft.dispose();
 	}
 
 	public static void setFocus() {
