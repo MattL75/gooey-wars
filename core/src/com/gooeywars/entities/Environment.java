@@ -132,7 +132,7 @@ public class Environment extends Entity{
 	}
 	
 	public String getSaveData(){
-		String data = super.getSaveData() + "," + getChildren().size;
+		String data = super.getSaveData() + "," + getWidth() + "," + getHeight() + "," + getChildren().size;
 		for(int i = 0; i < getChildren().size; i++){
 			data += "," + getChildren().get(i).getSaveData();
 		}

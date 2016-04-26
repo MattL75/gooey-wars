@@ -34,7 +34,7 @@ public class MoveHandler extends Component{
 		Array<Node> path = paths.get(index);
 		Goo goo = movingGoos.get(index);
 		
-		System.out.println(path == null);
+		//System.out.println(path == null);
 		if(path == null || path.size < 1){
 			return;
 		}
