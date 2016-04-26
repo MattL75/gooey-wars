@@ -12,6 +12,7 @@ public class MoveHandler extends Component{
 	Array<Goo> movingGoos;
 	Array<Array<Node>> paths;
 	Pathfinder finder;
+	Array<Integer> reached;
 	
 	
 	@Override
@@ -20,6 +21,7 @@ public class MoveHandler extends Component{
 		finder = new Pathfinder();
 		paths = new Array<Array<Node>>();
 		movingGoos = new Array<Goo>();
+		reached = new Array<Integer>();
 	}
 
 	@Override
@@ -27,6 +29,7 @@ public class MoveHandler extends Component{
 		for(int i = 0; i < movingGoos.size; i++){
 			displaceGoo(i);
 		}
+		//allReachedCancel();
 	}
 	
 	public void displaceGoo(int index){
@@ -34,7 +37,6 @@ public class MoveHandler extends Component{
 		Array<Node> path = paths.get(index);
 		Goo goo = movingGoos.get(index);
 		
-		System.out.println(path == null);
 		if(path == null || path.size < 1){
 			return;
 		}
@@ -46,20 +48,30 @@ public class MoveHandler extends Component{
 		if(Math.abs(destination.x - goo.getX()) < 10 && Math.abs(destination.y - goo.getY()) < 10){
 			if(path.size > 0){
 				path.removeIndex(0);
-				path.shrink();
 				if(path.size < 1){
 					destinationReached(index);
 				}
 			} else {
 				destinationReached(index);
 			}
-			
 		}
 	}
 	
+	public void allReachedCancel(){
+		for(int i = 0; i < reached.size; i++){
+			int index = reached.get(i);
+			movingGoos.get(index).stopEntity();
+			movingGoos.removeIndex(index);
+			paths.removeIndex(index);
+		}
+		reached.clear();
+	}
+	
 	public void destinationReached(int index){
+		movingGoos.get(index).stopEntity();
 		movingGoos.removeIndex(index);
 		paths.removeIndex(index);
+		//reached.add(index);
 	}
 	
 	public void merge(Array<Goo> mergingGoos){
@@ -68,7 +80,6 @@ public class MoveHandler extends Component{
 	
 	public void move(Goo goo, Vector2 finalPos){
 		Array<Node> path = PathfinderStatic.findPath(new Vector2(goo.getX(), goo.getY()), finalPos, goo.getGrid());
-		System.out.println("Is goo null: " + (path == null));
 		movingGoos.add(goo);
 		paths.add(path);
 	}
@@ -77,8 +88,7 @@ public class MoveHandler extends Component{
 		System.out.println("Canceling goo " + goo.getId());
 		for(int i = 0; i < movingGoos.size; i++){
 			if(movingGoos.get(i).getId() == goo.getId()){
-				movingGoos.removeIndex(i);
-				paths.removeIndex(i);
+				destinationReached(i);
 				break;
 			}
 		}

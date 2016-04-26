@@ -198,9 +198,10 @@ public class GameMouseInput extends Component{
 			}
 		}
 		
-		if(onDownRight){
+		if(onUpRight){
 			Array<Entity> ar = Main.findGameBox("game").getEntities();
 			int j = 0; 
+			int k = 0;
 			
 			boolean attacking = false;
 			
@@ -217,23 +218,31 @@ public class GameMouseInput extends Component{
 					}
 				}
 			}
-			
+			long begintime = System.currentTimeMillis();
+			System.out.println(ar.size);
 			for (int i = 0; i < ar.size; i++) {
 				if (ar.get(i) instanceof Goo) {
 					Goo goo = (Goo) ar.get(i);
 					if (goo.isSelected()) {
 						if(attacking){
-							mover.cancel(goo);
+							//mover.cancel(goo);
 							mover.move(goo, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));
 						} else {
-							mover.cancel(goo);
-							mover.move(goo, new Vector2(getMouseX() + j * (goo.getRadius() + 30),Gdx.graphics.getHeight() - getMouseY()));
+							//mover.cancel(goo);
+							mover.move(goo, new Vector2(getMouseX() + j * (goo.getRadius() + 30), (Gdx.graphics.getHeight() - getMouseY()) + k *(goo.getRadius()+30)));
 							
 						}
 						j++;
+						if(j > 6){
+							k++;
+							j=0;
+						}
 					}
 				}
 			}
+			
+			long endTime = System.currentTimeMillis();
+			System.out.println(endTime-begintime);
 		}
 		
 		if(onUpLeft){
