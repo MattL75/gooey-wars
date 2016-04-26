@@ -99,7 +99,6 @@ class moveCalc implements Runnable  {
 		boolean destinationReached = false;
 		//System.out.println("Moving...");
 		for(int i = 0; i < pathNode.size - 1; i++){
-			
 			if(isCanceled){
 				//System.out.println("Is canceling");
 				break;

@@ -58,7 +58,10 @@ public class GooeyWars extends Main{
 		
 		game.setGrid(new Grid(new Vector2(game.size.x, game.size.y), 10));
 		
-		game.addComponent(new MoveHandler());
+		MoveHandler mover = new MoveHandler();
+		game.setMover(mover);
+		
+		game.addComponent(mover);
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
