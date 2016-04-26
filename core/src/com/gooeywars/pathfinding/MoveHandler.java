@@ -28,7 +28,7 @@ public class MoveHandler {
 	
 	
 	public void merge(Array<Goo> mergingGoos){
-		System.out.println(mergingGoos.size);
+		/*System.out.println(mergingGoos.size);
 		float totalX = 0;
 		float totalY = 0;
 		for(int i = 0; i < mergingGoos.size; i++){
@@ -45,7 +45,7 @@ public class MoveHandler {
 			moveCalc merge = new moveCalc(mergingGoos.get(i), joinPoint,mergingGoos.get(i).getGrid(), true, finalGoo);
 			executor.execute(merge);
 			runningThreads.add(merge);
-		}
+		}*/
 	}
 	
 	public void cancel(Goo goo){

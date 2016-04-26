@@ -225,10 +225,10 @@ public class GameMouseInput extends Component{
 					Goo goo = (Goo) ar.get(i);
 					if (goo.isSelected()) {
 						if(attacking){
-							//mover.cancel(goo);
+							mover.cancel(goo);
 							mover.move(goo, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));
 						} else {
-							//mover.cancel(goo);
+							mover.cancel(goo);
 							mover.move(goo, new Vector2(getMouseX() + j * (goo.getRadius() + 30), (Gdx.graphics.getHeight() - getMouseY()) + k *(goo.getRadius()+30)));
 							
 						}

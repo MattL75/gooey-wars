@@ -226,6 +226,7 @@ public class Goo extends Entity{
 	}
 	
 	public boolean split(Vector2 dirVect){
+		System.out.println("Splitting");
 		if(getMass() > SMALLEST_MASS * 2){
 			Goo brother = new Goo(this.getX()+ getWidth(), this.getY()+getWidth()/4, this.getMass()/2, this.getForce().cpy(), this.getVelocity().cpy(), getAcceleration().cpy().add(dirVect.cpy().scl(-10000)), this.getOwner(), propInt, colorInt, element1, element2);
 			brother.addForce(dirVect.cpy().scl(10000));
@@ -285,63 +286,6 @@ public class Goo extends Entity{
 	}
 	
 	
-	
-	/*public void mine(Geyser geyser){
-		if(!started){
-			miningGeyser = geyser;
-			geyser.mine(this);
-			started = true;
-		}
-	}*/
-	
-	/*public void stopMining(Geyser geyser){
-		if(miningGeyser.getId() == geyser.getId()){
-			//System.out.println("stopping");
-			miningGeyser.stopMining();
-			started = false;
-		}
-	}*/
-	
-	
-	/*public void mine(Geyser geyser){
-		System.out.println(started);
-		mining = true;
-		if(!started){
-			/*goo.setElement2(goo.getElement1());
-			goo.setElement1(property.element);
-			miningGeyser = geyser;
-			geyser.mine(this);
-			started = true;
-		} else {
-			float gCenterX = geyser.getX() + geyser.getWidth() / 2;
-			float gCenterY = geyser.getY() + geyser.getHeight() / 2;
-			float gooCenterX = getX() + getWidth() / 2;
-			float gooCenterY = getY() + getHeight() / 2;
-			Vector2 force = new Vector2();
-			
-			force = new Vector2(25 * (gCenterX - gooCenterX), 25 * (gCenterY - gooCenterY));
-			
-			
-			if(!grabbed){
-				System.out.println("not grabbed yet");
-				if(Math.abs(getX() - geyser.getX()) < 10 && Math.abs(getY() - geyser.getY()) < 10){
-					setX(geyser.getX()- getWidth()/2);
-					setY(geyser.getY() - getHeight()/2);
-					grabbed = true;
-				} else {
-					addForce(force);
-				}
-			}
-		}
-	}
-	
-	public void stopMining(){
-		mining = false;
-		grabbed = false;
-		started = false;
-		miningGeyser.stopMining();
-		
-	}*/
 	
 	//super.getSaveData,owner,colorInt,propInt
 	@Override
