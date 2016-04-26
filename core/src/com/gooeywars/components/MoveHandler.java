@@ -63,8 +63,10 @@ public class MoveHandler extends Component{
 	}
 	
 	public void destinationReached(int index){
+		movingGoos.get(index).stopEntity();
 		movingGoos.removeIndex(index);
 		paths.removeIndex(index);
+		
 	}
 	
 	public void merge(Array<Goo> mergingGoos){
@@ -83,9 +85,8 @@ public class MoveHandler extends Component{
 
 		for(int i = 0; i < mergingGoos.size; i++){
 			Goo goo = mergingGoos.get(i);
-			Array<Node> path = PathfinderStatic.findPath(new Vector2(goo.getX(), goo.getY()), joinPoint, goo.getGrid());
-			paths.add(path);
-			movingGoos.add(mergingGoos.get(i));
+			
+			move(goo, joinPoint);
 		}
 	}
 	

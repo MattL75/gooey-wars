@@ -239,7 +239,7 @@ public class Goo extends Entity{
 	}
 	
 	public void merge(Array<Goo> mergingGoos){
-		float totalX = 0;
+		/*float totalX = 0;
 		float totalY = 0;
 		for(int i = 0; i < mergingGoos.size; i++){
 			mergingGoos.get(i).setMerging(true);
@@ -252,7 +252,7 @@ public class Goo extends Entity{
 		for(int i = 0; i < mergingGoos.size; i++){
 			Main.findGameBox("game").getMover().cancel(mergingGoos.get(i));
 			Main.findGameBox("game").getMover().move(mergingGoos.get(i), joinPoint);
-		}
+		}*/
 	}
 	
 	public void build(Array<Vector2> path){
