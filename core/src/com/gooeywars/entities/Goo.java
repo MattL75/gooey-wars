@@ -290,6 +290,12 @@ public class Goo extends Entity{
 		property.react(element1, element2);
 	}
 	
+	public void setOnFire(){
+		if(property.isFlammable()){
+			//getSprite().getTexture().
+		}
+	}
+	
 	public void annihilate(float overlap){
 		float len = overlap;
 		if(len > 0){

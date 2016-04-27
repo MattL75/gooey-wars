@@ -310,7 +310,12 @@ public class GameUI implements Screen {
 		}
 		totalMass.setText(s1 + totalMassNum + "      ");
 		numGoo.setText(s2 + numGooNum + "      ");
-		massPerGoo.setText(s3 + (totalMassNum / numGooNum));
+		if(numGooNum == 0){
+			massPerGoo.setText(s3 + (totalMassNum / 1));
+		} else {
+			massPerGoo.setText(s3 + (totalMassNum / numGooNum));
+		}
+		
 		
 		//Event for escape key
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
