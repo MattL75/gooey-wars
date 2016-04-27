@@ -8,6 +8,8 @@ public class GooProperty {
 	public static final int PURPLE = 4;
 	public static final int PINK = 5;
 	
+	private boolean isRanged;
+	private int range;
 	
 	private float velocityFactor;
 	private float damage;
@@ -56,6 +58,7 @@ public class GooProperty {
 			flammable = true;
 			explosive = false;
 			radioactive = false;
+			immobilized = false;
 			break;
 		case 1:
 			//Steel Goo
@@ -66,6 +69,7 @@ public class GooProperty {
 			flammable = true;
 			explosive = false;
 			radioactive = false;
+			immobilized = true;
 			break;
 		case 2:
 			//Fire proof
@@ -131,6 +135,18 @@ public class GooProperty {
 		}
 	}
 	
+	public void react(int element1, int element2){
+		if(element1 == GeyserProperty.WATER || element2 == GeyserProperty.WATER){
+			System.out.println("Default");
+			genGooProp(GooProperty.DEFAULT_GOO);
+		}
+		
+		if(element1 == GeyserProperty.CARBON && element2 == GeyserProperty.IRON){
+			System.out.println("Steel");
+			genGooProp(GooProperty.STEEL);
+		}
+	}
+	
 	public int getPropInt() {
 		return propInt;
 	}
@@ -170,5 +186,13 @@ public class GooProperty {
 	//Active Properties
 	public boolean isImmobilized() {
 		return immobilized;
+	}
+
+	public boolean isRanged() {
+		return isRanged;
+	}
+
+	public void setRanged(boolean isRanged) {
+		this.isRanged = isRanged;
 	}
 }

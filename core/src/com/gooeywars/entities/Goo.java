@@ -1,12 +1,15 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.components.MoveHandler;
 import com.gooeywars.game.Main;
 import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.physics.Collider;
@@ -31,10 +34,7 @@ public class Goo extends Entity{
 	
 	public static final int SMALLEST_MASS = 5;
 	
-	private Geyser miningGeyser;
-	private boolean started;
-	
-
+	private MoveHandler mover;
 	
 	public Goo(){
 		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
@@ -75,7 +75,7 @@ public class Goo extends Entity{
 		setX(x);
 		setY(y);
 		
-		miningGeyser = new Geyser();
+		mover = Main.findGameBox("game").getMover();
 		
 		setForce(force);
 		setVelocity(velocity);
@@ -195,8 +195,8 @@ public class Goo extends Entity{
 						goo.annihilate(getMass());
 					} else {
 						
-						annihilate(len);
-						goo.annihilate(len);
+						annihilate(goo.getProperty().getDamage() * len/property.getDefence());
+						goo.annihilate(property.getDamage() * len/ goo.getProperty().getDefence());
 					}
 					
 					
@@ -223,6 +223,24 @@ public class Goo extends Entity{
 		
 		return displacement;
 		
+	}
+	
+	public void move(float x, float y){
+		System.out.println("Moving");
+		mover.cancel(this);
+		mover.move(this, new Vector2(x, y));
+	}
+	
+	public void attack(float x, float y){
+		
+		if(property.isRanged()){
+			
+			
+		} else {
+			mover.cancel(this);
+			mover.move(this, new Vector2(x, y));
+			
+		}
 	}
 	
 	public boolean split(Vector2 dirVect){
@@ -268,11 +286,12 @@ public class Goo extends Entity{
 		other.destroy();
 	}
 	
+	public void react(){
+		property.react(element1, element2);
+	}
+	
 	public void annihilate(float overlap){
 		float len = overlap;
-		float radiusVar;
-		float initRad;
-		
 		if(len > 0){
 			changeMass((int)(-1 * len));
 		}
@@ -349,7 +368,7 @@ public class Goo extends Entity{
 		return isSelected;
 	}
 	
-	//TODO deal with color change when selected
+	
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
 		if(isSelected){
@@ -399,6 +418,11 @@ public class Goo extends Entity{
 	}
 	
 	private void genGrid(){
-		grid = new Grid(Main.findGameBox("game").size, radius);
+		if(radius < 10){
+			grid = new Grid(Main.findGameBox("game").size, 10);
+		} else {
+			grid = new Grid(Main.findGameBox("game").size, radius);
+		}
+		
 	}
 }

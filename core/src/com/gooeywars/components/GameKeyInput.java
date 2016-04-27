@@ -82,6 +82,16 @@ public class GameKeyInput extends Component{
 				GameMouseInput.selectedGoo.first().merge(GameMouseInput.selectedGoo);
 			}*/
 		}
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+			for(int i = 0; i < entities.size; i++){
+				if(entities.get(i) instanceof Goo){
+					if(((Goo) entities.get(i)).isSelected()){
+						((Goo) entities.get(i)).react();
+					}
+				}
+			}
+		}
 	}
 
 }

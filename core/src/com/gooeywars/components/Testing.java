@@ -83,23 +83,23 @@ public class Testing extends Component{
 		goo.setOwner(0);
 		game.addEntity(goo);*/
 		
-		for(int i = 0; i < 3; i++){
+		/*for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
 				Goo goo = new Goo(i*60+30,j*60 + 400,20);
 				goo.setOwner(0);
 				game.addEntity(goo);
 			}
-		}
+		}*/
 		
 		
-		/*for(int i = 0; i < 1; i++){
+		for(int i = 0; i < 1; i++){
 			for(int j = 0; j < 1; j++){
-				Goo goo = new Goo(i*60+400,j*60 + 400,20);
+				Goo goo = new Goo(i*60+400,j*60 + 400,100);
 				goo.setColorInt(1);
 				goo.setOwner(1);
 				game.addEntity(goo);
 			}
-		}*/
+		}
 		
 		
 		
