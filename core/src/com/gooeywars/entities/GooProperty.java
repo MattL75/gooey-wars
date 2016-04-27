@@ -1,5 +1,7 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.graphics.Pixmap;
+
 public class GooProperty {
 	public static final int BLACK = 0;
 	public static final int RED = 1;
@@ -36,6 +38,10 @@ public class GooProperty {
 	public static final int CALCIFIED_STEEL = 5;
 	public static final int C4 = 6;
 	public static final int NUCLEAR_BOMB = 7;
+	
+	private Pixmap element1Pix;
+	private Pixmap element2Pix;
+	private Pixmap gooTypeTPix;
 	
 	public GooProperty(){
 		genGooProp(0);
@@ -80,6 +86,7 @@ public class GooProperty {
 			flammable = false;
 			explosive = false;
 			radioactive = false;
+			immobilized = false;
 			break;
 		case 3:
 			//Explosive Goo
@@ -90,6 +97,7 @@ public class GooProperty {
 			flammable = true;
 			explosive = true;
 			radioactive = false;
+			immobilized = false;
 			break;
 		case 4:
 			//Nuclear Goo
@@ -100,6 +108,7 @@ public class GooProperty {
 			flammable = true;
 			explosive = false;
 			radioactive = true;
+			immobilized = false;
 			break;
 		case 5:
 			//Calcified_Steel Goo
@@ -110,6 +119,7 @@ public class GooProperty {
 			flammable = false;
 			explosive = false;
 			radioactive = false;
+			immobilized = true;
 			break;
 		case 6:
 			//C4 Goo
@@ -120,6 +130,7 @@ public class GooProperty {
 			flammable = false;
 			explosive = true;
 			radioactive = false;
+			immobilized = false;
 			break;
 		case 7:
 			//Nuclear Bomb Goo
