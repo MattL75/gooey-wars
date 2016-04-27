@@ -232,7 +232,6 @@ public class Goo extends Entity{
 	}
 	
 	public void attack(float x, float y){
-		
 		if(property.isRanged()){
 			
 			
