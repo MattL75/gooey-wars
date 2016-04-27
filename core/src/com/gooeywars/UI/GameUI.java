@@ -41,6 +41,7 @@ public class GameUI implements Screen {
 	Label massPerGoo;
 	Label numGoo;
 	BitmapFont ft;
+	Minimap map;
 	
 	public GameUI() {
 		stage = new Stage();
@@ -76,7 +77,6 @@ public class GameUI implements Screen {
 		table.left();
 		stage.addActor(table);
 		
-		//Minimap
 		Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
 		
 		//Bottom right
@@ -199,7 +199,7 @@ public class GameUI implements Screen {
 		
 		//Table settings
 		//table.add(group).align(Align.bottomLeft);
-		table.add(minMap).width(Gdx.graphics.getWidth() / 4).height(Gdx.graphics.getHeight() / 4).align(Align.bottomLeft);
+		//table.add(minMap).width(Gdx.graphics.getWidth() / 4).height(Gdx.graphics.getHeight() / 4).align(Align.bottomLeft);
 		
 		//Text for group of bot bar
 		HorizontalGroup hz = new HorizontalGroup();
@@ -217,10 +217,9 @@ public class GameUI implements Screen {
 		hz.setY(30);
 		hz.setX(250);
 		
-		/*/Minimap
-		Minimap map = new Minimap(480, 270);
-		map.addActor(minMap);
-		table.add(map);/*/
+		//Minimap
+		map = new Minimap(480, 270);
+		table.add(map);
 		
 		Group group = new Group();
 		group.addActor(botBar);
@@ -290,6 +289,9 @@ public class GameUI implements Screen {
 	public void render(float delta) {
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		
+		//Minimap update
+		map.update();
+		
 		//Total mass calculations
 		String s1 = "Total mass: ";
 		String s2 = "Number of goo: ";
@@ -300,8 +302,10 @@ public class GameUI implements Screen {
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
 		for (int i = 0; i < ent.size; i++) {
 			if (ent.get(i).getType() == Entity.GOO) {
-				totalMassNum += ent.get(i).getMass();
-				numGooNum++;
+				if (((Goo) ent.get(i)).getOwner() == 0) {
+					totalMassNum += ent.get(i).getMass();
+					numGooNum++;
+				}
 			}
 		}
 		totalMass.setText(s1 + totalMassNum + "      ");
