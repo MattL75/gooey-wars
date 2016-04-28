@@ -64,7 +64,8 @@ public class Geyser extends Entity{
 	
 	public void mine(Goo goo){
 		if(!isMining){
-			if(property.element != goo.getElement1()){
+			System.out.println("Is mining");
+			if(property.element != goo.getElement1() && property.element != goo.getElement2()){
 				goo.setElement2(goo.getElement1());
 				goo.setElement1(property.element);
 			}
@@ -89,49 +90,6 @@ public class Geyser extends Entity{
 		
 	}
 	
-	
-	/*public void mine(Goo goo){
-		if(property.element != goo.getElement1()){
-			goo.setElement2(goo.getElement1());
-			goo.setElement1(property.element);
-		}
-	
-		
-		timer.clear();
-		timer.scheduleTask(new mineTask(goo), 0f, 0.1f);
-		timer.start();
-	}
-	
-	/*public void miningUpdate(){
-		float gCenterX = getX() + getWidth() / 2;
-		float gCenterY = getY() + getHeight() / 2;
-		float gooCenterX = miningGoo.getX() + miningGoo.getWidth() / 2;
-		float gooCenterY = miningGoo.getY() + miningGoo.getHeight() / 2;
-		Vector2 force = new Vector2();
-		
-		force = new Vector2(25 * (gCenterX - gooCenterX), 25 * (gCenterY - gooCenterY));
-		
-		
-		if(!grabbedGoo){
-			System.out.println("not grabbed yet");
-			if(Math.abs(miningGoo.getX() - getX()) < 10 && Math.abs(miningGoo.getY() - getY()) < 10){
-				miningGoo.setX(getX()- miningGoo.getWidth()/2);
-				miningGoo.setY(getY() - miningGoo.getHeight()/2);
-				grabbedGoo = true;
-			} else {
-				miningGoo.addForce(force);
-			}
-		}
-	}
-	*/
-	/*public void stopMining(){
-		timer.stop();
-		timer.clear();
-		
-	}*/
-	
-	
-
 	public String getSaveData(){
 		String data = super.getSaveData();
 		data+= "," + propInt;

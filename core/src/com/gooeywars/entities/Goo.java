@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gooeywars.components.MoveHandler;
 import com.gooeywars.game.Main;
 import com.gooeywars.pathfinding.Grid;
@@ -34,27 +37,33 @@ public class Goo extends Entity{
 	
 	private MoveHandler mover;
 	
+	private Sprite element1Sprite;
+	private Sprite element2Sprite;
+	private Sprite gooTypeSprite;
+	
+	private final int modSize = 20;
+	
+	Timer lifespan;
+	
 	public Goo(){
-		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
+		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, -1, -1);
 	}
 	
 	public Goo(float x, float y){
-		createGoo(x, y, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
+		createGoo(x, y, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, -1, -1);
 	}
 	
 	public Goo(float x, float y, int mass){
-		createGoo(x, y, mass, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, 0, 0);
+		createGoo(x, y, mass, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, -1, -1);
 	}
 	
 	public Goo(float x, float y, int mass, int prop, int owner, int color){
-		createGoo(x, y, mass, new Vector2(), new Vector2(), new Vector2(), prop, owner, color, 0, 0);
+		createGoo(x, y, mass, new Vector2(), new Vector2(), new Vector2(), prop, owner, color, -1, -1);
 		
 	}
 	
 	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration){
-		
-		createGoo(x, y, mass, force, velocity, acceleration, 0, -1 , 0, 0, 0);
-		
+		createGoo(x, y, mass, force, velocity, acceleration, 0, -1 , 0, -1, -1);
 	}
 	
 	public Goo(float x, float y, int mass, Vector2 force, Vector2 velocity, Vector2 acceleration, int owner, int prop, int color, int element1, int element2){
@@ -67,11 +76,12 @@ public class Goo extends Entity{
 		colorInt = color;
 		propInt = prop;
 		
-		this.element1 = element1;
-		this.element2 = element2;
+		element1Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element1)));
+		element2Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element2)));
 		
-		setX(x);
-		setY(y);
+		setElement1(element1);
+		setElement2(element2);
+		
 		
 		mover = Main.findGameBox("game").getMover();
 		
@@ -82,12 +92,17 @@ public class Goo extends Entity{
 		property = new GooProperty(prop);
 		this.color = genColor(color);
 		this.owner = owner;
-		setMass(mass);
+		
 		setType(Entity.GOO);
 		
 		setVelocityFactor(property.getVelocityFactor());
 		
 		createSprite();
+		
+		setX(x);
+		setY(y);
+		setMass(mass);
+		
 		createColliders();
 	}
 	
@@ -99,12 +114,32 @@ public class Goo extends Entity{
 		
 		pix.fillCircle((int)radius, (int)radius, (int)radius);
 		
+		
+		
 		Texture texture = new Texture(pix);
 		pix.dispose();
 		
 		Sprite sprite = new Sprite(texture);
 		setSprite(sprite);
 		
+		Sprite actualSprite = getSprite();
+		
+		
+		
+		gooTypeSprite = new Sprite(new Texture(property.getGooTypePix()));
+		gooTypeSprite.setX(actualSprite.getX());
+		gooTypeSprite.setY(actualSprite.getY() + actualSprite.getHeight() - gooTypeSprite.getHeight());
+		gooTypeSprite.setSize(modSize, modSize);
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch){
+		//System.out.println("Element 1: " + element1);
+		//System.out.println("Element 2: " + element2);
+		super.draw(batch);
+		element1Sprite.draw(batch);
+		element2Sprite.draw(batch);
+		gooTypeSprite.draw(batch);
 	}
 	
 	private void createColliders(){
@@ -285,11 +320,31 @@ public class Goo extends Entity{
 	
 	public void react(){
 		property.react(element1, element2);
+		if(property.getPropInt() == -1){
+			explode();
+		} else {
+			gooTypeSprite = new Sprite(new Texture(property.getGooTypePix()));
+			gooTypeSprite.setX(getSprite().getX());
+			gooTypeSprite.setY(getSprite().getY() + getSprite().getHeight() - gooTypeSprite.getHeight());
+			gooTypeSprite.setSize(modSize, modSize);
+		}
+		
+	}
+	
+	public void lifeSpan(float seconds){
+		lifespan = new Timer();
+		
+		lifespan.scheduleTask(new lifeSpanTask(), seconds);
+	}
+	
+	public void explode(){
+		System.out.println("Boom!! Headshot!");
+		destroy();
 	}
 	
 	public void setOnFire(){
 		if(property.isFlammable()){
-			//getSprite().getTexture().
+			
 		}
 	}
 	
@@ -315,6 +370,23 @@ public class Goo extends Entity{
 		String data = super.getSaveData();
 		data += "," + owner + "," + propInt + "," + colorInt +  "," + element1 + "," + element2;
 		return data;
+	}
+	
+	@Override
+	public void setX(float x){
+		super.setX(x);
+		element1Sprite.setX(x + getSprite().getWidth() - element1Sprite.getWidth());
+		element2Sprite.setX(x + getSprite().getWidth() - element1Sprite.getWidth() - element2Sprite.getWidth());
+		gooTypeSprite.setX(x);
+	}
+	
+	@Override
+	public void setY(float y){
+		super.setY(y);
+		element1Sprite.setY(y);
+		element2Sprite.setY(y);
+		
+		gooTypeSprite.setY(y + getSprite().getHeight() - gooTypeSprite.getHeight());
 	}
 
 	public float getRadius() {
@@ -402,6 +474,18 @@ public class Goo extends Entity{
 
 	public void setElement1(int element1) {
 		this.element1 = element1;
+		element1Sprite.getTexture().dispose();
+		element1Sprite.getTexture().dispose();
+		element1Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element1)));
+		Sprite actualSprite = getSprite();
+		element1Sprite.setX(actualSprite.getX() + actualSprite.getWidth() - element1Sprite.getWidth());
+		element1Sprite.setY(actualSprite.getY());
+		if(element1 == -1){
+			element1Sprite.setSize(0, 0);
+		} else {
+			element1Sprite.setSize(modSize, modSize);
+		}
+		
 	}
 
 	public int getElement2() {
@@ -410,6 +494,16 @@ public class Goo extends Entity{
 
 	public void setElement2(int element2) {
 		this.element2 = element2;
+		element2Sprite.getTexture().dispose();
+		element2Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element2)));
+		Sprite actualSprite = getSprite();
+		element2Sprite.setX(actualSprite.getX() + actualSprite.getWidth() - element2Sprite.getWidth());
+		element2Sprite.setY(actualSprite.getY());
+		if(element2 == -1){
+			element2Sprite.setSize(0, 0);
+		} else {
+			element2Sprite.setSize(modSize, modSize);
+		}
 	}
 
 	public Grid getGrid() {
@@ -428,4 +522,15 @@ public class Goo extends Entity{
 		}
 		
 	}
+	
+	class lifeSpanTask extends Task{
+
+		@Override
+		public void run() {
+			destroy();
+		}
+		
+	}
 }
+
+

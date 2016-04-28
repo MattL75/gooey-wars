@@ -1,5 +1,6 @@
 package com.gooeywars.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class GooProperty {
@@ -30,6 +31,7 @@ public class GooProperty {
 	
 	private int propInt;
 	
+	public static final int EXPLODED = -1;
 	public static final int DEFAULT_GOO = 0;
 	public static final int STEEL = 1;
 	public static final int FIRE_PROOF = 2;
@@ -39,9 +41,18 @@ public class GooProperty {
 	public static final int C4 = 6;
 	public static final int NUCLEAR_BOMB = 7;
 	
-	private Pixmap element1Pix;
-	private Pixmap element2Pix;
-	private Pixmap gooTypeTPix;
+	private static Pixmap defaultPix;
+	private static Pixmap steelPix;
+	private static Pixmap fireProofPix;
+	private static Pixmap explosivePix;
+	private static Pixmap nuclearPix;
+	private static Pixmap calcifiedSteelPix;
+	private static Pixmap c4Pix;
+	private static Pixmap nuclearBombPix;
+	
+	private Pixmap gooTypePix;
+	
+	//privat int 
 	
 	public GooProperty(){
 		genGooProp(0);
@@ -55,6 +66,7 @@ public class GooProperty {
 		propInt = prop;
 		
 		switch(prop){
+		case -1:break;
 		case 0:
 			//Default Goo
 			velocityFactor = 1;
@@ -65,6 +77,7 @@ public class GooProperty {
 			explosive = false;
 			radioactive = false;
 			immobilized = false;
+			gooTypePix = defaultPix;
 			break;
 		case 1:
 			//Steel Goo
@@ -76,6 +89,7 @@ public class GooProperty {
 			explosive = false;
 			radioactive = false;
 			immobilized = true;
+			gooTypePix = steelPix;
 			break;
 		case 2:
 			//Fire proof
@@ -87,6 +101,7 @@ public class GooProperty {
 			explosive = false;
 			radioactive = false;
 			immobilized = false;
+			gooTypePix = fireProofPix;
 			break;
 		case 3:
 			//Explosive Goo
@@ -98,6 +113,7 @@ public class GooProperty {
 			explosive = true;
 			radioactive = false;
 			immobilized = false;
+			gooTypePix = explosivePix;
 			break;
 		case 4:
 			//Nuclear Goo
@@ -109,6 +125,7 @@ public class GooProperty {
 			explosive = false;
 			radioactive = true;
 			immobilized = false;
+			gooTypePix = nuclearPix;
 			break;
 		case 5:
 			//Calcified_Steel Goo
@@ -120,6 +137,7 @@ public class GooProperty {
 			explosive = false;
 			radioactive = false;
 			immobilized = true;
+			gooTypePix = calcifiedSteelPix;
 			break;
 		case 6:
 			//C4 Goo
@@ -131,6 +149,7 @@ public class GooProperty {
 			explosive = true;
 			radioactive = false;
 			immobilized = false;
+			gooTypePix = c4Pix;
 			break;
 		case 7:
 			//Nuclear Bomb Goo
@@ -142,6 +161,8 @@ public class GooProperty {
 			explosive = true;
 			radioactive = true;
 			immobilized = false;
+			gooTypePix = nuclearBombPix;
+			
 			break;
 		}
 	}
@@ -149,13 +170,25 @@ public class GooProperty {
 	public void react(int element1, int element2){
 		if(element1 == GeyserProperty.WATER || element2 == GeyserProperty.WATER){
 			System.out.println("Default");
-			genGooProp(GooProperty.DEFAULT_GOO);
+			
+			genGooProp(GooProperty.EXPLODED);
 		}
 		
-		if(element1 == GeyserProperty.CARBON && element2 == GeyserProperty.IRON){
+		if(element1 == GeyserProperty.CARBON && element2 == GeyserProperty.IRON || element1 == GeyserProperty.IRON && element2 == GeyserProperty.CARBON){
 			System.out.println("Steel");
 			genGooProp(GooProperty.STEEL);
 		}
+	}
+	
+	public static void loadTextures(){
+		defaultPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/default_goo.png"));
+		steelPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/steel_goo.png"));
+		fireProofPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/fire_proof_goo.png"));
+		explosivePix = new Pixmap(Gdx.files.local("assets/textures/goo/type/explosive_goo.png"));
+		nuclearPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/nuclear_goo.png"));
+		calcifiedSteelPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/calcified_steel_goo.png"));
+		c4Pix = new Pixmap(Gdx.files.local("assets/textures/goo/type/c4_goo.png"));
+		nuclearBombPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/nuclear_bomb_goo.png"));
 	}
 	
 	public int getPropInt() {
@@ -205,5 +238,11 @@ public class GooProperty {
 
 	public void setRanged(boolean isRanged) {
 		this.isRanged = isRanged;
+	}
+
+	
+
+	public Pixmap getGooTypePix() {
+		return gooTypePix;
 	}
 }
