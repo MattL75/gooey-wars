@@ -2,6 +2,7 @@ package com.gooeywars.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 
 public class GooProperty {
 	public static final int BLACK = 0;
@@ -26,7 +27,7 @@ public class GooProperty {
 	
 	//Active Properties
 	private boolean immobilized;
-	private boolean onFire;
+	public boolean onFire;
 	private boolean radiated;
 	
 	private int propInt;
@@ -181,7 +182,7 @@ public class GooProperty {
 	}
 	
 	public static void loadTextures(){
-		defaultPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/default_goo.png"));
+		defaultPix = new Pixmap(0,0,Format.RGBA4444);
 		steelPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/steel_goo.png"));
 		fireProofPix = new Pixmap(Gdx.files.local("assets/textures/goo/type/fire_proof_goo.png"));
 		explosivePix = new Pixmap(Gdx.files.local("assets/textures/goo/type/explosive_goo.png"));

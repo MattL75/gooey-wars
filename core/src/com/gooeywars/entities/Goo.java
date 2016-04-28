@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gooeywars.components.MoveHandler;
+import com.gooeywars.game.GameBox;
 import com.gooeywars.game.Main;
 import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.physics.Collider;
@@ -44,6 +45,7 @@ public class Goo extends Entity{
 	private final int modSize = 20;
 	
 	Timer lifespan;
+	Timer onFireTimer;
 	
 	public Goo(){
 		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, -1, -1);
@@ -76,6 +78,10 @@ public class Goo extends Entity{
 		colorInt = color;
 		propInt = prop;
 		
+		onFireTimer = new Timer();
+		onFireTimer.scheduleTask(new onFireTask(), 1, 1);
+		onFireTimer.stop();
+		
 		element1Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element1)));
 		element2Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element2)));
 		
@@ -104,6 +110,7 @@ public class Goo extends Entity{
 		setMass(mass);
 		
 		createColliders();
+		
 	}
 	
 	private void createSprite(){
@@ -129,7 +136,11 @@ public class Goo extends Entity{
 		gooTypeSprite = new Sprite(new Texture(property.getGooTypePix()));
 		gooTypeSprite.setX(actualSprite.getX());
 		gooTypeSprite.setY(actualSprite.getY() + actualSprite.getHeight() - gooTypeSprite.getHeight());
-		gooTypeSprite.setSize(modSize, modSize);
+		if(property.getPropInt() == 0){
+			gooTypeSprite.setSize(0, 0);
+		} else {
+			gooTypeSprite.setSize(modSize, modSize);
+		}
 	}
 	
 	@Override
@@ -326,26 +337,47 @@ public class Goo extends Entity{
 			gooTypeSprite = new Sprite(new Texture(property.getGooTypePix()));
 			gooTypeSprite.setX(getSprite().getX());
 			gooTypeSprite.setY(getSprite().getY() + getSprite().getHeight() - gooTypeSprite.getHeight());
-			gooTypeSprite.setSize(modSize, modSize);
+			if(property.getPropInt() == 0){
+				gooTypeSprite.setSize(0, 0);
+			} else {
+				gooTypeSprite.setSize(modSize, modSize);
+			}
 		}
 		
 	}
 	
-	public void lifeSpan(float seconds){
+	public void setLifeSpan(float seconds){
 		lifespan = new Timer();
-		
 		lifespan.scheduleTask(new lifeSpanTask(), seconds);
 	}
 	
 	public void explode(){
-		System.out.println("Boom!! Headshot!");
+		GameBox game = Main.findGameBox("game");
+		int mass = getMass();
+		int numberCreated = mass/10;
+		for(int i = 0; i < numberCreated; i++){
+			Goo goo = new Goo(getX() + getWidth()/2,getY() + getHeight()/2,(int)(2*mass/numberCreated * Math.random()),0,getOwner(),getColorInt());
+			goo.setLifeSpan(1);
+			Vector2 force = new Vector2(1,1);
+			force.setToRandomDirection();
+			force.setLength(10);
+			goo.setVelocity(force);
+			game.addEntity(goo);
+		}
+		
 		destroy();
 	}
 	
 	public void setOnFire(){
 		if(property.isFlammable()){
-			
+			property.onFire = true;
+			onFireTimer.start();
 		}
+	}
+	
+	public void extinguish(){
+		property.onFire = false;
+		onFireTimer.stop();
 	}
 	
 	public void annihilate(float overlap){
@@ -528,6 +560,19 @@ public class Goo extends Entity{
 		@Override
 		public void run() {
 			destroy();
+		}
+		
+	}
+	
+	class onFireTask extends Task{
+
+		@Override
+		public void run() {
+			if(getMass() < SMALLEST_MASS){
+				destroy();
+			} else {
+				changeMass(-1);
+			}
 		}
 		
 	}

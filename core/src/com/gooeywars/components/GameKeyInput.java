@@ -64,12 +64,12 @@ public class GameKeyInput extends Component{
 			}
 		}
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
 			merging.clear();
 			for(int i = 0; i <entities.size; i++){
 				if(entities.get(i) instanceof Goo){
 					if(((Goo) entities.get(i)).isSelected()){
-						merging.add((Goo) entities.get(i));
+						((Goo)entities.get(i)).setOnFire();
 					}
 				}
 			}
@@ -88,6 +88,16 @@ public class GameKeyInput extends Component{
 				if(entities.get(i) instanceof Goo){
 					if(((Goo) entities.get(i)).isSelected()){
 						((Goo) entities.get(i)).react();
+					}
+				}
+			}
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+			for(int i = 0; i < entities.size; i++){
+				if(entities.get(i) instanceof Goo){
+					if(((Goo) entities.get(i)).isSelected()){
+						((Goo) entities.get(i)).setLifeSpan(2);
 					}
 				}
 			}
