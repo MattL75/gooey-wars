@@ -288,7 +288,7 @@ public class GameUI implements Screen {
 	@Override
 	public void render(float delta) {
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		
+
 		//Minimap update
 		map.update();
 		
