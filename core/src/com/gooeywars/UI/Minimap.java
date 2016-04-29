@@ -15,13 +15,13 @@ import com.gooeywars.game.Main;
 
 public class Minimap extends Group {
 	Vector2 position;
+	Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
 	
 	public Minimap(float width, float height) {
 		setWidth(width);
 		setHeight(height);
 		setX(0);
 		setY(0);
-		Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
 		addActor(minMap);
 	}
 	
@@ -30,7 +30,6 @@ public class Minimap extends Group {
 		setHeight(height);
 		setX(position.x);
 		setY(position.y);
-		Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
 		addActor(minMap);
 	}
 	
@@ -76,7 +75,6 @@ public class Minimap extends Group {
 	
 	public void clearMap() {
 		clear();
-		Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
 		addActor(minMap);
 	}
 }
