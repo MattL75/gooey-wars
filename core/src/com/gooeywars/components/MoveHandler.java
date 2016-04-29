@@ -3,6 +3,7 @@ package com.gooeywars.components;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Goo;
@@ -105,16 +106,27 @@ public class MoveHandler extends Component{
 	
 	public void move(Array<Goo> goos, Vector2 finalPos){
 		int size = (int)Math.ceil(Math.sqrt(goos.size));
+		System.out.println(size);
 		int count = 0;
-		
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				if(count < goos.size){
-					executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x + i * goos.get(count).getRadius(),finalPos.y + j * goos.get(count).getRadius())));
-					count++;
+		if(goos.size == 1){
+			cancel(goos.get(count));
+			executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x ,finalPos.y )));
+		} else {
+			for(int i = 0; i < size; i++){
+				for(int j = 0; j < size; j++){
+					if(count < goos.size){
+						cancel(goos.get(count));
+						executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x + i * goos.get(count).getRadius(),finalPos.y + j * goos.get(count).getRadius())));
+						count++;
+					}
 				}
 			}
 		}
+		
+	}
+	
+	public void attack(Array<Goo> goos, Vector2 finalPos){
+		
 	}
 	
 	public void cancel(Goo goo){
@@ -138,6 +150,7 @@ public class MoveHandler extends Component{
 		@Override
 		public void run() {
 			paths.add(PathfinderStatic.findPath(new Vector2(goo.getX(), goo.getY()), destination, goo.getGrid()));
+			movingGoos.add(goo);
 		}
 		
 	}
