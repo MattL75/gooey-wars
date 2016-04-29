@@ -70,8 +70,8 @@ public class GameBox {
 		
 		size = new Vector2();
 		
-		size.x = Gdx.graphics.getWidth();
-		size.y = Gdx.graphics.getHeight();
+		size.x = 10000;
+		size.y = 10000;
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();

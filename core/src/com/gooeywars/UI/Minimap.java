@@ -16,14 +16,16 @@ import com.gooeywars.game.Main;
 public class Minimap extends Group {
 	Array<Entity> ent;
 	Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
+	Image minMapSquare = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/map_square.png")));
 	int numGeyser;
 	boolean firstPass = false;
-	Vector2 worldSize; //REPLACE ALL REFERENCES TO Gdx.graphics WITH THIS
+	Vector2 worldSize;
 	
 	public Minimap(float width, float height) {
 		setWidth(width);
 		setHeight(height);
 		addActor(minMap);
+		addActor(minMapSquare);
 	}
 	
 	//TODO THIS IS BASED ON A WORLD SIZE OF 1920x1080! MUST BASE ON WORLD SIZE!
@@ -33,13 +35,15 @@ public class Minimap extends Group {
 		}
 		clearMap();
 		ent = Main.findGameBox("game").getEntities();
+		this.worldSize = Main.findGameBox("game").size;
 		
+		//Stuff to execute on first pass
 		if (!firstPass) {
 			for (int i = 0; i < ent.size; i++) {
 				if (ent.get(i).getType() == Entity.GEYSER) {
 					Image temp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/geyser_x.png")));
-					temp.setX(ent.get(i).getX() / (Gdx.graphics.getWidth() / getWidth()));
-					temp.setY(ent.get(i).getY() / (Gdx.graphics.getHeight() / getHeight()));
+					temp.setX(ent.get(i).getX() / (worldSize.x / getWidth()));
+					temp.setY(ent.get(i).getY() / (worldSize.y / getHeight()));
 					numGeyser++;
 					addActor(temp);
 				}
@@ -47,16 +51,20 @@ public class Minimap extends Group {
 			firstPass = true;
 		}
 		
+		//Moving camera square
+		minMapSquare.setWidth(minMap.getWidth() / 2);
+		minMapSquare.setHeight(minMap.getHeight() / 2);
+		
 		for (int i = 0; i < ent.size; i++) {
 			Entity tempEnt = ent.get(i);
 			if (tempEnt.getType() == Entity.GOO) {
 				Image temp = new Image();
 				Sprite sprite = new Sprite(ent.get(i).getSprite());
 				temp.setDrawable(new SpriteDrawable(sprite));
-				temp.setX(tempEnt.getX() / (Gdx.graphics.getWidth() / getWidth()));
-				temp.setY(tempEnt.getY() / (Gdx.graphics.getHeight() / getHeight()));
-				temp.setWidth(tempEnt.getWidth() / (Gdx.graphics.getWidth() / getWidth()));
-				temp.setHeight(tempEnt.getHeight() / (Gdx.graphics.getHeight() / getHeight()));
+				temp.setX(tempEnt.getX() / (worldSize.x / getWidth()));
+				temp.setY(tempEnt.getY() / (worldSize.y / getHeight()));
+				temp.setWidth(tempEnt.getWidth() / (worldSize.x / getWidth()));
+				temp.setHeight(tempEnt.getHeight() / (worldSize.y / getHeight()));
 				addActor(temp);
 			} else if (tempEnt.getType() == Entity.ENVIRONMENT) {
 				for (int j = 0; j < tempEnt.getChildren().size; j++) {
@@ -64,10 +72,10 @@ public class Minimap extends Group {
 						Image temp = new Image();
 						Sprite sprite = new Sprite(tempEnt.getChildren().get(j).getSprite());
 						temp.setDrawable(new SpriteDrawable(sprite));
-						temp.setX(tempEnt.getChildren().get(j).getX() / (Gdx.graphics.getWidth() / getWidth()));
-						temp.setY(tempEnt.getChildren().get(j).getY() / (Gdx.graphics.getHeight() / getHeight()));
-						temp.setWidth(tempEnt.getChildren().get(j).getWidth() / (Gdx.graphics.getWidth() / getWidth()));
-						temp.setHeight(tempEnt.getChildren().get(j).getHeight() / (Gdx.graphics.getHeight() / getHeight()));
+						temp.setX(tempEnt.getChildren().get(j).getX() / (worldSize.x / getWidth()));
+						temp.setY(tempEnt.getChildren().get(j).getY() / (worldSize.y / getHeight()));
+						temp.setWidth(tempEnt.getChildren().get(j).getWidth() / (worldSize.x / getWidth()));
+						temp.setHeight(tempEnt.getChildren().get(j).getHeight() / (worldSize.y / getHeight()));
 						addActor(temp);
 					}
 				}
@@ -76,7 +84,7 @@ public class Minimap extends Group {
 	}
 	
 	public void clearMap() {
-		for (int i = numGeyser + 1; i < getChildren().size; i++) {
+		for (int i = numGeyser + 2; i < getChildren().size; i++) {
 			getChildren().removeIndex(i);
 		}
 	}
