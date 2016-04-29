@@ -219,7 +219,7 @@ public class GameMouseInput extends Component{
 				}
 			}
 			long begintime = System.currentTimeMillis();
-			System.out.println(ar.size);
+			
 			for (int i = 0; i < ar.size; i++) {
 				if (ar.get(i) instanceof Goo) {
 					Goo goo = (Goo) ar.get(i);
@@ -239,7 +239,7 @@ public class GameMouseInput extends Component{
 			}
 			
 			long endTime = System.currentTimeMillis();
-			System.out.println(endTime-begintime);
+			//System.out.println(endTime-begintime);
 		}
 		
 		if(onUpLeft){

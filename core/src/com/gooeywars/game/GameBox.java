@@ -82,13 +82,17 @@ public class GameBox {
 			components.get(i).update();
 		}
 		
+		if(physicsEnabled){
+			physics.update(Gdx.graphics.getDeltaTime());
+		}
+		
+		
+		
 		for(int i = 0; i < entities.size; i++){
 			entities.get(i).update();
 		}
 		
-		if(physicsEnabled){
-			physics.update(Gdx.graphics.getDeltaTime());
-		}
+		
 	
 		draw();
 	}
