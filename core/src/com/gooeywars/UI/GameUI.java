@@ -249,7 +249,7 @@ public class GameUI implements Screen {
 				if (m.size == 0){
 					return;
 				}
-				m.get(0).merge(m);
+				Main.findGameBox("game").getMover().merge(m);
 			}
 		});
 		
@@ -278,6 +278,24 @@ public class GameUI implements Screen {
 			}
 		});
 		
+		btReact.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				Array<Entity> ent = Main.findGameBox("game").getEntities();
+				int numGooInt = 0;
+				int gooIndex = 0;
+				for (int i = 0; i < ent.size; i++) {
+					if (ent.get(i) instanceof Goo) {
+						if (((Goo)ent.get(i)).isSelected()) {
+							numGooInt++;
+							gooIndex = i;
+						}
+					}
+				}
+				if (numGooInt == 1) {
+					((Goo)ent.get(gooIndex)).react();
+				}
+			}
+		});
 	}
 	
 	@Override

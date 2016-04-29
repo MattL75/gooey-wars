@@ -2,6 +2,7 @@ package com.gooeywars.gameState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -140,7 +141,7 @@ public class GameState {
 			//Build environment
 			if (floatArray[1] == Entity.ENVIRONMENT) {
 				float numOb = floatArray[8];
-				Environment e = new Environment(floatArray[6], floatArray[7]);
+				Environment e = new Environment(floatArray[6], floatArray[7], Color.LIGHT_GRAY);
 				for (int j = 9; j < 9 + numOb * 4; j += 4) {
 					Obstacle ob = new Obstacle((int)floatArray[j], (int)floatArray[j + 1], (int)floatArray[j + 2], (int)floatArray[j + 3]);
 					e.addChild(ob);
