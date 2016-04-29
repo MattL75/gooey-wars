@@ -1,12 +1,8 @@
 package com.gooeywars.AI;
 
-import java.security.KeyStore.PrivateKeyEntry;
-
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.GameBox;
-import com.sun.jmx.snmp.tasks.TaskServer;
-import com.sun.org.apache.bcel.internal.generic.ATHROW;
 
 public class Computer extends Component{
 	private int playerId;

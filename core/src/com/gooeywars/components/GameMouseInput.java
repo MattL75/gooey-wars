@@ -220,22 +220,20 @@ public class GameMouseInput extends Component{
 			}
 			long begintime = System.currentTimeMillis();
 			
+			Array<Goo> moving = new Array<Goo>();
 			for (int i = 0; i < ar.size; i++) {
 				if (ar.get(i) instanceof Goo) {
 					Goo goo = (Goo) ar.get(i);
 					if (goo.isSelected()) {
-						if(attacking){
-							goo.attack(getMouseX(), Gdx.graphics.getHeight() - getMouseY());
-						} else {
-							goo.move(getMouseX() + j * (goo.getRadius() + 30), (Gdx.graphics.getHeight() - getMouseY()) + k *(goo.getRadius()+30));
-						}
-						j++;
-						if(j > 6){
-							k++;
-							j=0;
-						}
+						moving.add(goo);
 					}
 				}
+			}
+			
+			if(attacking){
+				mover.attack(moving, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));
+			} else {
+				mover.move(moving, new Vector2(getMouseX(),Gdx.graphics.getHeight() - getMouseY()));
 			}
 			
 			long endTime = System.currentTimeMillis();
