@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.AI.Computer;
 import com.gooeywars.components.MoveHandler;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.exception.TagSameException;
@@ -35,6 +36,7 @@ public class GameBox {
 	private Grid grid;
 	
 	private MoveHandler mover;
+	private Computer ai;
 	
 	public Vector2 size;
 	
@@ -300,5 +302,13 @@ public class GameBox {
 
 	public void setMover(MoveHandler mover) {
 		this.mover = mover;
+	}
+
+	public Computer getAi() {
+		return ai;
+	}
+
+	public void setAi(Computer ai) {
+		this.ai = ai;
 	}
 }

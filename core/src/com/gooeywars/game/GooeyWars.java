@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gooeywars.AI.Computer;
 import com.gooeywars.UI.GameUI;
 import com.gooeywars.UI.MainMenuUI;
 import com.gooeywars.components.Friction;
@@ -35,6 +36,7 @@ public class GooeyWars extends Main{
 	public static int resWidth = 600;
 	public static int resHeight = 800;
 	
+	public Computer ai;
 	
 	@Override
 	public void create() {
@@ -64,6 +66,10 @@ public class GooeyWars extends Main{
 		MoveHandler mover = new MoveHandler();
 		game.setMover(mover);
 		
+		ai = new Computer(game);
+		game.setAi(ai);
+		
+		game.addComponent(ai);
 		game.addComponent(mover);
 		game.addComponent(new Testing());
 		game.addComponent(new GameKeyInput());

@@ -108,6 +108,8 @@ public class MoveHandler extends Component{
 		int size = (int)Math.ceil(Math.sqrt(goos.size));
 		System.out.println(size);
 		int count = 0;
+		float XOffSet = 0;
+		float YOffSet = 0;
 		if(goos.size == 1){
 			cancel(goos.get(count));
 			executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x ,finalPos.y )));
@@ -115,8 +117,11 @@ public class MoveHandler extends Component{
 			for(int i = 0; i < size; i++){
 				for(int j = 0; j < size; j++){
 					if(count < goos.size){
+						
 						cancel(goos.get(count));
-						executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x + i * goos.get(count).getRadius(),finalPos.y + j * goos.get(count).getRadius())));
+						
+						executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x + i * goos.get(count).getRadius() * 2 ,finalPos.y + j * goos.get(count).getRadius() * 2 )));
+						//offSet = goos.get(count).getRadius();
 						count++;
 					}
 				}

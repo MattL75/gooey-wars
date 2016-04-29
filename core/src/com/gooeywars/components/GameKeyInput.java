@@ -102,6 +102,10 @@ public class GameKeyInput extends Component{
 				}
 			}
 		}
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+			
+		}
 	}
 
 }
