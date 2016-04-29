@@ -32,7 +32,10 @@ public class Computer extends Component{
 	}
 	
 	class AiRunnable implements Runnable{
-
+		float resourcePriority;
+		float defencePriority;
+		float attackPriority;
+		
 		@Override
 		public void run() {
 			

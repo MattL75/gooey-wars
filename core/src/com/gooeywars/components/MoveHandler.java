@@ -1,5 +1,8 @@
 package com.gooeywars.components;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Goo;
@@ -15,6 +18,8 @@ public class MoveHandler extends Component{
 	Pathfinder finder;
 	Array<Integer> reached;
 	
+	Executor executor;
+	
 	
 	@Override
 	public void create() {
@@ -23,6 +28,7 @@ public class MoveHandler extends Component{
 		paths = new Array<Array<Node>>();
 		movingGoos = new Array<Goo>();
 		reached = new Array<Integer>();
+		executor = Executors.newCachedThreadPool();
 	}
 
 	@Override
@@ -97,6 +103,20 @@ public class MoveHandler extends Component{
 		}
 	}
 	
+	public void move(Array<Goo> goos, Vector2 finalPos){
+		int size = (int)Math.ceil(Math.sqrt(goos.size));
+		int count = 0;
+		
+		for(int i = 0; i < size; i++){
+			for(int j = 0; j < size; j++){
+				if(count < goos.size){
+					executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x + i * goos.get(count).getRadius(),finalPos.y + j * goos.get(count).getRadius())));
+					count++;
+				}
+			}
+		}
+	}
+	
 	public void cancel(Goo goo){
 		for(int i = 0; i < movingGoos.size; i++){
 			if(movingGoos.get(i).getId() == goo.getId()){
@@ -104,5 +124,21 @@ public class MoveHandler extends Component{
 				break;
 			}
 		}
+	}
+	
+	class pathCalculationTask implements Runnable{
+		Goo goo;
+		Vector2 destination;
+		
+		public pathCalculationTask(Goo goo, Vector2 destination) {
+			this.goo = goo;
+			this.destination = destination;
+		}
+		
+		@Override
+		public void run() {
+			paths.add(PathfinderStatic.findPath(new Vector2(goo.getX(), goo.getY()), destination, goo.getGrid()));
+		}
+		
 	}
 }
