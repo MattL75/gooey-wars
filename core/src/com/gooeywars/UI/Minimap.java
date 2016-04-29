@@ -14,22 +14,15 @@ import com.gooeywars.entities.Entity;
 import com.gooeywars.game.Main;
 
 public class Minimap extends Group {
-	Vector2 position;
+	Array<Entity> ent;
 	Image minMap = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/minimap_no_border.png")));
+	int numGeyser;
+	boolean firstPass = false;
+	Vector2 worldSize; //REPLACE ALL REFERENCES TO Gdx.graphics WITH THIS
 	
 	public Minimap(float width, float height) {
 		setWidth(width);
 		setHeight(height);
-		setX(0);
-		setY(0);
-		addActor(minMap);
-	}
-	
-	public Minimap(float width, float height, Vector2 position) {
-		setWidth(width);
-		setHeight(height);
-		setX(position.x);
-		setY(position.y);
 		addActor(minMap);
 	}
 	
@@ -39,7 +32,21 @@ public class Minimap extends Group {
 			return;
 		}
 		clearMap();
-		Array<Entity> ent = Main.findGameBox("game").getEntities();
+		ent = Main.findGameBox("game").getEntities();
+		
+		if (!firstPass) {
+			for (int i = 0; i < ent.size; i++) {
+				if (ent.get(i).getType() == Entity.GEYSER) {
+					Image temp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/geyser_x.png")));
+					temp.setX(ent.get(i).getX() / (Gdx.graphics.getWidth() / getWidth()));
+					temp.setY(ent.get(i).getY() / (Gdx.graphics.getHeight() / getHeight()));
+					numGeyser++;
+					addActor(temp);
+				}
+			}
+			firstPass = true;
+		}
+		
 		for (int i = 0; i < ent.size; i++) {
 			Entity tempEnt = ent.get(i);
 			if (tempEnt.getType() == Entity.GOO) {
@@ -64,17 +71,13 @@ public class Minimap extends Group {
 						addActor(temp);
 					}
 				}
-			} else if (tempEnt.getType() == Entity.GEYSER) {
-				Image temp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/geyser_x.png")));
-				temp.setX(tempEnt.getX() / (Gdx.graphics.getWidth() / getWidth()));
-				temp.setY(tempEnt.getY() / (Gdx.graphics.getHeight() / getHeight()));
-				addActor(temp);
-			}
+			} 
 		}
 	}
 	
 	public void clearMap() {
-		clear();
-		addActor(minMap);
+		for (int i = numGeyser + 1; i < getChildren().size; i++) {
+			getChildren().removeIndex(i);
+		}
 	}
 }
