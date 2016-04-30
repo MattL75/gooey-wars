@@ -66,12 +66,12 @@ public class GooeyWars extends Main{
 		MoveHandler mover = new MoveHandler();
 		game.setMover(mover);
 		
-		ai = new Computer(game);
+		ai = new Computer(game, Computer.EASY);
 		game.setAi(ai);
 		
-		game.addComponent(ai);
 		game.addComponent(mover);
 		game.addComponent(new Testing());
+		game.addComponent(ai);
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
 		game.addComponent(new Friction());
