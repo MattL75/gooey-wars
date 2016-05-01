@@ -130,6 +130,12 @@ public class MoveHandler extends Component{
 		
 	}
 	
+	public void move(Array<Goo> goos, Array<Vector2> finalPositions){
+		for(int i = 0; i < goos.size; i++){
+			executor.execute(new pathCalculationTask(goos.get(i), finalPositions.get(i)));
+		}
+	}
+	
 	public void attack(Array<Goo> goos, Vector2 finalPos){
 		
 	}

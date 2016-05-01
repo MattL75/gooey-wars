@@ -9,9 +9,11 @@ import com.gooeywars.game.Main;
 public class AiTask {
 	Array<Goo> movingGoos;
 	Vector2 destination;
+	Array<Vector2> destinations;
 	MoveHandler mover;
 	
 	boolean moveTask;
+	boolean specialMoveTask;
 	boolean attackTask;
 	
 	public AiTask(){
@@ -24,9 +26,18 @@ public class AiTask {
 		destination = position;
 	}
 	
+	public void move(Array<Goo> goos, Array<Vector2> positions){
+		specialMoveTask = true;
+		this.movingGoos = goos;
+		destinations = positions;
+	}
+	
 	public void execute(){
 		if(moveTask){
 			mover.move(movingGoos, destination);
+		}
+		if(specialMoveTask){
+			mover.move(movingGoos, destinations);
 		}
 		if(attackTask){
 			

@@ -113,11 +113,19 @@ public class Computer extends Component{
 		}
 		
 		private void determineActions(){
-			if(resourcePriority > 0.95){
+			/*if(resourcePriority > 0.95){
+				Array<Vector2> destinations = new Array<Vector2>();
+				Geyser closestGeyser;
+				Array<Goo> moving = new Array<Goo>();
 				for(int i = 0; i < ownedGoos.size; i++){
-					findClosestGeyser(ownedGoos.get(i));
+					closestGeyser = findClosestGeyser(ownedGoos.get(i));
+					destinations.add( new Vector2(closestGeyser.getX()+closestGeyser.getWidth()/2,closestGeyser.getY()+closestGeyser.getHeight()/2));
+					moving.add(ownedGoos.get(i));
 				}
-			}
+				AiTask task = new AiTask();
+				task.move(moving, destinations);
+				tasks.add(task);
+			}*/
 		}
 		
 		private Geyser findClosestGeyser(Goo goo){
