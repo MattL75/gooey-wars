@@ -70,8 +70,8 @@ public class GameBox {
 		
 		size = new Vector2();
 		
-		size.x = 2000;
-		size.y = 2000;
+		size.x = 1920 * 2;
+		size.y = 1080 * 2;
 		
 		if(physicsEnabled){
 			physics = new PhysicsBox();

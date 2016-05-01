@@ -48,12 +48,18 @@ public class Minimap extends Group {
 					addActor(temp);
 				}
 			}
+			minMapSquare.setWidth(minMap.getWidth() / (worldSize.x / Gdx.graphics.getWidth()));
+			minMapSquare.setHeight(minMap.getHeight() / (worldSize.y / Gdx.graphics.getHeight()));
 			firstPass = true;
 		}
 		
-		//Moving camera square
-		minMapSquare.setWidth(minMap.getWidth() / 2);
-		minMapSquare.setHeight(minMap.getHeight() / 2);
+		//Moving camera WITH BORDERS
+		if (!((Main.findGameBox("game").getCamera().position.x) / (worldSize.x / getWidth()) + minMapSquare.getWidth() / 2 >= getWidth()) && !((Main.findGameBox("game").getCamera().position.x) / (worldSize.x / getWidth()) - minMapSquare.getWidth() / 2 <= minMap.getX())) {
+			minMapSquare.setX((Main.findGameBox("game").getCamera().position.x) / (worldSize.x / getWidth()) - minMapSquare.getWidth() / 2);
+		}
+		if (!((Main.findGameBox("game").getCamera().position.y) / (worldSize.y / getHeight()) + minMapSquare.getHeight() / 2 >= getHeight()) && !((Main.findGameBox("game").getCamera().position.y) / (worldSize.y / getHeight()) - minMapSquare.getHeight() / 2 <= minMap.getY())) {
+			minMapSquare.setY((Main.findGameBox("game").getCamera().position.y) / (worldSize.y / getHeight()) - minMapSquare.getHeight() / 2);
+		}
 		
 		for (int i = 0; i < ent.size; i++) {
 			Entity tempEnt = ent.get(i);
