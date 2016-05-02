@@ -96,6 +96,9 @@ public class Geyser extends Entity{
 		return data;
 	}
 	
+	public boolean getIsMining(){
+		return isMining;
+	}
 	
 }
 

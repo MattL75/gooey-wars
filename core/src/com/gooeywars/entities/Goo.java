@@ -217,7 +217,7 @@ public class Goo extends Entity{
 		}
 	}
 	
-	boolean mining;
+	
 	
 	@Override
 	public Vector2 collide(Entity other){

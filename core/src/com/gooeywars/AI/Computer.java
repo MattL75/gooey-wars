@@ -1,5 +1,8 @@
 package com.gooeywars.AI;
 
+import java.security.KeyStore.LoadStoreParameter;
+
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -15,9 +18,17 @@ public class Computer extends Component{
 	private Array<AiTask> tasks;
 	
 	private Array<Goo> ownedGoos;
+	private Array<Goo> miningGoos;
+	private Array<Goo> attackingGoos;
+	private Array<Goo> defendingGoos;
+	
+	private Array<Goo> enemyGoos;
 	private int totalMass;
+	private float massPerGoo;
+	private Goo largestGoo;
 	
 	private Array<Geyser> geysers;
+	private Geyser homeGeyser;
 	
 	private int difficulty;
 	public static final int EASY = 0;
@@ -29,10 +40,17 @@ public class Computer extends Component{
 		playerId = 1;
 		this.gamebox = gamebox;
 		entities = gamebox.getEntities();
+		
 		ownedGoos = new Array<Goo>();
+		enemyGoos = new Array<Goo>();
+		miningGoos = new Array<Goo>();
+		attackingGoos = new Array<Goo>();
+		defendingGoos = new Array<Goo>();
+		
 		tasks = new Array<AiTask>();
 		this.difficulty = difficulty;
 		geysers = new Array<Geyser>();
+		largestGoo = new Goo(0,0,0);
 	}
 
 	@Override
@@ -44,21 +62,52 @@ public class Computer extends Component{
 	
 	@Override
 	public void update() {
-		ownedGoos.clear();
-		for(int i = 0; i < entities.size; i++){
-			if(entities.get(i) instanceof Goo){
-				Goo goo = (Goo)entities.get(i);
-				if(goo.getOwner() == playerId){
-					totalMass += goo.getMass();
-					ownedGoos.add(goo);
-				}
+		if(alive){
+			ownedGoos.clear();
+			totalMass = 0;
+			
+			for(int i = 0; i < entities.size; i++){
+				if(entities.get(i) instanceof Goo){
+					Goo goo = (Goo)entities.get(i);
+					if(goo.getOwner() == playerId){
+						totalMass += goo.getMass();
+						ownedGoos.add(goo);
+						
+						if(goo.getMass() > largestGoo.getMass()){
+							largestGoo = goo;
+						}
+					} else {
+						enemyGoos.add(goo);
+					}
+				}	
+			}
+			
+			if(enemyGoos.size == 0){
+				winGame();
+				return;
+			}
+			
+			if(ownedGoos.size == 0){
+				loseGame();
+				return;
 			}
 			
 			
+			massPerGoo = totalMass/ownedGoos.size;
+			
+			for(int i = 0; i < tasks.size; i++){
+				tasks.get(i).execute();
+			}
 		}
-		for(int i = 0; i < tasks.size; i++){
-			tasks.get(i).execute();
-		}
+		
+	}
+	
+	public void loseGame(){
+		kill();
+	}
+	
+	public void winGame(){
+		kill();
 	}
 	
 	public void kill(){
@@ -86,9 +135,9 @@ public class Computer extends Component{
 				}
 				end = System.currentTimeMillis();
 				if(end - begin > 1000){
+					System.out.println("Computer.java  " + totalMass);
 					calculatePriorities();
 					determineActions();
-					System.out.println("Computer.java Geyser Size" + geysers.size);
 					begin = System.currentTimeMillis();
 				}
 			}
@@ -102,6 +151,10 @@ public class Computer extends Component{
 					geysers.add((Geyser)entities.get(i));
 				}
 			}
+			
+			if(geysers.size > 0){
+				designateHome();
+			}
 		}
 		
 		private void calculatePriorities(){
@@ -110,25 +163,127 @@ public class Computer extends Component{
 				attackPriority = 0;
 				defencePriority = 0;
 			}
+			
+			if(totalMass >= 100){
+				resourcePriority = 0.333f;
+				attackPriority = 0.333f;
+				defencePriority = 0.333f;
+			}
+			
+			if(ownedGoos.size > 10 && massPerGoo > 40){
+				resourcePriority = 0.1f;
+				attackPriority = 0.6f;
+				defencePriority = 0.2f;
+			}
 		}
 		
 		private void determineActions(){
-			/*if(resourcePriority > 0.95){
+			//Displacement
+			if(resourcePriority > 0.95){
 				Array<Vector2> destinations = new Array<Vector2>();
 				Geyser closestGeyser;
 				Array<Goo> moving = new Array<Goo>();
 				for(int i = 0; i < ownedGoos.size; i++){
-					closestGeyser = findClosestGeyser(ownedGoos.get(i));
+					closestGeyser = findBestGeyser(ownedGoos.get(i));
 					destinations.add( new Vector2(closestGeyser.getX()+closestGeyser.getWidth()/2,closestGeyser.getY()+closestGeyser.getHeight()/2));
 					moving.add(ownedGoos.get(i));
 				}
 				AiTask task = new AiTask();
 				task.move(moving, destinations);
 				tasks.add(task);
-			}*/
+			}
+			if(resourcePriority < 0.5){
+				if(attackPriority > 0.3){
+					for(int i = 0; i < attackingGoos.size; i++){
+						AiTask task = new AiTask();
+						Goo enemyGoo = findBestOpponentAttack(attackingGoos.get(i));
+						task.attack(attackingGoos, new Vector2(enemyGoo.getX(),enemyGoo.getY()));
+					}
+					
+				}
+			}
+			
+			//Splitting
+			if(massPerGoo < 70){
+				if(largestGoo.getMass() > 50){
+					AiTask task = new AiTask();
+					task.split(largestGoo);
+					tasks.add(task);
+				}
+			} else {
+				if(largestGoo.getMass() > massPerGoo){
+					AiTask task = new AiTask();
+					task.split(largestGoo);
+					tasks.add(task);
+				}
+			}
+			
 		}
 		
-		private Geyser findClosestGeyser(Goo goo){
+		private void designateHome(){
+			float x = 0;
+			float y = 0;
+			for(int i = 0; i < ownedGoos.size; i++){
+				x += ownedGoos.get(i).getX();
+				y += ownedGoos.get(i).getY();
+			}
+			x = x/ownedGoos.size;
+			y = y/ownedGoos.size;
+			
+			homeGeyser = findClosestGeyser(new Vector2(x,y));
+			System.out.println("Home Geyser " + homeGeyser.getX() + " " + homeGeyser.getY());
+		}
+		
+		private void populateLists(){
+			int miningNumber = (int)Math.ceil(resourcePriority * ownedGoos.size);
+			int attackingNumber = (int) attackingGoos.size * ownedGoos.size;
+			int defendingGoos = ownedGoos.size - attackingNumber - miningNumber;
+			
+			Array<Goo> newMiningGoos = new Array<Goo>();
+			Array<Goo> newAttackingGoos = new Array<Goo>();
+			Array<Goo> newDefendingGoos = new Array<Goo>();
+			
+			for(int i = 0; i < miningNumber; i++){
+				if(i < miningGoos.size){
+					newMiningGoos.add(miningGoos.get(i));
+				} else {
+					newMiningGoos.add(findBestMiningGoo());
+				}
+				
+			}
+		}
+		
+		private Goo findBestMiningGoo(){
+			Array<Float> values = new Array<Float>();
+			float smallestValue = calculateValue(ownedGoos.first());
+			int smallestInt = 0;
+			
+			for(int i = 0; i < ownedGoos.size; i++){
+				Goo goo = ownedGoos.get(i);
+				float value = calculateValue(goo);
+				
+				if(value < smallestValue){
+					smallestValue = value;
+					smallestInt = 0;
+				}
+			}
+			return ownedGoos.get(smallestInt);
+		}
+		
+		private float calculateValue(Goo goo){
+			Geyser temp = geysers.first();
+			for(int j = 0; j < geysers.size; j++){
+				if(new Vector2(goo.getX() - geysers.get(j).getX(),goo.getY() - geysers.get(j).getY()).len2() < new Vector2(goo.getX() - temp.getX(), goo.getY() - temp.getY()).len2()){
+					temp = geysers.get(j);
+				}
+			}
+			
+			float value = new Vector2(temp.getX(), temp.getY()).len2();
+			value += new Vector2(goo.getX() - homeGeyser.getX(), goo.getY() - homeGeyser.getY()).len2();
+			return value;
+		}
+		
+		private Geyser findBestGeyser(Goo goo){
 			Geyser closest = geysers.first();
 			
 			for(int i = 0; i < geysers.size; i++){
@@ -136,6 +291,28 @@ public class Computer extends Component{
 					closest = geysers.get(i);
 				}
 			}
+			return closest;
+		}
+		
+		private Geyser findClosestGeyser(Vector2 position){
+			Geyser closest = geysers.first();
+			
+			for(int i = 0; i < geysers.size; i++){
+				if(new Vector2(closest.getX()-position.x, closest.getY() - position.y).len2() > new Vector2(geysers.get(i).getX()-position.x, geysers.get(i).getY() - position.y).len2()){
+					closest = geysers.get(i);
+				}
+			}
+			return closest;
+		}
+		
+		private Goo findBestOpponentAttack(Goo goo){
+			Goo closest = enemyGoos.first();
+			for(int i = 0; i < enemyGoos.size; i++){
+				if(new Vector2(closest.getX()-goo.getX(), closest.getY() - goo.getY()).len2() > new Vector2(geysers.get(i).getX()-goo.getX(), geysers.get(i).getY() - goo.getY()).len2()){
+					closest = enemyGoos.get(i);
+				}
+			}
+			
 			return closest;
 		}
 	}
