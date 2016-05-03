@@ -106,7 +106,6 @@ public class MoveHandler extends Component{
 	
 	public void move(Array<Goo> goos, Vector2 finalPos){
 		int size = (int)Math.ceil(Math.sqrt(goos.size));
-		System.out.println(size);
 		int count = 0;
 		float XOffSet = 0;
 		float YOffSet = 0;
@@ -128,6 +127,18 @@ public class MoveHandler extends Component{
 			}
 		}
 		
+	}
+	
+	public void move(Array<Goo> goos, Array<Vector2> finalPositions){
+		for(int i = 0; i < goos.size; i++){
+			cancel(goos.get(i));
+			executor.execute(new pathCalculationTask(goos.get(i), finalPositions.get(i)));
+		}
+	}
+	
+	public void attack(Goo goo, Vector2 finalPos){
+		cancel(goo);
+		executor.execute(new pathCalculationTask(goo, finalPos));
 	}
 	
 	public void attack(Array<Goo> goos, Vector2 finalPos){

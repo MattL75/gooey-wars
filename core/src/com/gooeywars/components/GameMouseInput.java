@@ -108,8 +108,6 @@ public class GameMouseInput extends Component{
 			leftClickedPressed = false;
 		}
 		
-		//System.out.println(xInitialLeft);
-		//System.out.println(xFinalLeft);
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
 			onUpRight = false;
@@ -237,7 +235,6 @@ public class GameMouseInput extends Component{
 			}
 			
 			long endTime = System.currentTimeMillis();
-			//System.out.println(endTime-begintime);
 		}
 		
 		if(onUpLeft){

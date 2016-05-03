@@ -47,6 +47,8 @@ public class Goo extends Entity{
 	Timer lifespan;
 	Timer onFireTimer;
 	
+	private boolean isMining;
+	
 	public Goo(){
 		createGoo(0, 0, 50, new Vector2(), new Vector2(), new Vector2(), 0, -1, 0, -1, -1);
 	}
@@ -145,8 +147,6 @@ public class Goo extends Entity{
 	
 	@Override
 	public void draw(SpriteBatch batch){
-		//System.out.println("Element 1: " + element1);
-		//System.out.println("Element 2: " + element2);
 		super.draw(batch);
 		element1Sprite.draw(batch);
 		element2Sprite.draw(batch);
@@ -217,7 +217,7 @@ public class Goo extends Entity{
 		}
 	}
 	
-	boolean mining;
+	
 	
 	@Override
 	public Vector2 collide(Entity other){
@@ -255,6 +255,7 @@ public class Goo extends Entity{
 				
 			} else if(other instanceof Geyser) {
 				Geyser geyser = (Geyser) other;
+				isMining = true;
 				geyser.mine(this);
 				
 			} else if(other instanceof Environment || other instanceof Obstacle){
@@ -262,6 +263,7 @@ public class Goo extends Entity{
 			}
 			
 		} else if(other instanceof Geyser){			
+			isMining = false;
 			((Geyser) other).stopMining(this);
 		}
 		
@@ -270,7 +272,6 @@ public class Goo extends Entity{
 	}
 	
 	public void move(float x, float y){
-		System.out.println("Moving");
 		mover.cancel(this);
 		mover.move(this, new Vector2(x, y));
 	}
@@ -287,7 +288,6 @@ public class Goo extends Entity{
 	}
 	
 	public boolean split(Vector2 dirVect){
-		System.out.println("Splitting");
 		if(getMass() > SMALLEST_MASS * 2){
 			Goo brother = new Goo(this.getX()+ getWidth(), this.getY()+getWidth()/4, this.getMass()/2, this.getForce().cpy(), this.getVelocity().cpy(), getAcceleration().cpy().add(dirVect.cpy().scl(-10000)), this.getOwner(), propInt, colorInt, element1, element2);
 			brother.addForce(dirVect.cpy().scl(10000));
@@ -537,7 +537,11 @@ public class Goo extends Entity{
 			element2Sprite.setSize(modSize, modSize);
 		}
 	}
-
+	
+	public boolean getIsMining(){
+		return isMining;
+	}
+	
 	public Grid getGrid() {
 		return grid;
 	}

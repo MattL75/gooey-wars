@@ -40,6 +40,20 @@ public class GooeyWars extends Main{
 	
 	@Override
 	public void create() {
+		/*Array<Integer> array = new Array<Integer>();
+		array.add(1);
+		array.add(2);
+		array.add(3);
+		for(int i = 0; i < array.size; i++){
+			System.out.println(array.get(i));
+		}
+		
+		array.insert(1, 4);
+		
+		for(int i = 0; i < array.size; i++){
+			System.out.println(array.get(i));
+		}*/
+		
 		GeyserProperty.loadTextures();
 		GooProperty.loadTextures();
 		
@@ -66,12 +80,12 @@ public class GooeyWars extends Main{
 		MoveHandler mover = new MoveHandler();
 		game.setMover(mover);
 		
-		ai = new Computer(game, Computer.EASY);
-		game.setAi(ai);
+		//ai = new Computer(game, Computer.EASY);
+		//game.setAi(ai);
 		
 		game.addComponent(mover);
 		game.addComponent(new Testing());
-		game.addComponent(ai);
+		//game.addComponent(ai);
 		game.addComponent(new GameKeyInput());
 		game.addComponent(new GameMouseInput());
 		game.addComponent(new Friction());

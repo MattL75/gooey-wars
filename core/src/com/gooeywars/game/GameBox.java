@@ -119,9 +119,7 @@ public class GameBox {
 			
 			for(int j = 0; j < children.size;j++){
 				children.get(j).draw(batch);
-				/*if(children.get(j) instanceof Obstacle){
-					System.out.println("Obstacle x" + children.get(j).getX());
-				}*/
+				
 			}
 			/*if(entities.get(i) instanceof Goo){
 				Grid grid = ((Goo) entities.get(i)).getGrid();
@@ -221,18 +219,7 @@ public class GameBox {
 		components.add(comp);
 	}
 	
-	/*public float genObstacleCoordX(float x){
-		System.out.println("gen obstacleX");
-		int xInt = (int) x;
-		xInt = (int)(xInt/(grid.getNodeRadius()*2)) * (int)(grid.getNodeRadius()*2);
-		return xInt;
-	}
 	
-	public float genObstacleCoordY(float y){
-		int yInt = (int) y;
-		yInt = (int)(yInt/(grid.getNodeRadius()*2)) * (int)(grid.getNodeRadius()*2);
-		return yInt;
-	}*/
 	
 	public Array<Entity> getEntities(){
 		return entities;

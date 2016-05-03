@@ -68,7 +68,6 @@ public class Grid {
 		}
 		nodeX = Math.round(nodeX - nodeRadius * 2);
 		nodeY = Math.round(nodeY - nodeRadius * 2);
-		//System.out.println(nodeX + " " + nodeY);
 		
 		for (int i = 0; i < nodeGrid.size; i++) {
 			for (int j = 0; j < nodeGrid.get(i).size; j++) {
