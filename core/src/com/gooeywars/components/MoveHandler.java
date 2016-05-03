@@ -48,25 +48,33 @@ public class MoveHandler extends Component{
 		Array<Node> path = paths.get(index);
 		Goo goo = movingGoos.get(index);
 		
-		if(path == null || path.size < 1){
-			return;
-		}
-		
-		Vector2 destination = new Vector2(path.first().getWorldPos().x, path.first().getWorldPos().y);
-		
-		goo.setVelocity(new Vector2(destination.x - goo.getX(), destination.y - goo.getY()));
-		
-		if(Math.abs(destination.x - goo.getX()) < 5 && Math.abs(destination.y - goo.getY()) < 5){
-			if(path.size > 0){
-				path.removeIndex(0);
-				if(path.size < 1){
-					destinationReached(index);
-				}
-			} else {
-				destinationReached(index);
+		if(!goo.getProperty().isImmobilized()){
+			if(path == null || path.size < 1){
+				return;
 			}
 			
+			Vector2 destination = new Vector2(path.first().getWorldPos().x, path.first().getWorldPos().y);
+			
+			Vector2 variation = new Vector2(destination.x-goo.getX(),destination.y-goo.getY());
+			variation.clamp(5f, 5f);
+			
+			goo.setPosition(goo.getX() + variation.x, goo.getY() + variation.y);
+			//goo.setVelocity(new Vector2(destination.x - goo.getX(), destination.y - goo.getY()));
+			
+			if(Math.abs(destination.x - goo.getX()) < 10 && Math.abs(destination.y - goo.getY()) < 10){
+				if(path.size > 0){
+					path.removeIndex(0);
+					if(path.size < 1){
+						destinationReached(index);
+					}
+				} else {
+					destinationReached(index);
+				}
+				
+			}
 		}
+		
+		
 	}
 	
 	public void destinationReached(int index){

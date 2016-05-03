@@ -1,5 +1,8 @@
 package com.gooeywars.AI;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.entities.Entity;
@@ -32,6 +35,8 @@ public class Computer extends Component{
 	public static final int EASY = 0;
 	public static final int MEDIUM = 1;
 	
+	Executor executor;
+	
 	boolean alive;
 	
 	public Computer(GameBox gamebox, int difficulty){
@@ -49,6 +54,7 @@ public class Computer extends Component{
 		this.difficulty = difficulty;
 		geysers = new Array<Geyser>();
 		largestGoo = new Goo(0,0,0);
+		executor = Executors.newCachedThreadPool();
 	}
 
 	@Override
@@ -56,7 +62,7 @@ public class Computer extends Component{
 		Thread thread = new Thread(new AiRunnable());
 		alive = true;
 		update();
-		thread.start();
+		executor.execute(thread);
 	}
 	
 	@Override
@@ -102,7 +108,13 @@ public class Computer extends Component{
 					initialize();
 				}
 				end = System.currentTimeMillis();
-				if(end - begin > 1000){
+				//if(end - begin > 500){
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					ownedGoos.clear();
 					enemyGoos.clear();
 					
@@ -156,7 +168,7 @@ public class Computer extends Component{
 					System.out.println("Defending Goos " + defendingGoos.size);*/
 					
 					begin = System.currentTimeMillis();
-				}
+				//}
 			}
 		}
 		
@@ -181,21 +193,23 @@ public class Computer extends Component{
 				defencePriority = 0;
 			}
 			
-			if(totalMass >= 100){
-				resourcePriority = 0.333f;
-				attackPriority = 0.333f;
-				defencePriority = 0.333f;
+			if(totalMass >= 100 && totalMass < 500){
+				resourcePriority = 0.5f;
+				attackPriority = 0f;
+				defencePriority = 0.5f;
 			}
 			
-			if(ownedGoos.size > 10 && massPerGoo > 40){
+			/*if(ownedGoos.size > 10 && massPerGoo > 40){
 				resourcePriority = 0.1f;
 				attackPriority = 0.6f;
 				defencePriority = 0.2f;
-			}
+			}*/
 		}
 		
 		private void determineActions(){
 			//Displacement			
+			
+			
 			for(int i = 0; i < miningGoos.size; i++){
 				AiTask  task = new AiTask();
 				
@@ -298,10 +312,11 @@ public class Computer extends Component{
 			
 			for(int i = 0; i < orderedMining.size; i++){
 				values.add(calculateMiningValue(orderedMining.get(i)));
-				if(values.get(i) == 0){
+				System.out.println(values.get(i));
+				/*if(values.get(i) == 0){
 					orderedMining.removeIndex(i);
 					values.removeIndex(i);
-				}
+				}*/
 			}
 			
 			int k;
@@ -411,9 +426,10 @@ public class Computer extends Component{
 			}
 			
 			if(temp == null){
+				System.out.println("NULL");
 				miningValue = 0;
 			} else {
-				miningValue -= findDistance(temp, goo)/100;
+				miningValue += 100/findDistance(temp, goo);
 				if(miningValue < 0){
 					miningValue = 0;
 				}
