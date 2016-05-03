@@ -2,6 +2,7 @@ package com.gooeywars.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -36,6 +38,7 @@ import com.gooeywars.entities.GeyserProperty;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.GooeyWars;
 import com.gooeywars.game.Main;
+import com.gooeywars.gameState.GameState;
 
 public class GameUI implements Screen {
 	Skin skin;
@@ -174,7 +177,7 @@ public class GameUI implements Screen {
 		Image reactDown = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/react_button_click.png")));
 		btReact.setWidth(80);
 		btReact.setHeight(80);
-		btReact.setX(220);
+		btReact.setX(10);
 		btReact.setY(botBar.getImageHeight() + size - 10);
 		btReact.setProgrammaticChangeEvents(false);
 		
@@ -229,8 +232,8 @@ public class GameUI implements Screen {
 		group.addActor(btAttack);
 		group.addActor(btBuild);
 		group.addActor(btReact);
-		group.addActor(btInv1);
-		group.addActor(btInv2);
+		//group.addActor(btInv1);
+		//group.addActor(btInv2);
 		group.addActor(hz);
 		
 		table.add(group).width(Gdx.graphics.getWidth() - minMap.getImageWidth()).align(Align.bottomLeft);
@@ -318,19 +321,51 @@ public class GameUI implements Screen {
 		
 		int totalMassNum = 0;
 		int numGooNum = 0;
+		int counter0 = 0;
+		int counter1 = 0;
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
 		for (int i = 0; i < ent.size; i++) {
 			if (ent.get(i).getType() == Entity.GOO && ent.get(i) instanceof Goo) {
 				if (((Goo) ent.get(i)).getOwner() == 0) {
 					totalMassNum += ent.get(i).getMass();
 					numGooNum++;
+					counter0++;
+				} 
+				if (((Goo) ent.get(i)).getOwner() == 1) {
+					counter1++;
 				}
 			}
 		}
 		totalMass.setText(s1 + totalMassNum + "      ");
 		numGoo.setText(s2 + numGooNum + "      ");
 		if(numGooNum == 0){
-			massPerGoo.setText(s3 + (totalMassNum / 1));
+			totalMass.setText("You lost... Click anywhere to go to the menu.");
+			numGoo.setText("");
+			massPerGoo.setText("");
+	        if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+	        	GooeyWars.setCurrentBox(GooeyWars.getMenu());
+	        	MainMenuUI.setFocus();
+	        	Main.findGameBox("game").getCamera().position.x = 0 + Gdx.graphics.getWidth() / 2;
+	        	Main.findGameBox("game").getCamera().position.y = 0 + Gdx.graphics.getHeight() / 2;
+	        	Main.findGameBox("game").getCamera().position.z = 0;
+	        	GameState state = new GameState("demo.txt");
+	        	state.load();
+	        }
+		} else if (counter1 == 0) {
+			totalMass.setText("You won! Click anywhere to go to the menu.");
+			numGoo.setText("");
+			massPerGoo.setText("");
+			
+	        if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+	        	GooeyWars.setCurrentBox(GooeyWars.getMenu());
+	        	MainMenuUI.setFocus();
+	        	Main.findGameBox("game").getCamera().position.x = 0 + Gdx.graphics.getWidth() / 2;
+	        	Main.findGameBox("game").getCamera().position.y = 0 + Gdx.graphics.getHeight() / 2;
+	        	Main.findGameBox("game").getCamera().position.z = 0;
+	        	GameState state = new GameState("demo.txt");
+	        	state.load();
+	        }
+			
 		} else {
 			massPerGoo.setText(s3 + (totalMassNum / numGooNum));
 		}
