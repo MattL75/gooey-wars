@@ -98,7 +98,7 @@ public class Testing extends Component{
 		
 		
 		game.addEntity(new Geyser(game.size.x-300, game.size.y - 300,0));
-		
+		game.addEntity(new Geyser(game.size.x-300, game.size.y - 400,0));
 		
 		
 		/*for(int i = 0; i < 1; i++){

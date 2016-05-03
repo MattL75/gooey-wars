@@ -21,6 +21,8 @@ public class Geyser extends Entity{
 	
 	private boolean isMining;
 	
+	
+	
 	public Geyser(){
 		genGeyser(0,0,0);
 	}
@@ -103,6 +105,7 @@ public class Geyser extends Entity{
 
 class mineTask extends Task{
 	Goo goo;
+	public static final int MAX_MASS = 100;
 	
 	public mineTask(Goo goo){
 		this.goo = goo;
@@ -110,7 +113,10 @@ class mineTask extends Task{
 	
 	@Override
 	public void run() {
-		goo.setMass(goo.getMass()+1);
+		if(goo.getMass() < MAX_MASS){
+			goo.setMass(goo.getMass()+1);
+
+		}
 	}
 	
 }

@@ -15,6 +15,8 @@ public class AiTask {
 	boolean moveTask;
 	Array<Goo> movingGoos;
 	
+	boolean singularMoveTask;
+	Goo movingGoo;
 	
 	boolean specialMoveTask;
 	Array<Vector2> destinations;
@@ -46,6 +48,12 @@ public class AiTask {
 		destinations = positions;
 	}
 	
+	public void move(Goo goo, Vector2 position){
+		singularMoveTask = true;
+		movingGoo = goo;
+		destination = position;
+	}
+	
 	public void attack(Array<Goo> goos, Vector2 position){
 		attackTask = true;
 		attackingGoos = goos;
@@ -71,6 +79,9 @@ public class AiTask {
 			}
 			if(specialMoveTask){
 				mover.move(movingGoos, destinations);
+			}
+			if(singularMoveTask){
+				mover.move(movingGoo, destination);
 			}
 			if(attackTask){
 				mover.attack(attackingGoos, destination);
