@@ -74,7 +74,7 @@ public class PathfinderStatic {
 			}
 			
 			Array<Node> neighbours = grid.GetNeighbours(currentNode);
-			Thread.yield();
+			
 			for (int i = 0; i < neighbours.size; i++) {
 				if (!neighbours.get(i).isWalkable() || closed.contains(neighbours.get(i), false)) {
 					continue;
@@ -90,6 +90,7 @@ public class PathfinderStatic {
 						open.add(neighbours.get(i));
 					}
 				}
+				Thread.yield();
 			}
 		}
 		return null;

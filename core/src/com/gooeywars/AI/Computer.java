@@ -68,7 +68,6 @@ public class Computer extends Component{
 	@Override
 	public void update() {
 		if(alive){
-			
 			for(int i = 0; i < tasks.size; i++){
 				tasks.get(i).execute();
 			}
@@ -218,7 +217,7 @@ public class Computer extends Component{
 		private void determineActions(){
 			//Displacement			
 			
-			
+			Thread.yield();
 			for(int i = 0; i < miningGoos.size; i++){
 				AiTask  task = new AiTask();
 				
@@ -227,18 +226,17 @@ public class Computer extends Component{
 				tasks.add(task);
 			}
 			
+			Thread.yield();
 			for(int i = 0; i < attackingGoos.size; i++){
 				AiTask task = new AiTask();
 				Goo enemyGoo = findBestOpponentAttack(attackingGoos.get(i));
-				System.out.println("Attacking");
 				task.attack(attackingGoos.get(i), new Vector2(enemyGoo.getX() + enemyGoo.getWidth()/2,enemyGoo.getY() + enemyGoo.getHeight()/2));
 				tasks.add(task);
 			}
 			
+			Thread.yield();
 			for(int i = 0; i < defendingGoos.size; i++){
-				System.out.println("Moving to home ");
 				AiTask  task = new AiTask();
-				System.out.println("Defending");
 				task.move(defendingGoos.get(i), new Vector2(homeGeyser.getX() + (float)(Math.random() * 10), homeGeyser.getY() + (float)(Math.random() * 10)));
 				tasks.add(task);
 			}
@@ -322,7 +320,6 @@ public class Computer extends Component{
 			
 			for(int i = 0; i < orderedMining.size; i++){
 				values.add(calculateMiningValue(orderedMining.get(i)));
-				System.out.println(values.get(i));
 				
 			}
 			
@@ -377,7 +374,6 @@ public class Computer extends Component{
 			
 			for(int i = 0; i < ownedGoos.size; i++){
 				values.add(calculateDefenceValue(ownedGoos.get(i)));
-				System.out.println("Mining " + values.get(i));
 			}
 			
 			int k;
@@ -417,7 +413,6 @@ public class Computer extends Component{
 			}
 			
 			if(temp == null){
-				System.out.println("NULL");
 				miningValue = 0;
 			} else {
 				miningValue += 100/findDistance(temp, goo);
