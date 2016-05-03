@@ -73,7 +73,7 @@ public class Geyser extends Entity{
 			isMining = true;
 			miningGoo = goo;
 		
-			timer.scheduleTask(new mineTask(goo), 0f, 0.1f);
+			timer.scheduleTask(new mineTask(goo), 0f, 0.5f);
 			timer.start();
 		}
 		
