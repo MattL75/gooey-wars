@@ -49,6 +49,7 @@ public class PathfinderStatic {
 		Array<Node> open = new Array<Node>();
 		
 		setupObstacles(grid);
+		Thread.yield();
 		if (!isPosOpen(endPos, grid)) {
 			return new Array<Node>();
 		}
@@ -73,7 +74,7 @@ public class PathfinderStatic {
 			}
 			
 			Array<Node> neighbours = grid.GetNeighbours(currentNode);
-			
+			Thread.yield();
 			for (int i = 0; i < neighbours.size; i++) {
 				if (!neighbours.get(i).isWalkable() || closed.contains(neighbours.get(i), false)) {
 					continue;

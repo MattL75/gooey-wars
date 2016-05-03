@@ -106,10 +106,10 @@ public class GeyserProperty {
 		waterGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/water_goo.png"));
 		carbonGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/carbon_goo.png"));
 		ironGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/iron_goo.png"));
-		/*calciumGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/calcium_goo.png"));
+		calciumGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/calcium_goo.png"));
 		siliconGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/silicon_goo.png"));
 		oxygenGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/oxygen_goo.png")); 
-		uraniumGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/uranium_goo.png"));*/
+		uraniumGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/uranium_goo.png"));
 	}
 
 	public Pixmap getPix() {

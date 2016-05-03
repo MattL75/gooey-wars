@@ -72,6 +72,7 @@ public class Computer extends Component{
 			for(int i = 0; i < tasks.size; i++){
 				tasks.get(i).execute();
 			}
+			tasks.clear();
 		}
 		
 	}
@@ -109,10 +110,10 @@ public class Computer extends Component{
 				}
 				end = System.currentTimeMillis();
 				//if(end - begin > 500){
-					try {
-						Thread.sleep(500);
+					
+				try {
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					ownedGoos.clear();
@@ -155,7 +156,9 @@ public class Computer extends Component{
 					massPerGoo = totalMass/ownedGoos.size;
 					
 					calculatePriorities();
+					Thread.yield();
 					populateLists();
+					Thread.yield();
 					determineActions();
 					
 					/*System.out.println("Debugging...");
@@ -193,17 +196,23 @@ public class Computer extends Component{
 				defencePriority = 0;
 			}
 			
-			if(totalMass >= 100 && totalMass < 500){
+			if(totalMass >= 100 && totalMass < 200){
 				resourcePriority = 0.5f;
 				attackPriority = 0f;
 				defencePriority = 0.5f;
 			}
 			
-			/*if(ownedGoos.size > 10 && massPerGoo > 40){
+			if(totalMass >= 150 && totalMass < 1000){
+				resourcePriority = 0.3f;
+				attackPriority = 0.5f;
+				defencePriority = 0.2f;
+			}
+			
+			if(totalMass >= 1000){
 				resourcePriority = 0.1f;
 				attackPriority = 0.6f;
-				defencePriority = 0.2f;
-			}*/
+				defencePriority = 0.3f;
+			}
 		}
 		
 		private void determineActions(){
@@ -221,33 +230,36 @@ public class Computer extends Component{
 			for(int i = 0; i < attackingGoos.size; i++){
 				AiTask task = new AiTask();
 				Goo enemyGoo = findBestOpponentAttack(attackingGoos.get(i));
-				
+				System.out.println("Attacking");
 				task.attack(attackingGoos.get(i), new Vector2(enemyGoo.getX() + enemyGoo.getWidth()/2,enemyGoo.getY() + enemyGoo.getHeight()/2));
 				tasks.add(task);
 			}
 			
 			for(int i = 0; i < defendingGoos.size; i++){
+				System.out.println("Moving to home ");
 				AiTask  task = new AiTask();
 				System.out.println("Defending");
 				task.move(defendingGoos.get(i), new Vector2(homeGeyser.getX() + (float)(Math.random() * 10), homeGeyser.getY() + (float)(Math.random() * 10)));
 				tasks.add(task);
 			}
-			System.out.println("This is the goos that are defending" + defendingGoos.size);
 			
 			//Splitting
-			if(massPerGoo < 70){
-				if(largestGoo.getMass() > 50){
-					AiTask task = new AiTask();
-					task.split(largestGoo);
-					tasks.add(task);
-				}
-			} else {
-				if(largestGoo.getMass() > massPerGoo){
-					AiTask task = new AiTask();
-					task.split(largestGoo);
-					tasks.add(task);
+			if(ownedGoos.size < 11){
+				if (massPerGoo < 70) {
+					if (largestGoo.getMass() > 50) {
+						AiTask task = new AiTask();
+						task.split(largestGoo);
+						tasks.add(task);
+					}
+				} else {
+					if (largestGoo.getMass() > massPerGoo) {
+						AiTask task = new AiTask();
+						task.split(largestGoo);
+						tasks.add(task);
+					}
 				}
 			}
+			
 			
 		}
 		
@@ -281,7 +293,6 @@ public class Computer extends Component{
 				newMiningGoos.removeIndex(0);
 			}
 			
-			System.out.println("Attacking number" + attackingNumber);
 			
 			for(int i = 0; i < attackingNumber; i++){
 				attackingGoos.add(newAttackingGoos.first());
@@ -294,7 +305,6 @@ public class Computer extends Component{
 				newDefendingGoos.removeIndex(0);
 			}
 			
-			System.out.println("Defending Goos " + defendingGoos.size);
 		}
 		
 		private void removeId(int id, Array<Goo> array){
@@ -313,10 +323,7 @@ public class Computer extends Component{
 			for(int i = 0; i < orderedMining.size; i++){
 				values.add(calculateMiningValue(orderedMining.get(i)));
 				System.out.println(values.get(i));
-				/*if(values.get(i) == 0){
-					orderedMining.removeIndex(i);
-					values.removeIndex(i);
-				}*/
+				
 			}
 			
 			int k;
@@ -370,6 +377,7 @@ public class Computer extends Component{
 			
 			for(int i = 0; i < ownedGoos.size; i++){
 				values.add(calculateDefenceValue(ownedGoos.get(i)));
+				System.out.println("Mining " + values.get(i));
 			}
 			
 			int k;
@@ -386,23 +394,6 @@ public class Computer extends Component{
 			}
 			return orderedDefending;
 		}
-		
-		/*private Goo findBestMiningGoo(){
-			float smallestValue = calculateValue(ownedGoos.first());
-			int smallestInt = 0;
-			
-			for(int i = 0; i < ownedGoos.size; i++){
-				Goo goo = ownedGoos.get(i);
-				
-				float value = calculateValue(goo);
-				
-				if(value < smallestValue){
-					smallestValue = value;
-					smallestInt = 0;
-				}
-			}
-			return ownedGoos.get(smallestInt);
-		}*/
 		
 		private float calculateMiningValue(Goo goo){
 			Geyser temp = null;

@@ -58,7 +58,7 @@ public class Geyser extends Entity{
 	public void genCollider(){
 		Square square = new Square((int)getWidth(), (int)getX(), (int)getY());
 		Collider coll = new Collider(square);
-		coll.setDrawable(true);
+		coll.setDrawable(false);
 		Array<Collider> colls = new Array<Collider>();
 		colls.add(coll);
 		setColliders(colls);

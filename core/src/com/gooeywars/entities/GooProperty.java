@@ -169,13 +169,19 @@ public class GooProperty {
 	}
 	
 	public void react(int element1, int element2){
+		if(element1 == GeyserProperty.URANIUM || element2 == GeyserProperty.URANIUM){
+			genGooProp(NUCLEAR);
+		}
+		
 		if(element1 == GeyserProperty.WATER || element2 == GeyserProperty.WATER){
-			
 			genGooProp(GooProperty.EXPLODED);
 		}
 		
 		if(element1 == GeyserProperty.CARBON && element2 == GeyserProperty.IRON || element1 == GeyserProperty.IRON && element2 == GeyserProperty.CARBON){
 			genGooProp(GooProperty.STEEL);
+		}
+		if(element1 == GeyserProperty.CALCIUM && element2 == GeyserProperty.SILICON || element2 == GeyserProperty.CALCIUM && element1 == GeyserProperty.SILICON){
+			genGooProp(GooProperty.FIRE_PROOF);
 		}
 	}
 	

@@ -26,7 +26,7 @@ public class GameKeyInput extends Component{
 	public void create() {
 		entities = Main.findGameBox("game").getEntities();
 		currentEnt = entities.first();
-		camSpeed = 5f;
+		camSpeed = 10f;
 		merging = new Array<Goo>();
 	}
 

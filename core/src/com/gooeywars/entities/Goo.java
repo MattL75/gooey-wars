@@ -46,6 +46,7 @@ public class Goo extends Entity{
 	
 	Timer lifespan;
 	Timer onFireTimer;
+	Timer radiatedTimer;
 	
 	private boolean isMining;
 	
@@ -83,6 +84,11 @@ public class Goo extends Entity{
 		onFireTimer = new Timer();
 		onFireTimer.scheduleTask(new onFireTask(), 1, 1);
 		onFireTimer.stop();
+		
+		radiatedTimer = new Timer();
+		
+		radiatedTimer.scheduleTask(new radiatedTask(), 1,0.5f);
+		radiatedTimer.stop();
 		
 		element1Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element1)));
 		element2Sprite = new Sprite(new Texture(GeyserProperty.getGooElementPix(element2)));
@@ -163,7 +169,7 @@ public class Goo extends Entity{
 		}
 		
 		Collider coll = new Collider(poly);
-		coll.setDrawable(true);
+		coll.setDrawable(false);
 		Array<Collider> colls = new Array<Collider>();
 		colls.add(coll);
 		
@@ -227,6 +233,17 @@ public class Goo extends Entity{
 		float len2 = overlap.len2();
 		float len = overlap.len();
 		
+		if(other instanceof Goo){
+			Goo goo = (Goo) other;
+			if(new Vector2(goo.getX() - getX(), goo.getY() - getY()).len2() < 40000){
+				if(property.isRadioactive()){
+					goo.radiate();
+				}
+				if(goo.getProperty().isRadioactive()){
+					radiate();
+				}
+			}
+		}
 		
 		if(overlap.len2() > 0){
 			
@@ -234,6 +251,8 @@ public class Goo extends Entity{
 				Goo goo = (Goo) other;
 				
 				if(owner != goo.getOwner()){
+					
+					
 					if(len2 > (getMass() * getMass()) || len2 > (goo.getMass() * goo.getMass())){
 						annihilate(goo.getMass());
 						goo.annihilate(getMass());
@@ -299,23 +318,6 @@ public class Goo extends Entity{
 		return false;
 	}
 	
-	public void merge(Array<Goo> mergingGoos){
-		/*float totalX = 0;
-		float totalY = 0;
-		for(int i = 0; i < mergingGoos.size; i++){
-			mergingGoos.get(i).setMerging(true);
-			totalX += mergingGoos.get(i).getX();
-			totalY += mergingGoos.get(i).getY();	
-		}
-		
-		Vector2 joinPoint = new Vector2(totalX/mergingGoos.size, totalY/mergingGoos.size);
-		
-		for(int i = 0; i < mergingGoos.size; i++){
-			Main.findGameBox("game").getMover().cancel(mergingGoos.get(i));
-			Main.findGameBox("game").getMover().move(mergingGoos.get(i), joinPoint);
-		}*/
-	}
-	
 	public void build(Array<Vector2> path){
 		
 	}
@@ -378,6 +380,12 @@ public class Goo extends Entity{
 	public void extinguish(){
 		property.onFire = false;
 		onFireTimer.stop();
+	}
+	
+	public void radiate(){
+		if(!property.isRadioactive()){
+			radiatedTimer.start();
+		}
 	}
 	
 	public void annihilate(float overlap){
@@ -579,6 +587,16 @@ public class Goo extends Entity{
 			}
 		}
 		
+	}
+	
+	class radiatedTask extends Task{
+		public void run(){
+			if(getMass() < SMALLEST_MASS){
+				destroy();
+			} else {
+				changeMass(-1);
+			}
+		}
 	}
 }
 
