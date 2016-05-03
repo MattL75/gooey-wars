@@ -214,8 +214,8 @@ public class Computer extends Component{
 			
 			for(int i = 0; i < defendingGoos.size; i++){
 				AiTask  task = new AiTask();
-				
-				task.move(defendingGoos.get(i), new Vector2(homeGeyser.getX(), homeGeyser.getY()));
+				System.out.println("Defending");
+				task.move(defendingGoos.get(i), new Vector2(homeGeyser.getX() + (float)(Math.random() * 10), homeGeyser.getY() + (float)(Math.random() * 10)));
 				tasks.add(task);
 			}
 			System.out.println("This is the goos that are defending" + defendingGoos.size);
@@ -251,7 +251,7 @@ public class Computer extends Component{
 		}
 		
 		private void populateLists(){
-			int miningNumber = (int)Math.ceil(resourcePriority * ownedGoos.size);
+			int miningNumber = Math.max((int)Math.ceil(resourcePriority * ownedGoos.size), miningGoos.size);
 			int attackingNumber = (int) (attackPriority * ownedGoos.size);
 			int defendingNumber = ownedGoos.size - attackingNumber - miningNumber;
 			
@@ -260,6 +260,7 @@ public class Computer extends Component{
 			Array<Goo> newDefendingGoos = getOrderedDefendingGoos();
 			
 			for(int i = 0; i < miningNumber; i++){
+				
 				miningGoos.add(newMiningGoos.first());
 				removeId(newMiningGoos.first().getId(), newAttackingGoos);
 				removeId(newMiningGoos.first().getId(), newDefendingGoos);
@@ -295,15 +296,22 @@ public class Computer extends Component{
 			Array<Goo> orderedMining = new Array<Goo>(ownedGoos);
 			Array<Float> values = new Array<Float>();
 			
-			for(int i = 0; i < ownedGoos.size; i++){
-				values.add(calculateMiningValue(ownedGoos.get(i)));
+			for(int i = 0; i < orderedMining.size; i++){
+				values.add(calculateMiningValue(orderedMining.get(i)));
+				if(values.get(i) == 0){
+					orderedMining.removeIndex(i);
+					values.removeIndex(i);
+				}
 			}
 			
 			int k;
 			
+			
+			
 			for (int m = values.size; m >= 0; m--) {
 	            for (int i = 0; i < values.size - 1; i++) {
 	                k = i + 1;
+	                
 	                if (values.get(i) < values.get(k)) {
 	                    values.swap(i, k);
 	                    orderedMining.swap(i, k);
@@ -402,10 +410,15 @@ public class Computer extends Component{
 				}	
 			}
 			
-			miningValue -= findDistance(temp, goo)/100;
-			if(miningValue < 0){
+			if(temp == null){
 				miningValue = 0;
+			} else {
+				miningValue -= findDistance(temp, goo)/100;
+				if(miningValue < 0){
+					miningValue = 0;
+				}
 			}
+			
 			return miningValue;
 		}
 		
