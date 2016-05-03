@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -17,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -28,6 +32,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.GeyserProperty;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.GooeyWars;
 import com.gooeywars.game.Main;
@@ -42,6 +47,14 @@ public class GameUI implements Screen {
 	Label numGoo;
 	BitmapFont ft;
 	Minimap map;
+	Image btInv2 = new Image();
+	Image btInv1 = new Image();
+	
+	//SpriteDrawable carbon = new SpriteDrawable(new Sprite(new Texture(Gdx.files.local("assets/textures/interface/GameUI/inv_carbon.png"))));
+	//SpriteDrawable iron = new SpriteDrawable(new Sprite(new Texture(Gdx.files.local("assets/textures/interface/GameUI/inv_iron.png"))));
+	
+	//TextureRegionDrawable carbon = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.local("assets/textures/interface/GameUI/inv_carbon.png"))));
+	//TextureRegionDrawable iron = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.local("assets/textures/interface/GameUI/inv_iron.png"))));
 	
 	public GameUI() {
 		stage = new Stage();
@@ -172,30 +185,18 @@ public class GameUI implements Screen {
 		btReact.setStyle(reactStyle);
 		
 		//Inventory button 1
-		Button btInv1 = new Button(skin.newDrawable("white", Color.WHITE));
-		Image inv1Up = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/basicInventory.png")));
+		Image btInv1 = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/basicInventory.png")));
 		btInv1.setWidth(80);
 		btInv1.setHeight(80);
 		btInv1.setX(20);
 		btInv1.setY(botBar.getImageHeight() + size - 10);
-		btInv1.setProgrammaticChangeEvents(false);
-		
-		ButtonStyle btInvStyle = new ButtonStyle();
-		btInvStyle.up = inv1Up.getDrawable();
-		btInv1.setStyle(btInvStyle);
 
 		//Inventory button 2
-		Button btInv2 = new Button(skin.newDrawable("white", Color.WHITE));
-		Image inv2Up = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/basicInventory.png")));
+		Image btInv2 = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/basicInventory.png")));
 		btInv2.setWidth(80);
 		btInv2.setHeight(80);
 		btInv2.setX(120);
 		btInv2.setY(botBar.getImageHeight() + size - 10);
-		btInv2.setProgrammaticChangeEvents(false);
-		
-		ButtonStyle btInv2Style = new ButtonStyle();
-		btInv2Style.up = inv2Up.getDrawable();
-		btInv2.setStyle(btInv2Style);
 		
 		//Table settings
 		//table.add(group).align(Align.bottomLeft);
@@ -319,7 +320,7 @@ public class GameUI implements Screen {
 		int numGooNum = 0;
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
 		for (int i = 0; i < ent.size; i++) {
-			if (ent.get(i).getType() == Entity.GOO) {
+			if (ent.get(i).getType() == Entity.GOO && ent.get(i) instanceof Goo) {
 				if (((Goo) ent.get(i)).getOwner() == 0) {
 					totalMassNum += ent.get(i).getMass();
 					numGooNum++;
@@ -334,6 +335,27 @@ public class GameUI implements Screen {
 			massPerGoo.setText(s3 + (totalMassNum / numGooNum));
 		}
 		
+		/*/Inventory iff one goo
+		int counter = 0;
+		for (int i = 0; i < ent.size && counter <= 1; i++) {
+			if (ent.get(i).getType() == Entity.GOO && ent.get(i) instanceof Goo) {
+				if (((Goo)ent.get(i)).isSelected()) {
+					switch (((Goo)ent.get(i)).getElement1()) {
+					case GeyserProperty.NOTHING: break;
+					case GeyserProperty.WATER: break;
+					case GeyserProperty.CARBON: btInv1.setDrawable(carbon); break;
+					case GeyserProperty.IRON: btInv1.setDrawable(iron); break;
+					}
+					switch (((Goo)ent.get(i)).getElement2()) {
+					case GeyserProperty.NOTHING: break;
+					case GeyserProperty.WATER: break;
+					case GeyserProperty.CARBON: btInv2.setDrawable(carbon); break;
+					case GeyserProperty.IRON: btInv2.setDrawable(iron); break;
+					}
+					counter++;
+				}
+			}
+		}/*/
 		
 		//Event for escape key
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
@@ -353,7 +375,6 @@ public class GameUI implements Screen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height);
 		
-		//TODO fix this table resizing thing
 		table.setSize(width, height);
 	}
 

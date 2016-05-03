@@ -45,9 +45,6 @@ public class Testing extends Component{
 		
 		
 		//environment.addChild(new Obstacle(0,0));
-		Obstacle obstacle = new Obstacle(10,10);
-		obstacle.getColliders().get(0).getPolygon().getX();
-		environment.addChild(obstacle);
 
 		environment.addChild(new Obstacle(120,500));
 		environment.addChild(new Obstacle(160,500));
@@ -75,6 +72,39 @@ public class Testing extends Component{
 		environment.addChild(new Obstacle(120,580));
 		environment.addChild(new Obstacle(160,580));
 		
+		environment.addChild(new Obstacle(2300, 0));
+		environment.addChild(new Obstacle(2300, 40));
+		environment.addChild(new Obstacle(2300, 80));
+		
+		environment.addChild(new Obstacle(2300, 260));
+		environment.addChild(new Obstacle(2300, 300));
+		environment.addChild(new Obstacle(2300, 340));
+		environment.addChild(new Obstacle(2300, 380));
+		
+		environment.addChild(new Obstacle(2340, 380));
+		environment.addChild(new Obstacle(2380, 380));
+		environment.addChild(new Obstacle(2420, 380));
+		environment.addChild(new Obstacle(2460, 380));
+		environment.addChild(new Obstacle(2500, 380));
+		environment.addChild(new Obstacle(2540, 380));
+		environment.addChild(new Obstacle(2580, 380));
+		environment.addChild(new Obstacle(2620, 380));
+		
+		environment.addChild(new Obstacle(400, (int)game.size.y - 80));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 120));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 160));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 200));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 240));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 280));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 320));
+		environment.addChild(new Obstacle(400, (int)game.size.y - 360));
+		
+		
+		game.addEntity(new Geyser(2400, 200, 1));
+		game.addEntity(new Geyser(150, (int)game.size.y - 200, 2));
+		
+		
+		
 		environment.addChild(new Obstacle(160,620));
 		
 		
@@ -83,13 +113,13 @@ public class Testing extends Component{
 		goo.setOwner(0);
 		game.addEntity(goo);*/
 		
-		for(int i = 0; i < 1; i++){
+		/*for(int i = 0; i < 1; i++){
 			for(int j = 0; j < 1; j++){
 				Goo goo = new Goo(i*60+30,j*60 + 400,20);
 				goo.setOwner(0);
 				game.addEntity(goo);
 			}
-		}
+		}*/
 		
 		Goo goo = new Goo(game.size.x-200, game.size.y - 200);
 		goo.setColorInt(1);
@@ -98,6 +128,13 @@ public class Testing extends Component{
 		
 		
 		game.addEntity(new Geyser(game.size.x-300, game.size.y - 300,0));
+		
+		Goo goo2 = new Goo(200, 200);
+		goo2.setColorInt(0);
+		goo2.setOwner(0);
+		game.addEntity(goo2);
+		
+		game.addEntity(new Geyser(300, 300));
 		game.addEntity(new Geyser(game.size.x-300, game.size.y - 400,0));
 		
 		
