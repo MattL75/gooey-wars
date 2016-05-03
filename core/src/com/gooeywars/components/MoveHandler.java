@@ -30,6 +30,8 @@ public class MoveHandler extends Component{
 		movingGoos = new Array<Goo>();
 		reached = new Array<Integer>();
 		executor = Executors.newCachedThreadPool();
+		System.out.println("Executing");
+		
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class MoveHandler extends Component{
 		
 		goo.setVelocity(new Vector2(destination.x - goo.getX(), destination.y - goo.getY()));
 		
-		if(Math.abs(destination.x - goo.getX()) < 10 && Math.abs(destination.y - goo.getY()) < 10){
+		if(Math.abs(destination.x - goo.getX()) < 5 && Math.abs(destination.y - goo.getY()) < 5){
 			if(path.size > 0){
 				path.removeIndex(0);
 				if(path.size < 1){
@@ -98,7 +100,7 @@ public class MoveHandler extends Component{
 	public void move(Goo goo, Vector2 finalPos){
 		if(!goo.getProperty().isImmobilized()){
 			Array<Node> path = PathfinderStatic.findPath(new Vector2(goo.getX(), goo.getY()), finalPos, goo.getGrid());
-			
+			cancel(goo);
 			movingGoos.add(goo);
 			paths.add(path);
 		}
@@ -107,8 +109,6 @@ public class MoveHandler extends Component{
 	public void move(Array<Goo> goos, Vector2 finalPos){
 		int size = (int)Math.ceil(Math.sqrt(goos.size));
 		int count = 0;
-		float XOffSet = 0;
-		float YOffSet = 0;
 		if(goos.size == 1){
 			cancel(goos.get(count));
 			executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x ,finalPos.y )));
@@ -139,6 +139,7 @@ public class MoveHandler extends Component{
 	public void attack(Goo goo, Vector2 finalPos){
 		cancel(goo);
 		executor.execute(new pathCalculationTask(goo, finalPos));
+		
 	}
 	
 	public void attack(Array<Goo> goos, Vector2 finalPos){

@@ -128,6 +128,7 @@ public class Testing extends Component{
 		
 		
 		game.addEntity(new Geyser(game.size.x-300, game.size.y - 300,0));
+<<<<<<< HEAD
 		
 		Goo goo2 = new Goo(200, 200);
 		goo2.setColorInt(0);
@@ -135,6 +136,9 @@ public class Testing extends Component{
 		game.addEntity(goo2);
 		
 		game.addEntity(new Geyser(300, 300));
+=======
+		game.addEntity(new Geyser(game.size.x-300, game.size.y - 400,0));
+>>>>>>> a07d05026f2ef9badd0bc2213fecf3045bd869a7
 		
 		
 		/*for(int i = 0; i < 1; i++){

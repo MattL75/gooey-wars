@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		if(GooeyWars.getIsFullScreen()){
 			config.fullscreen = true;
 		}
-		
+		config.foregroundFPS = 0;
 		
 		new LwjglApplication(new GooeyWars(), config);
 	}
