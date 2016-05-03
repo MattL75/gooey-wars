@@ -170,13 +170,11 @@ public class GooProperty {
 	
 	public void react(int element1, int element2){
 		if(element1 == GeyserProperty.WATER || element2 == GeyserProperty.WATER){
-			System.out.println("Default");
 			
 			genGooProp(GooProperty.EXPLODED);
 		}
 		
 		if(element1 == GeyserProperty.CARBON && element2 == GeyserProperty.IRON || element1 == GeyserProperty.IRON && element2 == GeyserProperty.CARBON){
-			System.out.println("Steel");
 			genGooProp(GooProperty.STEEL);
 		}
 	}

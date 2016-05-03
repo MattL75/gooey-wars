@@ -22,6 +22,8 @@ public class AiTask {
 	boolean attackTask;
 	Array<Goo> attackingGoos;
 	
+	boolean singularAttackTask;
+	Goo attackingGoo;
 	
 	boolean splitTask;
 	Goo splittingGoo;
@@ -50,6 +52,12 @@ public class AiTask {
 		destination = position;
 	}
 	
+	public void attack(Goo goo, Vector2 position){
+		singularAttackTask = true;
+		attackingGoo = goo;
+		destination = position;
+	}
+	
 	public void split(Goo goo){
 		splitTask = true;
 		splittingGoo = goo;
@@ -66,6 +74,9 @@ public class AiTask {
 			}
 			if(attackTask){
 				mover.attack(attackingGoos, destination);
+			}
+			if(singularAttackTask){
+				mover.attack(attackingGoo, destination);
 			}
 			if(splitTask){
 				splittingGoo.split(new Vector2().setToRandomDirection());

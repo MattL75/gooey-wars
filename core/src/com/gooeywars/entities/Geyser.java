@@ -64,7 +64,6 @@ public class Geyser extends Entity{
 	
 	public void mine(Goo goo){
 		if(!isMining){
-			System.out.println("Is mining");
 			if(property.element != goo.getElement1() && property.element != goo.getElement2()){
 				goo.setElement2(goo.getElement1());
 				goo.setElement1(property.element);

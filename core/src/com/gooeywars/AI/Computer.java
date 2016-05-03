@@ -2,9 +2,12 @@ package com.gooeywars.AI;
 
 import java.security.KeyStore.LoadStoreParameter;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap.Values;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Geyser;
 import com.gooeywars.entities.Goo;
@@ -57,6 +60,7 @@ public class Computer extends Component{
 	public void create() {
 		Thread thread = new Thread(new AiRunnable());
 		alive = true;
+		update();
 		thread.start();
 	}
 	
@@ -135,8 +139,8 @@ public class Computer extends Component{
 				}
 				end = System.currentTimeMillis();
 				if(end - begin > 1000){
-					System.out.println("Computer.java  " + totalMass);
 					calculatePriorities();
+					populateLists();
 					determineActions();
 					begin = System.currentTimeMillis();
 				}
@@ -178,7 +182,7 @@ public class Computer extends Component{
 		}
 		
 		private void determineActions(){
-			//Displacement
+			//Displacement			
 			if(resourcePriority > 0.95){
 				Array<Vector2> destinations = new Array<Vector2>();
 				Geyser closestGeyser;
@@ -194,10 +198,13 @@ public class Computer extends Component{
 			}
 			if(resourcePriority < 0.5){
 				if(attackPriority > 0.3){
+					System.out.println("Attacking");
 					for(int i = 0; i < attackingGoos.size; i++){
 						AiTask task = new AiTask();
 						Goo enemyGoo = findBestOpponentAttack(attackingGoos.get(i));
-						task.attack(attackingGoos, new Vector2(enemyGoo.getX(),enemyGoo.getY()));
+						
+						task.attack(attackingGoos.get(i), new Vector2(enemyGoo.getX(),enemyGoo.getY()));
+						tasks.add(task);
 					}
 					
 				}
@@ -231,35 +238,83 @@ public class Computer extends Component{
 			y = y/ownedGoos.size;
 			
 			homeGeyser = findClosestGeyser(new Vector2(x,y));
-			System.out.println("Home Geyser " + homeGeyser.getX() + " " + homeGeyser.getY());
 		}
 		
 		private void populateLists(){
 			int miningNumber = (int)Math.ceil(resourcePriority * ownedGoos.size);
-			int attackingNumber = (int) attackingGoos.size * ownedGoos.size;
-			int defendingGoos = ownedGoos.size - attackingNumber - miningNumber;
+			int attackingNumber = (int) attackPriority * ownedGoos.size;
+			int defendingNumber = ownedGoos.size - attackingNumber - miningNumber;
 			
-			Array<Goo> newMiningGoos = new Array<Goo>();
+			Array<Goo> newMiningGoos = getOrderedMiningGoo();
 			Array<Goo> newAttackingGoos = new Array<Goo>();
 			Array<Goo> newDefendingGoos = new Array<Goo>();
 			
+			System.out.println("Mining goo size " + newMiningGoos.size);
+			System.out.println("Mining number " + miningNumber);
 			for(int i = 0; i < miningNumber; i++){
-				if(i < miningGoos.size){
-					newMiningGoos.add(miningGoos.get(i));
-				} else {
-					newMiningGoos.add(findBestMiningGoo());
-				}
+				miningGoos.add(newMiningGoos.first());
+				newMiningGoos.removeIndex(0);
+			}
+			
+			attackingGoos = new Array<Goo>(newMiningGoos);
+			System.out.println("Attacking Goos " + attackingGoos.size);
+			
+			for(int i = 0; i < attackingNumber; i++){
+			
+			}
+			
+			for(int i = 0; i < defendingNumber; i++){
 				
 			}
 		}
 		
-		private Goo findBestMiningGoo(){
+		private Array<Goo> getOrderedMiningGoo(){
+			System.out.println("Getting Ordered");
+			Array<Goo> orderedMining = new Array<Goo>(ownedGoos);
 			Array<Float> values = new Array<Float>();
+			
+			for(int i = 0; i < ownedGoos.size; i++){
+				values.add(calculateMiningValue(ownedGoos.get(i)));
+			}
+			
+			int k;
+			
+			for (int m = values.size; m >= 0; m--) {
+	            for (int i = 0; i < values.size - 1; i++) {
+	                k = i + 1;
+	                if (values.get(i) < values.get(k)) {
+	                    values.swap(i, k);
+	                    orderedMining.swap(i, k);
+	                }
+	            }
+	           
+			}
+			
+			for(int i = 0; i < orderedMining.size; i++){
+			}
+			
+			return orderedMining;
+		}
+		
+		private Array<Goo> getOrderedAttackingGoos(){
+			Array<Goo> orderedAttacking = new Array<Goo>();
+			
+			return orderedAttacking;
+		}
+
+		private Array<Goo> getOrderedDefendingGoos(){
+			Array<Goo> orderedDefending = new Array<Goo>();
+			
+			return orderedDefending;
+		}
+		
+		/*private Goo findBestMiningGoo(){
 			float smallestValue = calculateValue(ownedGoos.first());
 			int smallestInt = 0;
 			
 			for(int i = 0; i < ownedGoos.size; i++){
 				Goo goo = ownedGoos.get(i);
+				
 				float value = calculateValue(goo);
 				
 				if(value < smallestValue){
@@ -268,19 +323,74 @@ public class Computer extends Component{
 				}
 			}
 			return ownedGoos.get(smallestInt);
-		}
+		}*/
 		
-		private float calculateValue(Goo goo){
-			Geyser temp = geysers.first();
-			for(int j = 0; j < geysers.size; j++){
-				if(new Vector2(goo.getX() - geysers.get(j).getX(),goo.getY() - geysers.get(j).getY()).len2() < new Vector2(goo.getX() - temp.getX(), goo.getY() - temp.getY()).len2()){
-					temp = geysers.get(j);
+		private float calculateMiningValue(Goo goo){
+			Geyser temp = null;
+			float miningValue = 0;
+			
+			miningValue += 1000/findDistance(goo, homeGeyser);
+			
+			for(int i = 0; i < geysers.size; i++){
+				if(!geysers.get(i).getIsMining()){
+					temp = geysers.get(i);
+					break;
 				}
 			}
 			
-			float value = new Vector2(temp.getX(), temp.getY()).len2();
-			value += new Vector2(goo.getX() - homeGeyser.getX(), goo.getY() - homeGeyser.getY()).len2();
-			return value;
+			for(int j = 0; j < geysers.size; j++){
+				if(!geysers.get(j).getIsMining()){
+					if(new Vector2(goo.getX() - geysers.get(j).getX(),goo.getY() - geysers.get(j).getY()).len2() < new Vector2(goo.getX() - temp.getX(), goo.getY() - temp.getY()).len2()){
+						temp = geysers.get(j);
+					}
+				}	
+			}
+			
+			miningValue -= findDistance(temp, goo)/1000;
+			return miningValue;
+		}
+		
+		private float calculateAttackValue(Goo goo){
+			float attackValue = 0;
+			attackValue += goo.getMass();
+
+			attackValue -= findClosestEnemyDistanceGoo(goo)/100;
+			
+			if(attackValue < 0){
+				attackValue = 0;
+			}
+			
+			return attackValue * goo.getProperty().getDamage();
+		}
+		
+		private float findClosestEnemyDistanceGoo(Goo goo){
+			float smallestDistance = new Vector2(goo.getX() - enemyGoos.first().getX(), goo.getY() - enemyGoos.first().getY()).len();
+			float tempDistance = 0;
+			for(int i = 0; i < enemyGoos.size; i++){
+				tempDistance = new Vector2(goo.getX() - enemyGoos.get(i).getX(), goo.getY() - enemyGoos.get(i).getY()).len();
+				if(tempDistance < smallestDistance){
+					smallestDistance = tempDistance;
+				}
+			}
+			return smallestDistance;
+		}
+		
+		private float calculateDefenseValue(Goo goo){
+			float defenceValue = 0;
+			
+			defenceValue += goo.getMass();
+			
+			defenceValue -= findDistance(goo, homeGeyser)/100;
+			
+			if(defenceValue < 0){
+				defenceValue = 0;
+			}
+			
+			return defenceValue * goo.getProperty().getDefence();
+		}
+		
+		private float findDistance(Entity ent1, Entity ent2){
+			return new Vector2(ent1.getX() - ent2.getX(), ent1.getY() - ent2.getY()).len();
 		}
 		
 		private Geyser findBestGeyser(Goo goo){
@@ -298,7 +408,7 @@ public class Computer extends Component{
 			Geyser closest = geysers.first();
 			
 			for(int i = 0; i < geysers.size; i++){
-				if(new Vector2(closest.getX()-position.x, closest.getY() - position.y).len2() > new Vector2(geysers.get(i).getX()-position.x, geysers.get(i).getY() - position.y).len2()){
+				if(new Vector2(closest.getX() - position.x, closest.getY() - position.y).len2() > new Vector2(geysers.get(i).getX()-position.x, geysers.get(i).getY() - position.y).len2()){
 					closest = geysers.get(i);
 				}
 			}
@@ -308,7 +418,7 @@ public class Computer extends Component{
 		private Goo findBestOpponentAttack(Goo goo){
 			Goo closest = enemyGoos.first();
 			for(int i = 0; i < enemyGoos.size; i++){
-				if(new Vector2(closest.getX()-goo.getX(), closest.getY() - goo.getY()).len2() > new Vector2(geysers.get(i).getX()-goo.getX(), geysers.get(i).getY() - goo.getY()).len2()){
+				if(new Vector2(closest.getX()-goo.getX(), closest.getY() - goo.getY()).len2() > new Vector2(enemyGoos.get(i).getX()-goo.getX(), enemyGoos.get(i).getY() - goo.getY()).len2()){
 					closest = enemyGoos.get(i);
 				}
 			}

@@ -76,7 +76,6 @@ public class GeyserProperty {
 	}
 	
 	public static Pixmap getGooElementPix(int type){
-		System.out.println("Getting type" + type);
 		switch(type){
 		case NOTHING: return nothingGooPix;
 		case WATER: return waterGooPix;
