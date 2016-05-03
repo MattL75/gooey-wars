@@ -36,7 +36,7 @@ public class MoveHandler extends Component{
 
 	@Override
 	public void update() {
-		
+		System.out.println(paths.size);
 		for(int i = 0; i < movingGoos.size; i++){
 			displaceGoo(i);
 		}
@@ -117,6 +117,11 @@ public class MoveHandler extends Component{
 	public void move(Array<Goo> goos, Vector2 finalPos){
 		int size = (int)Math.ceil(Math.sqrt(goos.size));
 		int count = 0;
+		
+		for(int i = 0; i < goos.size; i++){
+			cancel(goos.get(i));
+		}
+		
 		if(goos.size == 1){
 			cancel(goos.get(count));
 			executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x ,finalPos.y )));
@@ -125,7 +130,7 @@ public class MoveHandler extends Component{
 				for(int j = 0; j < size; j++){
 					if(count < goos.size){
 						
-						cancel(goos.get(count));
+						
 						
 						executor.execute(new pathCalculationTask(goos.get(count), new Vector2(finalPos.x + i * goos.get(count).getRadius() * 2 ,finalPos.y + j * goos.get(count).getRadius() * 2 )));
 						//offSet = goos.get(count).getRadius();
