@@ -5,6 +5,13 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.gooeywars.AI.Computer;
+import com.gooeywars.UI.GameUI;
+import com.gooeywars.components.Friction;
+import com.gooeywars.components.GameKeyInput;
+import com.gooeywars.components.GameMouseInput;
+import com.gooeywars.components.MoveHandler;
+import com.gooeywars.components.Testing;
 import com.gooeywars.entities.Entity;
 import com.gooeywars.entities.Environment;
 import com.gooeywars.entities.Geyser;
@@ -78,6 +85,7 @@ public class GameState {
 	public void load() {
 		GameBox box = Main.findGameBox("game");
 		box.clearEntities();
+		box.setUI(new GameUI());
 		
 		//Reads file as one line and splits every '+' into array
 		String s = file.readString();
