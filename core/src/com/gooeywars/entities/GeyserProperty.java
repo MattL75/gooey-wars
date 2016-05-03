@@ -92,9 +92,9 @@ public class GeyserProperty {
 
 	public static void loadTextures(){
 		//Updated textures
-		waterPix = new Pixmap(Gdx.files.local("assets/textures/geyser/geyser_water_big.png"));
-		carbonPix = new Pixmap(Gdx.files.local("assets/textures/geyser/geyser_black_big.png"));
-		ironPix = new Pixmap(Gdx.files.local("assets/textures/geyser/geyser_red_big.png"));
+		waterPix = new Pixmap(Gdx.files.local("assets/textures/geyser/geyser_water_small.png"));
+		carbonPix = new Pixmap(Gdx.files.local("assets/textures/geyser/geyser_red_small.png"));
+		ironPix = new Pixmap(Gdx.files.local("assets/textures/geyser/geyser_black_small.png"));
 		
 		//Not updated textures
 		calciumPix = new Pixmap(Gdx.files.local("assets/textures/geyser/calcium_geyser.png"));
