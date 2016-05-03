@@ -57,7 +57,7 @@ public class Grid {
 		return NodeAr;
 	}
 	
-	//The fix-it yourself algorithm AKA the billy mays algorithm
+	//The fix-it yourself with brute-force algorithm
 	public Node nodeFromWorldPoint(Vector2 vec) {
 		int nodeX = 0, nodeY = 0;
 		int coX = 0, coY = 0;

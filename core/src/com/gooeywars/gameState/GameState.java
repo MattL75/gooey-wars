@@ -85,6 +85,8 @@ public class GameState {
 	public void load() {
 		GameBox box = Main.findGameBox("game");
 		box.clearEntities();
+		//Computer ai = new Computer(box, Computer.EASY);
+		//box.setAi(ai);
 		box.setUI(new GameUI());
 		
 		//Reads file as one line and splits every '+' into array
