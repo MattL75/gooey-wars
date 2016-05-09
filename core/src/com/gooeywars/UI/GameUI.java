@@ -136,7 +136,7 @@ public class GameUI implements Screen {
 		splitStyle.down = splitDown.getDrawable();
 		btSplit.setStyle(splitStyle);
 		
-		//AttackButton
+		/*/AttackButton
 		Button btAttack = new Button(skin.newDrawable("white", Color.WHITE));
 		Image attackUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/attack_button_regular.png")));
 		Image attackHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/attack_button_hover.png")));
@@ -151,9 +151,9 @@ public class GameUI implements Screen {
 		attackStyle.over = attackHover.getDrawable();
 		attackStyle.up = attackUp.getDrawable();
 		attackStyle.down = attackDown.getDrawable();
-		btAttack.setStyle(attackStyle);
+		btAttack.setStyle(attackStyle);*/
 		
-		//BuildButton
+		/*/BuildButton
 		Button btBuild = new Button(skin.newDrawable("white", Color.WHITE));
 		Image buildUp = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/build_button_regular.png")));
 		Image buildHover = new Image(new Texture(Gdx.files.local("assets/textures/interface/GameUI/build_button_hover.png")));
@@ -168,7 +168,7 @@ public class GameUI implements Screen {
 		buildStyle.over = buildHover.getDrawable();
 		buildStyle.up = buildUp.getDrawable();
 		buildStyle.down = buildDown.getDrawable();
-		btBuild.setStyle(buildStyle);
+		btBuild.setStyle(buildStyle);*/
 		
 		//React button
 		Button btReact = new Button(skin.newDrawable("white", Color.WHITE));
@@ -229,8 +229,8 @@ public class GameUI implements Screen {
 		group.addActor(botBar);
 		group.addActor(btMerge);
 		group.addActor(btSplit);
-		group.addActor(btAttack);
-		group.addActor(btBuild);
+		//group.addActor(btAttack);
+		//group.addActor(btBuild);
 		group.addActor(btReact);
 		//group.addActor(btInv1);
 		//group.addActor(btInv2);
@@ -270,17 +270,17 @@ public class GameUI implements Screen {
 			}
 		});
 		
-		btAttack.addListener(new ChangeListener() {
+		/*btAttack.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 
 			}
-		});
+		});*/
 		
-		btBuild.addListener(new ChangeListener() {
+		/*btBuild.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 
 			}
-		});
+		});*/
 		
 		btReact.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
