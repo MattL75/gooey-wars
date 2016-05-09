@@ -10,7 +10,6 @@ import com.gooeywars.entities.Geyser;
 import com.gooeywars.entities.Goo;
 import com.gooeywars.game.Component;
 import com.gooeywars.game.GameBox;
-import com.sun.corba.se.spi.activation._ActivatorImplBase;
 
 public class Computer extends Component{
 	private int playerId;
