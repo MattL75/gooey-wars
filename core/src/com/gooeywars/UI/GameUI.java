@@ -321,7 +321,6 @@ public class GameUI implements Screen {
 		
 		int totalMassNum = 0;
 		int numGooNum = 0;
-		int counter0 = 0;
 		int counter1 = 0;
 		Array<Entity> ent = Main.findGameBox("game").getEntities();
 		for (int i = 0; i < ent.size; i++) {
@@ -329,7 +328,6 @@ public class GameUI implements Screen {
 				if (((Goo) ent.get(i)).getOwner() == 0) {
 					totalMassNum += ent.get(i).getMass();
 					numGooNum++;
-					counter0++;
 				} 
 				if (((Goo) ent.get(i)).getOwner() == 1) {
 					counter1++;
