@@ -5,12 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gooeywars.AI.Computer;
 import com.gooeywars.components.MoveHandler;
 import com.gooeywars.entities.Entity;
+import com.gooeywars.entities.Goo;
 import com.gooeywars.exception.TagSameException;
 import com.gooeywars.pathfinding.Grid;
 import com.gooeywars.physics.Collider;
@@ -121,7 +126,8 @@ public class GameBox {
 				children.get(j).draw(batch);
 				
 			}
-			/*if(entities.get(i) instanceof Goo){
+			/*/if(entities.get(i) instanceof Goo){
+				if (((Goo)entities.get(i)).getOwner() == 0) {
 				Grid grid = ((Goo) entities.get(i)).getGrid();
 				Pixmap pix = new Pixmap((int)grid.nodeRadius * 2, (int)grid.nodeRadius * 2, Format.RGBA4444);
 				pix.setColor(Color.GREEN);
@@ -152,7 +158,8 @@ public class GameBox {
 					}
 				}
 				open.dispose();
-			}*/
+				}
+			}/*/
 		}
 		
 		for(int i = 0; i < entities.size; i++){
