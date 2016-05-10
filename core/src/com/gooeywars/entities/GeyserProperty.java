@@ -13,6 +13,7 @@ public class GeyserProperty {
 	public static final int SILICON = 4;
 	public static final int OXYGEN = 5;
 	public static final int URANIUM = 6;
+	public static final int NITROGEN = 7;
 
 	int element;
 
@@ -25,6 +26,7 @@ public class GeyserProperty {
 	public static Pixmap siliconPix;
 	public static Pixmap oxygenPix;
 	public static Pixmap uraniumPix;
+	public static Pixmap nitrogenPix;
 
 	public static Pixmap nothingGooPix;
 	public static Pixmap waterGooPix;
@@ -34,6 +36,7 @@ public class GeyserProperty {
 	public static Pixmap siliconGooPix;
 	public static Pixmap oxygenGooPix;
 	public static Pixmap uraniumGooPix;
+	public static Pixmap nitrogenGooPix;
 	
 	
 	//private int propInt;
@@ -71,7 +74,9 @@ public class GeyserProperty {
 		case URANIUM: 
 			pix = uraniumPix;
 			break;
-		
+		case NITROGEN:
+			pix = nitrogenPix;
+			break;
 		}
 	}
 	
@@ -85,6 +90,7 @@ public class GeyserProperty {
 		case SILICON: return siliconGooPix;
 		case OXYGEN: return oxygenGooPix;
 		case URANIUM: return uraniumGooPix;
+		case NITROGEN: return nitrogenGooPix;
 		}
 		
 		return null;
@@ -101,6 +107,7 @@ public class GeyserProperty {
 		siliconPix = new Pixmap(Gdx.files.local("assets/textures/geyser/silicon_geyser.png"));
 		oxygenPix = new Pixmap(Gdx.files.local("assets/textures/geyser/oxygen_geyser.png")); 
 		uraniumPix = new Pixmap(Gdx.files.local("assets/textures/geyser/uranium_geyser.png"));
+		nitrogenPix = new Pixmap(Gdx.files.local("assets/textures/geyser/nitrogen_geyser.png"));
 		
 		nothingGooPix = new Pixmap(0,0,Format.RGBA4444);
 		waterGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/water_goo.png"));
@@ -110,6 +117,7 @@ public class GeyserProperty {
 		siliconGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/silicon_goo.png"));
 		oxygenGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/oxygen_goo.png")); 
 		uraniumGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/uranium_goo.png"));
+		nitrogenGooPix = new Pixmap(Gdx.files.local("assets/textures/goo/element/nitrogen_goo.png"));
 	}
 
 	public Pixmap getPix() {

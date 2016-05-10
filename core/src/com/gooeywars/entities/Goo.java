@@ -257,9 +257,14 @@ public class Goo extends Entity{
 						annihilate(goo.getMass());
 						goo.annihilate(getMass());
 					} else {
+						if(property.isExplosive()){
+							explode();
+							goo.explode();
+						} else {
+							annihilate(goo.getProperty().getDamage() * len/property.getDefence());
+							goo.annihilate(property.getDamage() * len/ goo.getProperty().getDefence());
+						}
 						
-						annihilate(goo.getProperty().getDamage() * len/property.getDefence());
-						goo.annihilate(property.getDamage() * len/ goo.getProperty().getDefence());
 					}
 					
 					
@@ -354,20 +359,23 @@ public class Goo extends Entity{
 	}
 	
 	public void explode(){
-		GameBox game = Main.findGameBox("game");
-		int mass = getMass();
-		int numberCreated = mass/10;
-		for(int i = 0; i < numberCreated; i++){
-			Goo goo = new Goo(getX() + getWidth()/2,getY() + getHeight()/2,(int)(2*mass/numberCreated * Math.random()),0,getOwner(),getColorInt());
-			goo.setLifeSpan(1);
-			Vector2 force = new Vector2(1,1);
-			force.setToRandomDirection();
-			force.setLength(10);
-			goo.setVelocity(force);
-			game.addEntity(goo);
+		if(property.isFlammable()){
+			GameBox game = Main.findGameBox("game");
+			int mass = getMass();
+			int numberCreated = mass/10;
+			for(int i = 0; i < numberCreated; i++){
+				Goo goo = new Goo(getX() + getWidth()/2,getY() + getHeight()/2,(int)(2*mass/numberCreated * Math.random()),0,getOwner(),getColorInt());
+				goo.setLifeSpan(1);
+				Vector2 force = new Vector2(1,1);
+				force.setToRandomDirection();
+				force.setLength(10);
+				goo.setVelocity(force);
+				game.addEntity(goo);
+			}
+		
+			destroy();
 		}
 		
-		destroy();
 	}
 	
 	public void setOnFire(){

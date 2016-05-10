@@ -79,22 +79,22 @@ public class Environment extends Entity{
 		
 		leftRec  = new Rectangle(-100,-100,100,height+200);
 		Collider coll1 = new Collider(leftRec);
-		coll1.setDrawable(true);
+		coll1.setDrawable(false);
 		addCollider(coll1);
 		
 		upRec = new Rectangle(0,height,width,100);
 		Collider coll2 = new Collider(upRec);
-		coll2.setDrawable(true);
+		coll2.setDrawable(false);
 		addCollider(coll2);
 		
 		rightRec = new Rectangle(width, 0, 100, height);
 		Collider coll3 = new Collider(rightRec);
-		coll3.setDrawable(true);
+		coll3.setDrawable(false);
 		addCollider(coll3);
 		
 		downRec = new Rectangle(0,-100,width,100);
 		Collider coll4 = new Collider(downRec);
-		coll4.setDrawable(true);
+		coll4.setDrawable(false);
 		addCollider(coll4);
 		
 		//grid = new Grid(new Vector2(width,height), 10);

@@ -183,6 +183,10 @@ public class GooProperty {
 		if(element1 == GeyserProperty.CALCIUM && element2 == GeyserProperty.SILICON || element2 == GeyserProperty.CALCIUM && element1 == GeyserProperty.SILICON){
 			genGooProp(GooProperty.FIRE_PROOF);
 		}
+		if(element1 == GeyserProperty.NITROGEN && element2 == GeyserProperty.OXYGEN || element2 == GeyserProperty.NITROGEN && element1 == GeyserProperty.OXYGEN){
+			genGooProp(GooProperty.EXPLOSIVE);
+		}
+		
 	}
 	
 	public static void loadTextures(){

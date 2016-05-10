@@ -48,6 +48,8 @@ public class Testing extends Component{
 		
 		game.addEntity(new Geyser(300, 300));
 		game.addEntity(new Geyser(game.size.x-300, game.size.y - 400,0));
+		game.addEntity(new Geyser(200,200, GeyserProperty.NITROGEN));
+		game.addEntity(new Geyser(260, 200, GeyserProperty.OXYGEN));
 		
 		environment.addChild(new Obstacle(120,500));
 		environment.addChild(new Obstacle(160,500));
