@@ -28,7 +28,6 @@ public class Minimap extends Group {
 		addActor(minMapSquare);
 	}
 	
-	//TODO THIS IS BASED ON A WORLD SIZE OF 1920x1080! MUST BASE ON WORLD SIZE!
 	public void update() {
 		if (Main.findGameBox("game").getEntities() == null) {
 			return;
